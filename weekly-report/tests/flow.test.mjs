@@ -100,9 +100,31 @@ check(!md.includes('学习'), '不含学习章节');
 check(md.includes('NO.788'), '含 NO.788');
 check(!md.includes('【新功能】'), '无标题前缀残留');
 
-// 与 Python 参考实现逐字节比对
-const expected = fs.readFileSync(path.join(HERE, 'fixtures/expected_report_0.md'), 'utf8').replace(/\r\n/g, '\n');
-check(md === expected, '与 Python 参考实现逐字节一致');
+// ── 实时管线自洽性 ──
+// 本套件跑的是**实时数据**，不能与冻结的基准文件逐字节比对
+// （真实数据会漂移：需求阶段变更、负责人易手等）。
+// 逐字节比对由 report.test.mjs 负责（纯函数 + 冻结 fixture）。
+// 这里验证报告内容与实时计算一致。
+
+// 1) 报告里的「本周有进展」条数 = 列表条数
+check(md.includes(`本周 **${inWin.length} 条需求**有进展`),
+  `概览条数与列表一致（${inWin.length}）`);
+
+// 2) 报告里的「当前积压」条数 = 实时计算的积压条数
+const liveBacklog = ok.filter(
+  (r) => !['待领取', '已完成', '已关闭'].includes(r.progress_stage) &&
+    r.current_user === state.person
+).length;
+check(md.includes(`当前积压 **${liveBacklog} 条**`),
+  `积压条数与实时计算一致（${liveBacklog}）`);
+
+// 3) 每条列表需求都应出现在报告的「本周情况」中
+const missing = inWin.filter((r) => !md.includes(`NO.${r.requirement_num} `));
+check(missing.length === 0,
+  `16 条需求全部出现在报告中${missing.length ? `（缺 ${missing.map((r) => r.requirement_num).join(',')}）` : ''}`);
+
+// 4) 报告结构完整（含本周情况区块标题）
+check(md.includes('#### '), '报告含板块分组标题');
 
 console.log('\n[环境能力]');
 console.log(`  目录选择 API（Node 环境预期为 false）: ${(await import('../src/picker.js')).isSupported()}`);

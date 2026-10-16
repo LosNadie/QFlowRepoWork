@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>字体与设计验证</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{padding:24px;background:#fff;display:block;overflow:auto;font-size:13px}
+  #out{font:12px ui-monospace,monospace;white-space:pre-wrap;margin:0 0 16px}
+  h1{font-size:16px;margin:0 0 12px}
+  table{border-collapse:collapse;font-size:12px;margin-bottom:16px}
+  td,th{border:1px solid #e5e7eb;padding:4px 10px;text-align:left}
+</style>
+</head>
+<body>
+<h1>字体与设计验证（自动执行）</h1>
+<pre id="out">运行中…</pre>
+
+<script type="module">
+const out = document.getElementById('out');
+const lines = [];
+let pass = 0, fail = 0;
+const check = (cond, label) => {
+  if (cond) { pass++; lines.push('  OK   ' + label); }
+  else { fail++; lines.push('  FAIL ' + label); }
+};
+
+// 1) 等字体就绪
+lines.push('=== 字体加载 ===');
+await document.fonts.ready;
+const interLoaded = [...document.fonts].filter((f) => f.family.includes('Inter'));
+check(interLoaded.length > 0, `Inter @font-face 已注册（${interLoaded.length} 条）`);
+const loadedOk = interLoaded.some((f) => f.status === 'loaded');
+check(loadedOk, `Inter 字体已加载（status=loaded）`);
+
+// 实际渲染测量：Inter 与回退字体的宽度应不同
+const measure = (family, text) => {
+  const s = document.createElement('span');
+  s.style.cssText = `position:absolute;visibility:hidden;font-size:32px;font-family:${family}`;
+  s.textContent = text;
+  document.body.appendChild(s);
+  const w = s.getBoundingClientRect().width;
+  s.remove();
+  return w;
+};
+const wInter = measure("'Inter', monospace", 'Workbench 1234567890');
+const wMono  = measure("monospace", 'Workbench 1234567890');
+lines.push(`  Inter 宽度 ${wInter.toFixed(1)}px / monospace ${wMono.toFixed(1)}px`);
+check(Math.abs(wInter - wMono) > 0.5, 'Inter 实际生效（宽度与回退不同）');
+
+// 2) CSS 变量是否符合设计
+lines.push('');
+lines.push('=== 设计令牌 ===');
+const cs = getComputedStyle(document.documentElement);
+const tok = {
+  '--ink': '#0a0a0a', '--sky': '#0ea5e9', '--bg': '#fbfbfd',
+  '--ok': '#059669', '--err': '#dc2626',
+};
+for (const [k, want] of Object.entries(tok)) {
+  const got = cs.getPropertyValue(k).trim();
+  check(got === want, `${k} = ${got}`);
+}
+const fontVar = cs.getPropertyValue('--font');
+check(fontVar.includes("'Inter'"), '--font 首选 Inter');
+check(fontVar.includes('Noto Sans SC'), '--font 中文回退 Noto Sans SC');
+
+// 3) 关键视觉规则（去边框、字号梯度）
+lines.push('');
+lines.push('=== 视觉规则 ===');
+// 注意：须在宽视口下测（<980px 会触发响应式收紧 padding）
+const wide = window.innerWidth > 980;
+lines.push(`  视口 ${window.innerWidth}px（${wide ? '宽屏' : '窄屏，响应式生效'}）`);
+
+const stage = document.createElement('div');
+stage.className = 'stage';
+document.body.appendChild(stage);
+const stageCs = getComputedStyle(stage);
+check(stageCs.paddingTop === (wide ? '26px' : '22px'),
+  `stage 顶部留白 ${stageCs.paddingTop}（${wide ? '宽屏 26px' : '窄屏 22px'}）`);
+stage.remove();
+
+// 需求行不应有 border
+const item = document.createElement('div');
+item.className = 'req-item';
+document.body.appendChild(item);
+const itemCs = getComputedStyle(item);
+check(itemCs.borderTopWidth === '0px', `req-item 无边框（${itemCs.borderTopWidth}）`);
+item.remove();
+
+// 指标首项字号应显著大于其余 —— 必须放进 .metrics 才是 :first-child
+const metrics = document.createElement('div');
+metrics.className = 'metrics';
+for (let i = 0; i < 2; i++) {
+  const m = document.createElement('div');
+  m.className = 'metric';
+  const mv = document.createElement('span');
+  mv.className = 'metric-value';
+  mv.textContent = '16';
+  m.appendChild(mv);
+  metrics.appendChild(m);
+}
+document.body.appendChild(metrics);
+const sizes = [...metrics.querySelectorAll('.metric-value')].map((e) => parseFloat(getComputedStyle(e).fontSize));
+check(sizes[0] > sizes[1], `首指标 ${sizes[0]}px > 其余 ${sizes[1]}px（字级建立主次）`);
+check(sizes[0] === (wide ? 42 : 34), `首指标字号 ${sizes[0]}px`);
+metrics.remove();
+
+// 状态圆点应存在
+const dot = document.createElement('span');
+dot.className = 'stage-dot is-done';
+dot.textContent = '已完成';
+document.body.appendChild(dot);
+const dotCs = getComputedStyle(dot, '::before');
+check(dotCs.width === '6px' && dotCs.backgroundColor !== 'rgba(0, 0, 0, 0)',
+  `状态圆点 ${dotCs.width} / ${dotCs.backgroundColor}`);
+dot.remove();
+
+lines.push('');
+lines.push(`=== 结果: ${pass} 通过, ${fail} 失败 ===`);
+out.textContent = lines.join('\n');
+document.title = fail === 0 ? 'ALL PASS' : `FAIL ${fail}`;
+</script>
+</body>
+</html>

@@ -329,14 +329,22 @@ function renderReqList() {
     return;
   }
 
-  // 阶段 → 标签样式
-  const stageTag = (stage) => {
-    if (stage === '已完成') return 'tag tag-done';
-    if (stage === '已取消' || stage === '已关闭') return 'tag tag-cancel';
-    return 'tag tag-stage';
+  // 状态圆点样式（Meta 式：彩色圆点 + 文字，无填充底色）
+  const stageClass = (stage) => {
+    if (stage === '已完成') return 'stage-dot is-done';
+    if (stage === '已取消' || stage === '已关闭') return 'stage-dot is-cancel';
+    return 'stage-dot';
   };
 
+  // 按「项目 · 板块」分组 —— 与周报本身的结构一致
+  const groups = new Map();
   for (const r of state.requirements) {
+    const key = `${r.project} · ${r.ban}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(r);
+  }
+
+  const makeItem = (r) => {
     const mine = (r.activities || []).filter((a) => a.user === state.person).length;
     const item = document.createElement('label');
     item.className = 'req-item';
@@ -348,9 +356,7 @@ function renderReqList() {
           <span class="req-title">${escapeHtml(r.title)}</span>
         </span>
         <span class="req-meta">
-          <span class="${stageTag(r.progress_stage)}">${escapeHtml(r.progress_stage)}</span>
-          <span class="tag tag-ban">${escapeHtml(r.ban)}</span>
-          <span>${escapeHtml(r.project)}</span>
+          <span class="${stageClass(r.progress_stage)}">${escapeHtml(r.progress_stage)}</span>
           <span class="sep">·</span>
           <span>我的动作 ${mine} 条</span>
         </span>
@@ -362,7 +368,25 @@ function renderReqList() {
       el.btnGenerate.disabled = false;
       el.btnSave.disabled = true;
     });
-    el.reqList.appendChild(item);
+    return item;
+  };
+
+  // 组内按需求编号升序
+  for (const [key, items] of groups) {
+    items.sort((a, b) => a.requirement_num - b.requirement_num);
+
+    const group = document.createElement('div');
+    group.className = 'req-group';
+
+    const head = document.createElement('div');
+    head.className = 'req-group-head';
+    head.innerHTML =
+      `<span>${escapeHtml(key)}</span>` +
+      `<span class="req-group-count">${items.length}</span>`;
+    group.appendChild(head);
+
+    for (const r of items) group.appendChild(makeItem(r));
+    el.reqList.appendChild(group);
   }
 }
 

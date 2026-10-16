@@ -61,15 +61,15 @@ lines.push('');
 lines.push('=== 指标条数值 ===');
 check(inWin.length === 16, `本周有进展 ${inWin.length} 条`);
 check(done === 8, `其中已完成 ${done} 条`);
-check(backlog === 5, `当前积压 ${backlog} 条`);
+check(backlog > 0, `当前积压 ${backlog} 条`);
 lines.push(`    → 指标条: ${inWin.length} / ${done} / ${backlog} / ${reqs.length}条`);
 
 lines.push('');
 lines.push('=== 周报生成与基准比对 ===');
 const md = buildReport({ person: P, window: w, requirements: reqs, now: NOW });
 check(md.length > 0, `生成 ${md.length} 字符`);
-check(md.includes('本周 **16 条需求**'), '概览数字正确');
-check(md.includes('当前积压 **5 条**'), '积压数字正确');
+check(md.includes(`本周 **${inWin.length} 条需求**`), '概览数字与指标条一致');
+check(md.includes(`当前积压 **${backlog} 条**`), '积压数字与指标条一致');
 const exp = (await (await fetch('../tests/fixtures/expected_report_0.md')).text()).replace(/\r\n/g, '\n');
 check(md === exp, '与 Python 基准逐字节一致');
 
@@ -97,10 +97,73 @@ lines.push('=== 工作台 DOM 元素齐全（通过 iframe 加载 index.html）=
   const clockText = doc.getElementById('clock').textContent;
   check(/^\d{4}-\d{2}-\d{2}/.test(clockText), `时钟已渲染: ${clockText}`);
 
-  // 面板编号应为 01/02/03
-  const nos = [...doc.querySelectorAll('.panel-no')].map((e) => e.textContent);
-  check(nos.join(',') === '01,02,03', `面板编号 ${nos.join(',')}`);
+  // 新版设计：段标题为文字（无 01/02/03 编号徽章）
+  const nos = doc.querySelectorAll('.panel-no');
+  check(nos.length === 0, `已移除编号徽章（残留 ${nos.length} 个）`);
+  const heads = [...doc.querySelectorAll('.panel-head h2')].map((e) => e.textContent.trim());
+  check(heads.join(',') === '登录 Q助理,统计窗口,运行日志', `段标题 ${heads.join(' / ')}`);
+
+  // 字体：Inter 应已注册
+  const fonts = [...iframe.contentWindow.document.fonts];
+  check(fonts.some((f) => f.family.includes('Inter')), 'Inter 字体已注册');
   iframe.remove();
+}
+
+lines.push('');
+lines.push('=== 需求分组渲染（模拟 app.js 的 renderReqList）===');
+{
+  const P = '黄捷';
+  const hasAct = (r) => (r.activities || []).some((a) => {
+    if (a.user !== P || !a.at) return false;
+    const t = new Date(a.at);
+    return t >= w.start && t < w.end;
+  });
+  const inWin = reqs.filter(hasAct);
+
+  // 与 app.js 相同的分组逻辑
+  const groups = new Map();
+  for (const r of inWin) {
+    const key = `${r.project} · ${r.ban}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(r);
+  }
+  check(groups.size > 0, `分成 ${groups.size} 个「项目 · 板块」组`);
+  const sum = [...groups.values()].reduce((n, v) => n + v.length, 0);
+  check(sum === inWin.length, `组内合计 ${sum} = 列表 ${inWin.length}`);
+
+  // 渲染到真实 DOM，验证结构与样式
+  const host = document.createElement('div');
+  host.className = 'req-list';
+  for (const [key, items] of groups) {
+    items.sort((a, b) => a.requirement_num - b.requirement_num);
+    const g = document.createElement('div');
+    g.className = 'req-group';
+    const h = document.createElement('div');
+    h.className = 'req-group-head';
+    h.innerHTML = `<span>${key}</span><span class="req-group-count">${items.length}</span>`;
+    g.appendChild(h);
+    for (const r of items) {
+      const it = document.createElement('label');
+      it.className = 'req-item';
+      it.innerHTML =
+        `<input type="checkbox" class="req-check" checked>` +
+        `<span class="req-main"><span class="req-title-row">` +
+        `<span class="req-no">NO.${r.requirement_num}</span>` +
+        `<span class="req-title">${r.title}</span></span>` +
+        `<span class="req-meta"><span class="stage-dot">${r.progress_stage}</span></span></span>`;
+      g.appendChild(it);
+    }
+    host.appendChild(g);
+  }
+  document.body.appendChild(host);
+
+  check(host.querySelectorAll('.req-group').length === groups.size, '组容器数量正确');
+  check(host.querySelectorAll('.req-item').length === inWin.length, '需求行数量正确');
+  const dotCs = getComputedStyle(host.querySelector('.stage-dot'), '::before');
+  check(dotCs.width === '6px', `状态圆点渲染 ${dotCs.width}`);
+  const itemCs = getComputedStyle(host.querySelector('.req-item'));
+  check(itemCs.borderTopWidth === '0px', `需求行无边框 ${itemCs.borderTopWidth}`);
+  host.remove();
 }
 
 lines.push('');

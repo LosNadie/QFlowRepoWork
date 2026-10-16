@@ -36,4 +36,7 @@ for (const { name, ok } of results) {
   console.log(`  ${ok ? '✅' : '❌'}  ${name}`);
 }
 console.log(`\n${results.length - failed}/${results.length} 套件通过`);
+console.log('\n浏览器端（需手动用 Chrome 打开）：');
+console.log('  tests/browser-test.html   集成测试（DOM / 字体 / 分组渲染）');
+console.log('  tests/design-test.html    设计令牌与视觉规则');
 process.exit(failed === 0 ? 0 : 1);
