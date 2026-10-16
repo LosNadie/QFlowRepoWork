@@ -1,0 +1,8 @@
+# 依赖
+node_modules/
+*.log
+
+# 本地凭据（切勿提交）
+.qzhuli-cli/
+credentials.json
+qflow-credentials.json
