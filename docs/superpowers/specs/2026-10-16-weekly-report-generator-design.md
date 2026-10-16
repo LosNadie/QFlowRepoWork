@@ -1,188 +1,174 @@
-# 个人周报生成器 设计文档（修订版）
+# 周报生成器（网站版）设计文档
 
 - 日期：2026-10-16
-- 状态：待评审
-- 修订说明：**第一版方案（自研纯前端网页）已废弃**。调研中发现公司已有生产级 QFlow 周报系统，本版改为**复用并修通现有脚本**。
+- 状态：已批准，实施中
+- 修订：第 3 版。第 1 版（自研网页）→ 第 2 版（复用现有脚本）→ **本版（网站，复用现有系统的口径与规则）**
 
 ---
 
 ## 一、目标
 
-让「生成个人周报」这件事在**本机 Windows 上可重复跑通**，产出存到用户自己的周报目录。
+做一个**静态网站**，用户用 Q助理扫码登录后，一键获取 QFlow 本周工作内容，生成周报并存入本地指定目录。
 
-### 1.1 三条原始需求
+### 1.1 三条核心需求
 
 1. 用 Q助理登录
 2. 获取 QFlow 本周工作内容
 3. 一键生成周报，存入本地相应位置
 
-### 1.2 已确认的决策（来自与用户的多轮澄清）
+### 1.2 已确认决策
 
 | 项 | 决策 |
 |---|---|
-| 实现路线 | **直接复用现有个人周报脚本**（不自研） |
-| 条目形式 | **就用脚本原样输出**（表格），不改成手写风格 |
-| 输出位置 | `个人文档\周报\` |
+| 形态 | **静态网站**（可部署，供 Q助理用户使用） |
+| 架构 | **纯前端，无后端**（CORS 与签名链路均已实测通过） |
+| 周窗口 | **上周五 14:00 ~ 本周五 14:00**（沿用公司既有口径） |
+| 板块归类 | **移植现有 `classify.py` 规则到 JS** |
+| 报告风格 | 模板化，**不调 AI** |
+| 条目形式 | 表格（与公司现有周报一致） |
 | 「学习」章节 | **不要** |
+| 输出目录 | 页内目录浏览器选择，写入所选目录 |
+| 文件名 | `{登录用户姓名}-{起月}月{起日}日-{止月}月{止日}日周报.md` |
 | 使用范围 | 内部自用 |
-| 数据来源 | 内部接口（官方开放平台无 QFlow 能力） |
 
 ---
 
-## 二、重大发现：已有生产级系统
+## 二、可行性验证（全部已实测，非推测）
 
-### 2.1 系统位置
+这是本设计能成立的基础。所有验证均在本机实际执行。
 
-用户提供的参考材料中，真正的内容位于（其余为 macOS 垃圾文件，见 2.3）：
-
-```
-C:\Users\shoot\Downloads\qflow-weekly-report-x\qflow-weekly-report\
-├─ SKILL.md
-└─ scripts\
-   ├─ fetch_all_full.py          # 按项目×9阶段翻页拉全量需求
-   ├─ fetch_detail_acts.py       # 逐需求拉动态
-   ├─ classify.py                # 语义归类到「板块」（数百条规则）
-   ├─ weekly_report.py           # 项目周报（大白话版）
-   ├─ personal_weekly_report.py  # ★ 个人周报（本次要用的）
-   └─ build2.py                  # 重建项目/人员日志与索引
-```
-
-作者：胡力峰。已在生产运行，产出真实周报。
-
-### 2.2 真实产出（存在于用户同步盘）
-
-`C:\Users\shoot\Documents\Q助理\射手科技同步盘\office-10\100-工作日志\`
-
-| 目录 | 内容 |
-|---|---|
-| `周报\01-AI周报\` | 6 份周报（2026年9月第1~4周、10月第1~2周） |
-| `人员\` | **40 份**人员日志，含 [黄捷.md](C:\Users\shoot\Documents\Q助理\射手科技同步盘\office-10\100-工作日志\人员\黄捷.md)（912 行） |
-| `项目\` | 8 份项目日志 |
-| `_工具\` | **空目录** |
-| `索引.md` | 索引 |
-
-`C:\Users\shoot\Documents\Q助理\射手科技同步盘\个人文档\周报\` —— 用户手写的 10 份周报。
-
-### 2.3 用户提供的"文件"多数是 macOS 垃圾
-
-`_SKILL.md`、`_weekly_report.py`、`download`、`download (1)` 等均为 **213 字节的 AppleDouble 资源叉**（文件头 `00 05 16 07` + `Mac OS X`），非真实内容。真实内容在 2.1 路径下。
-
----
-
-## 三、现有脚本的阻塞点（已实测）
-
-这是本设计的核心：现有系统**在当前环境下跑不通**，需修通 5 处。
-
-### 3.1 阻塞点 1：`qz` 版本过低，缺 `--page`
-
-| | |
-|---|---|
-| 已安装 | `qz` **v0.5.8** |
-| 问题 | `fetch_all_full.py` 调用 `--page`，但 **0.5.8 无此参数** |
-| 实测 | `qz qflow requirement list --page 1` → `error: unknown option '--page'` |
-| npm 最新 | **v0.5.12** |
-| 实测 0.5.12 | `--page` **存在**，说明为「页码，从 1 开始（每页固定 50 条）」 |
-
-**关键影响**：`已完成` 阶段数据量远超单页 50 条 —— Q助理 554、自记账 268、发票API 90。**不翻页必然丢数据**。
-
-### 3.2 阻塞点 2：`_工具\` 为空，脚本无输入
-
-`fetch_detail_acts.py` 依赖 `all_reqs_full.json`，`classify.py` 与 `personal_weekly_report.py` 依赖 `all_full_v2.json` + `banmap_v2.json`。这三个文件**全部不存在**，且脚本会直接 `sys.exit`。
-
-### 3.3 阻塞点 3：硬编码 macOS 路径
-
-| 脚本 | 硬编码路径 | 是否可配 |
+| # | 验证项 | 结果 |
 |---|---|---|
-| `weekly_report.py` | `BASE = '/Users/hulifeng/Documents/...'` | ❌ 硬编码 |
-| `build2.py` | `BASE = '/Users/hulifeng/Documents/...'` | ❌ 硬编码 |
-| `SKILL.md` | `QZ = /opt/homebrew/opt/node@24/bin/node` | ❌ 硬编码 |
-| `personal_weekly_report.py` | `SYNC_ROOTS` 含 `C:/Users/shoot/Documents/Q助理/射手科技同步盘` | ✅ **已适配 Windows** |
+| 1 | `client.qzhuli.com` 扫码接口 CORS | ✅ `Access-Control-Allow-Origin: *` |
+| 2 | `client.qzhuli.com` 签名接口 CORS（含预检） | ✅ `*` |
+| 3 | `qflow.qzhuli.cn` 预检 | ✅ 回显 Origin，允许 `authorization, x-q-flow-authorization` |
+| 4 | 二维码 payload 结构 | ✅ `{"scene_id":"...","api_client_type":3}` |
+| 5 | 签名算法（从 `qz` v0.5.8 反解） | ✅ 与 `qz` 一致 |
+| 6 | **浏览器可用 MD5（blueimp-md5）** | ✅ 与 Node 逐字符一致（含中文、长串、空串） |
+| 7 | **纯浏览器全链路** | ✅ **签名 → SSO → QFlow 令牌 → 取数，无后端** |
+| 8 | QFlow 令牌字段名 | ⚠️ **snake_case**：`access_token` / `refresh_token`，非驼峰 |
+| 9 | `requirement_user_filter=participated` | ✅ 19 条，覆盖验证 6/6，零缺失 |
 
-**结论**：`personal_weekly_report.py` 已有人适配过 Windows（`SYNC_ROOTS` 首选即用户本机路径），是本次最合适的复用对象。
+### 2.1 覆盖性验证方法（关键）
 
-### 3.4 阻塞点 4：Node 路径
+先按 `progress_updated_at >= 窗口起点` 筛出窗口内更新过的需求（65 条），逐个拉 `activities`，找出登录用户在窗口内有动作的需求，再检查是否全部落在 `participated` 集合内。
 
-脚本硬编码 `/opt/homebrew/opt/node@24/bin/node`。本机 Node 为 `C:\Program Files\nodejs\node.exe`（**v24.18.0**，满足要求）。
+**结果**：窗口内有动作 6 条，`participated` 覆盖 **6/6，缺失 0**。
 
-### 3.5 阻塞点 5：`users` 字段缺失（非阻塞，但影响口径）
-
-`fetch_detail_acts.py` **不保存 `users`（角色信息）**，只保存 `current_user`。而 `personal_weekly_report.py` 的 `kazai()` 依赖 `r.get("users", [])`。
-
-实测后果：`users` 恒为空 → 回退到 `current_user` 分支 → 「当前积压」实际等于**"当前负责人是我"的需求**，与 `current_user` 筛选一致（实测 5 条）。行为可接受，但需在文档中记录该口径。
-
----
-
-## 四、关键优化：不必拉全量，只需拉"我参与过的"
-
-### 4.1 发现
-
-`qz 0.5.12` 新增 `--requirement-user-filter`，取值 `participated|current_user|creator|refiner|approver|developer|tester`。QFlow API 同名字段实测有效。
-
-### 4.2 实测数据（2026-10-16）
-
-| 筛选 | 条数 |
-|---|---|
-| `participated` | **19** |
-| `current_user` | 5 |
-| `creator` | 14 |
-| `refiner` | 12 |
-| `tester` | 1 |
-| `approver` / `developer` | 0 |
-| **并集去重** | **19** |
-
-`participated`（19）= 其余所有筛选的并集超集。全量需求为 **243 条**。
-
-### 4.3 覆盖性验证（已完成，非推测）
-
-**方法**：先按 `progress_updated_at >= 窗口起点` 筛出窗口内更新过的需求（65 条），逐个拉 `activities`，找出黄捷在窗口内有动作的需求，再检查是否都落在 `participated` 集合内。
-
-**结果**：
-
-| 项目 | 结果 |
-|---|---|
-| 黄捷窗口内有动作的需求 | **6 条** |
-| `participated` 覆盖 | **6/6** |
-| 缺失 | **0 条** |
-
-覆盖的 6 条：Q助理 NO.774、776、777、778、779、788。
-
-**结论**：对**个人**周报而言，拉 `participated`（19 条）即可，无需拉全量（243 条）——**请求量降低约 92%**。
-
-> 注意：此优化仅适用于个人视角。项目周报（`weekly_report.py`）需全公司数据，仍须全量拉取。
-
-### 4.4 运行方式验证
-
-实测 `npx -y -p @qzhuli/qzhuli-cli@0.5.12 qz` **可直接运行**，且**自动复用现有登录态**（`~/.qzhuli-cli/qflow-credentials.json`），无需重新扫码，也无需改动全局安装。
+**结论**：只需拉 `participated`（19 条），无需拉全量（243 条），请求量降低约 **92%**。
 
 ---
 
-## 五、时间窗口口径（修正）
-
-现有系统的窗口为 **上周五 14:00（含）~ 本周五 14:00（不含）**，非周五手动运行则回退到最近一个已过去的周五 14:00。
-
-> **修正说明**：第一版设计中用户曾选择「周一~周五」，但那是在不知道已有生产系统口径的情况下做的选择。现有系统的窗口口径是历轮验收定稿的，**本版以现有系统为准**，并在评审时请用户确认。
-
-窗口实现见 `personal_weekly_report.py` 的 `week_window()`。
-
----
-
-## 六、方案：修通现有个人周报脚本
-
-### 6.1 目标产物
+## 三、架构
 
 ```
-C:\Users\shoot\Documents\Q助理\射手科技同步盘\个人文档\周报\
-└─ 10月10日-10月17日周报.md
+静态网页（HTML + 原生 ES Module + CSS，无框架、无构建）
+   │
+   ├─ 1. 扫码登录 ── POST client.qzhuli.com/user/qr_login_create/3
+   │                 轮询 /user/qr_login_status → login_data{uid,tk,token,cid}
+   ├─ 2. 换 SSO 票据 ─ POST /user/web_sso_ticket（表单 + MD5 签名）
+   ├─ 3. 换 QFlow 令牌 POST qflow.qzhuli.cn/api/v1/qzhuli/auth/ticket
+   ├─ 4. 取本周工作 ─── GET /api/v1/requirements?page=N&requirement_user_filter=participated
+   │                    GET /api/v1/requirements/{id}/activities
+   ├─ 5. 板块归类 ───── 移植 classify.py 规则
+   ├─ 6. 生成 Markdown ─ 纯函数
+   └─ 7. 存本地 ─────── showDirectoryPicker → 页内目录浏览器 → 写入 .md
 ```
 
-文件名由脚本按窗口起止生成：`{start.month}月{start.day}日-{end.month}月{end.day}日周报.md`。
+### 3.1 接口与算法细节
 
-### 6.2 文档结构（脚本原样输出，用户已确认不改）
+**签名（`client.qzhuli.com` 侧，表单编码）**
+
+```js
+// 1) 构造参数
+params.r = 16 字节随机 hex
+params.uid = uid            // 需鉴权时
+params.tk  = tk             // 需鉴权时
+// 合并业务参数（空字符串跳过，非字符串 String()）
+// 2) 计算签名（key 与 base 不参与）
+sorted = 各键值对按 key 字典序 → "k=v"
+if (token) sorted.push("token=" + token)
+params.key = MD5(sorted.join("&"))
+params.base = '{"platform":"cli","version":"0.1.0"}'
+
+// 3) 发送
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+body = 各键值对 encodeURIComponent(k)=encodeURIComponent(v) 以 & 连接
+```
+
+**登录链路**
+
+```
+POST /user/qr_login_create/3                    → {scene_id, expires_in:300, qr_payload}
+POST /user/qr_login_status {scene_id}           → {status, login_data}
+POST /user/web_sso_ticket（带签名）              → {ticket}
+POST qflow/api/v1/qzhuli/auth/ticket {ticket}   → {data:{status, login_session:{
+                                                     access_token, refresh_token,
+                                                     expires_in, user, teams}}}
+```
+
+**QFlow 鉴权与取数**
+
+```
+Authorization: Bearer <access_token>
+x-q-flow-authorization: Bearer <access_token>
+
+GET /api/v1/requirements?page=N&requirement_user_filter=participated
+GET /api/v1/requirements/{requirement_id}/activities
+```
+
+**响应结构**
+
+```
+requirements: { code:0, data:{ items:[{ project:{project_id,project_name},
+                                        requirement:{requirement_id,requirement_num,
+                                                     title,category,priority,
+                                                     progress_stage,progress_updated_at},
+                                        current_user:{nickname,user_id,avatar} }],
+                              pagination:{page,page_size,total} } }
+activities:   { code:0, data:{ items:[{ activity:{action_remark,updated_at,old_stage,new_stage},
+                                        user:{nickname,user_id,role_strs}, identity }] } }
+```
+
+---
+
+## 四、模块划分
+
+| 模块 | 职责 | 测试方式 |
+|---|---|---|
+| `vendor/md5.js` | MD5（blueimp-md5，MIT，转为 ESM） | 对标准向量断言 |
+| `vendor/qrcode.js` | 二维码渲染（qrcode-generator，MIT） | 手测 |
+| `src/sign.js` | 签名参数构造 + MD5 | 纯函数，与 `qz --dry-run` 比对 |
+| `src/week.js` | 周窗口计算 + 文件命名 | 纯函数，边界用例 |
+| `src/classify.js` | 板块归类（移植规则） | 纯函数，**与 `classify.py` 输出逐条比对** |
+| `src/report.js` | **数据 → Markdown** | **纯函数，本次测试重点** |
+| `src/qflow.js` | QFlow 取数 | mock fetch |
+| `src/auth.js` | 扫码登录链路 | 需人工扫码 |
+| `src/picker.js` | 目录选择与写盘 | 浏览器手测 |
+| `app.js` | 界面编排 | 手测 |
+
+**关键设计**：`week.js`、`classify.js`、`report.js`、`sign.js` 均为**零依赖纯函数**，可在 Node 下直接测试，无需浏览器、无需登录。
+
+---
+
+## 五、目录选择方案
+
+浏览器安全模型**不允许**网页枚举 `C:\`、`D:\` 或遍历整个文件系统。因此采用**两步法**，在合规前提下实现"页内逐层浏览"：
+
+1. 首次点「选择目录」→ 弹**系统原生**窗口，用户授权一个**根目录**
+2. 授权后，页面内**列出子目录、逐层点进去**，选中目标文件夹
+3. 授权句柄存入 IndexedDB，后续自动复用，无需重复选择
+
+**降级**：非 Chromium 浏览器（Firefox/Safari）无 `showDirectoryPicker`，自动降级为「下载文件」。
+
+---
+
+## 六、周报格式
 
 ```markdown
-# 黄捷 · 周报（2026-10-10 ~ 2026-10-17）
+# 黄捷 · 周报（2026-10-09 ~ 2026-10-16）
 
-> 窗口：**2026-10-10（周六） 14:00** ~ **2026-10-17（周五） 14:00** ｜ 本周 **6 条需求**有进展 ｜ 当前积压 **5 条**
+> 窗口：**2026-10-09（周五） 14:00** ~ **2026-10-16（周五） 14:00** ｜ 本周 **6 条需求**有进展 ｜ 当前积压 **5 条**
 
 ## 本周情况
 
@@ -193,7 +179,6 @@ C:\Users\shoot\Documents\Q助理\射手科技同步盘\个人文档\周报\
 | NO. | 需求标题 | 动作 |
 | --- | --- | --- |
 | NO.774 | 聊天消息中的链接自动解析网页标题 | 提出需求、提交审批、审批通过 |
-| NO.777 | Qflow AI贡献值工作台新增「我的待办任务」卡片 | 提出需求、提交审批、审批通过 |
 
 ## 当前积压（未完成）
 
@@ -210,30 +195,12 @@ C:\Users\shoot\Documents\Q助理\射手科技同步盘\个人文档\周报\
 - （待补充）
 ```
 
-- 「本周情况」：**只含我本人的动作**（`a["user"] == person`）
-- 「当前积压」：当前负责人是我的未完成需求，含卡住天数
-- 「下周计划」：占位，人工补充
-- **无「学习」章节**（用户已确认）
-
-### 6.3 实施步骤
-
-| # | 步骤 | 说明 |
-|---|---|---|
-| 1 | 建立工作目录 | 把 `scripts/` 复制到 `100-工作日志\_工具\`（脚本约定从该目录运行） |
-| 2 | 修 `fetch_all_full.py` | ① Node 路径改本机 ② 支持 `--requirement-user-filter participated` 模式（默认走该模式，个人场景） ③ 兼容 `--page` |
-| 3 | 跑通取数 | 产出 `all_reqs_full.json` → `all_full_v2.json` |
-| 4 | 修 `classify.py` | 仅需 Node 路径（`personal_weekly_report.py` 会读 `banmap_v2.json`） |
-| 5 | 跑 `personal_weekly_report.py --person 黄捷` | 输出到 `个人文档\周报\` |
-| 6 | 封装一键入口 | 提供单个入口脚本，串起 2→5 |
-
-### 6.4 一键入口
-
-提供一个 PowerShell 脚本（或 `.bat`），双击即完成：
-
-```
-读取本周窗口 → 拉 participated 需求 → 拉各需求动态 → 归类板块
-→ 生成周报 → 写入 个人文档\周报\ → 打印结果路径
-```
+- **组织**：项目 → 板块 → 表格
+- **「本周情况」**：只含登录用户本人的动作（`user == 本人`）
+- **「当前积压」**：当前负责人是本人、且阶段非（待领取/已完成/已关闭）的需求，含卡住天数
+- **「下周计划」**：占位，人工补充
+- **无「学习」章节**
+- **动作措辞**：沿用 `action_label` 大白话映射
 
 ---
 
@@ -241,78 +208,61 @@ C:\Users\shoot\Documents\Q助理\射手科技同步盘\个人文档\周报\
 
 | 场景 | 处理 |
 |---|---|
-| QFlow 登录过期 | 提示运行 `qz qflow auth login` 扫码；脚本不静默失败 |
-| `npx` 首次下载慢 | 打印进度提示；或预装 0.5.12 到本地目录 |
-| 某需求 `activities` 拉取失败 | 跳过该需求并计入失败清单，不中断整体 |
-| `banmap_v2.json` 缺失 | 提示先跑 `classify.py` |
-| 本周无动作 | 正常输出「本周无需求进展。」，退出码 0 |
-| 输出目录不存在 | 自动创建（脚本已含 `os.makedirs`） |
-| 同名文件已存在 | 覆盖（脚本为幂等设计） |
+| 网络失败 | 提示重试，保留已取数据与勾选状态 |
+| 401 / 令牌过期 | 静默 refresh；失败回登录 |
+| 二维码 300 秒超时 | 提示已过期，一键刷新 |
+| 单个需求动态拉取失败 | 跳过并计入失败清单，不中断整体 |
+| 目录授权被拒 | 提示原因，回退下载模式 |
+| 写盘失败 | 保留预览，提供「重试」与「下载」 |
+| 本周无动作 | 正常生成，提示「本周无需求进展。」 |
+| `npx`/依赖加载失败 | 明确提示，不静默 |
 
 ---
 
-## 八、风险
+## 八、已知限制
 
-| 风险 | 应对 |
-|---|---|
-| 依赖内部接口，Q助理改版可能失效 | 取数集中在 `fetch_*.py`，失效只改一处；保留 `qz` CLI 升级路径 |
-| 脚本为他人维护，改动可能与上游分叉 | 保留原始副本；改动处加注释标注；同步回 `SKILL.md` |
-| `--requirement-user-filter` 为 0.5.12 新特性 | 已实测；若需降级，回退到全量拉取（243 条，慢但可行） |
-| `users` 字段缺失导致积压口径偏窄 | 已记录（3.5）；如需精确到角色，需改用 `requirement get` 补 `users` |
-| `npx` 每次联网 | 可预装到本地 `_工具\node_modules`，离线可用 |
+1. **目录选择器仅 Chromium 可用**（`showDirectoryPicker` 为 Chrome/Edge 专有）。Firefox/Safari 降级为下载。
+2. **浏览器无法枚举盘符**，需用户先授权根目录（见第五节）。
+3. **`participated` 只覆盖"当前仍参与"的需求**。若某需求本周操作过、事后被移出参与人，会漏掉。本次验证未出现（6/6）。
+4. **积压口径**为"当前负责人是我"，非"所有我参与且未完成"（因列表接口不返回角色 `users` 字段）。
+5. **依赖 Q助理内部接口**（官方开放平台无 QFlow 能力）。Q助理改版可能失效，取数集中在 `qflow.js`，失效只改一处。
 
 ---
 
-## 九、已知限制
-
-1. **窗口为上周五 14:00 ~ 本周五 14:00**，与自然周（周一~周日）不同，是公司既有口径。
-2. **「下周计划」需人工补充**，脚本不自动推导。
-3. **`participated` 只覆盖"当前仍参与"的需求**。若某需求我本周操作过、但事后被移出参与人，会漏掉。本次验证未出现该情况（6/6 覆盖），但该风险理论上存在。
-4. **积压口径**为"当前负责人是我"（见 3.5），非"所有我参与且未完成"。
-5. **项目周报脚本（`weekly_report.py`）仍硬编码 macOS 路径**，本次不修（不在范围内）。
-
----
-
-## 十、验收标准
+## 九、验收标准
 
 | # | 标准 |
 |---|---|
-| 1 | 双击一键入口，无需手工敲命令即可产出周报 |
-| 2 | 周报写入 `个人文档\周报\`，文件名符合脚本命名规则 |
-| 3 | 「本周情况」只含黄捷本人的动作，不含他人 |
-| 4 | 窗口严格为上周五 14:00 ~ 本周五 14:00（+08:00） |
-| 5 | 本周有动作的需求全部出现，无遗漏（对照 `participated` 19 条） |
-| 6 | 「当前积压」列出当前负责人是我的未完成需求，含卡住天数 |
-| 7 | 无「学习」章节 |
-| 8 | 本周无动作时不报错，输出「本周无需求进展。」 |
-| 9 | 登录过期时给出明确提示，不静默失败 |
-| 10 | 重复运行幂等，覆盖同名文件 |
+| 1 | Chrome/Edge 打开页面，扫码后成功登录并显示姓名 |
+| 2 | 点「获取本周工作」，正确列出本周有动作的需求及条数 |
+| 3 | 周窗口严格为上周五 14:00 ~ 本周五 14:00（+08:00） |
+| 4 | 「本周情况」只含本人动作，不含他人 |
+| 5 | 板块归类与 `classify.py` 结果一致 |
+| 6 | 目录选择器可列子目录并逐层进入，选中后自动写入 |
+| 7 | 文件名形如 `黄捷-10月9日-10月16日周报.md` |
+| 8 | 二次使用自动复用目录授权 |
+| 9 | Firefox 降级为下载，不报错 |
+| 10 | 本周无动作时正常生成，提示「本周无需求进展。」 |
+| 11 | 纯函数单元测试全部通过 |
 
 ---
 
-## 十一、验证记录（本次已完成）
+## 十、实施顺序（降险优先）
 
-| 验证项 | 结果 |
-|---|---|
-| `qz` 0.5.8 是否有 `--page` | ❌ 无（报 unknown option） |
-| `qz` 0.5.12 是否有 `--page` | ✅ 有，每页固定 50 条 |
-| 0.5.12 是否复用现有登录 | ✅ 是，无需重新扫码 |
-| `npx -p ...@0.5.12 qz` 可用 | ✅ 是 |
-| `requirement_user_filter=participated` | ✅ 19 条 |
-| `participated` 是否为各筛选并集 | ✅ 是（19 = 并集） |
-| 全量需求条数 | 243 条（所有项目） |
-| 窗口内更新过的需求 | 65 条 |
-| 黄捷窗口内有动作的需求 | 6 条 |
-| `participated` 覆盖 | **6/6，缺失 0** |
-| `_工具\` 是否已有数据文件 | ❌ 空 |
-| `personal_weekly_report.py` 是否已适配 Windows | ✅ 是（`SYNC_ROOTS` 首选本机路径） |
+1. `vendor/md5.js` + `src/sign.js` → 与 `qz --dry-run` 比对签名
+2. `src/week.js` → 边界用例
+3. `src/classify.js` → **与 `classify.py` 逐条比对**
+4. `src/report.js` → 用真实数据测试
+5. `src/qflow.js` → `src/auth.js`
+6. `src/picker.js` → `app.js` + `index.html`
+7. 端到端手测
 
 ---
 
 ## 附：材料来源
 
-- 现有系统：`C:\Users\shoot\Downloads\qflow-weekly-report-x\qflow-weekly-report\`
+- 现有生产系统：`C:\Users\shoot\Downloads\qflow-weekly-report-x\qflow-weekly-report\`（胡力峰维护）
 - 真实产出：`C:\Users\shoot\Documents\Q助理\射手科技同步盘\office-10\100-工作日志\`
-- 用户手写周报：`C:\Users\shoot\Documents\Q助理\射手科技同步盘\个人文档\周报\`
+- 签名算法：从本机 `@qzhuli/qzhuli-cli` v0.5.8 反解并实测验证
 - 官方开放平台 API 文档：https://open.qzhuli.com/open-platform/api.html
 - Q助理 CLI 使用说明：https://www.qzhuli.com/docs/view/itjVzvgNmpFDbPDx7aHeQGAYvnSznJ5c
