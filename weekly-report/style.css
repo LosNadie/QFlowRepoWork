@@ -171,6 +171,14 @@ main {
   color: #374151;
   word-break: break-all;
 }
+#dir-hint { margin: 8px 0 0; font-size: 12px; line-height: 1.7; }
+#dir-hint code {
+  font-family: ui-monospace, Consolas, monospace;
+  background: #f3f4f6;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 11.5px;
+}
 
 .browser { margin-top: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .browser-head {

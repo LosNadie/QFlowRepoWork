@@ -94,6 +94,11 @@
         <button id="btn-pick-root" class="btn ghost tiny">选择目录</button>
         <button id="btn-clear-dir" class="btn ghost tiny" hidden>清除授权</button>
       </div>
+      <p class="hint" id="dir-hint">
+        请选中一个<strong>具体的子文件夹</strong>（如 <code>D:\周报</code>）。
+        不要停在 <code>C:\</code>、<code>D:\</code> 这类磁盘根目录上确认——Chrome 会以
+        「其中含有系统文件」为由拒绝。
+      </p>
 
       <div class="browser" id="browser" hidden>
         <div class="browser-head">

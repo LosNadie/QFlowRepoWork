@@ -85,6 +85,25 @@ export async function pickRoot() {
   return handle;
 }
 
+/**
+ * 判断错误是否为「Chrome 拒绝该目录」。
+ *
+ * Chrome 对文件系统访问 API 设有受保护目录黑名单：磁盘根目录（C:\、D:\）、
+ * Windows、Program Files、用户目录根部等一律禁止，报错
+ * 「无法打开此文件夹，因为其中含有系统文件」。
+ * 这类拒绝会以 SecurityError / NotAllowedError 形式抛出。
+ */
+export function isBlockedFolderError(err) {
+  if (!err) return false;
+  return err.name === 'SecurityError' || err.name === 'NotAllowedError' ||
+    /system files|系统文件/i.test(err.message || '');
+}
+
+/** 用户主动取消选择 */
+export function isUserCancel(err) {
+  return err?.name === 'AbortError';
+}
+
 /** 清除已保存的目录授权 */
 export async function clearRoot() {
   try { await idbDel(KEY); } catch { /* ignore */ }

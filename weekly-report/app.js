@@ -11,6 +11,7 @@ import { buildReport } from './src/report.js';
 import {
   isSupported, restoreRoot, pickRoot, clearRoot,
   listSubdirs, writeTextFile, fileExists, downloadFile,
+  isBlockedFolderError, isUserCancel,
 } from './src/picker.js';
 import qrcode from './vendor/qrcode.esm.js';
 
@@ -365,10 +366,18 @@ async function chooseRoot() {
     state.curHandle = root;
     el.btnClearDir.hidden = false;
     await refreshBrowser();
-    log('已选择根目录，可在页内逐层进入子目录');
+    log('已选择目录：' + root.name + '（可在页内逐层进入子目录）');
   } catch (err) {
-    if (err.name === 'AbortError') return;
+    if (isUserCancel(err)) return;
+    if (isBlockedFolderError(err)) {
+      setStatus(el.saveStatus,
+        'Chrome 不允许选择磁盘根目录或系统文件夹。请先在资源管理器里建好一个子文件夹（如 D:\\周报），' +
+        '在弹窗中双击进入该文件夹后再点「选择文件夹」。', 'err');
+      log('目录被 Chrome 拦截（根目录/系统文件夹不受支持）');
+      return;
+    }
     setStatus(el.saveStatus, '目录选择失败：' + err.message, 'err');
+    log('目录选择失败：' + err.message);
   }
 }
 
