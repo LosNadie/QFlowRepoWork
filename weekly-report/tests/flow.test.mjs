@@ -68,9 +68,18 @@ state.requirements = relevant;
 state.selected = new Set(relevant.map((r) => r.requirement_id));
 
 const winCount = relevant.filter(hasMyActionInWin).length;
-check(winCount === 6, `窗口内有动作的需求 6 条（实际 ${winCount}）`);
+// 修复后为 16 条。修复前只拉 participated（仅返回进行中），只有 6 条，
+// 漏掉 8 条已完成 + 1 条已取消 + 1 条待审批。
+check(winCount === 16, `窗口内有动作的需求 16 条（实际 ${winCount}）`);
 check(relevant.length >= winCount, `相关需求 ${relevant.length} 条 ≥ 本周有动作 ${winCount} 条`);
 check(state.selected.size === relevant.length, '默认全选');
+
+// 关键回归：必须包含「已完成」的需求 —— 验收完成同样代表工作量
+const completedInWin = relevant.filter(
+  (r) => r.progress_stage === '已完成' && hasMyActionInWin(r)
+);
+check(completedInWin.length > 0,
+  `包含已完成需求 ${completedInWin.length} 条（修复前为 0）`);
 
 // 步骤 3：生成
 console.log('\n[生成]');
@@ -97,3 +106,4 @@ console.log(`  目录选择 API（Node 环境预期为 false）: ${isSupported()
 
 console.log(`\n=== 结果: ${pass} 通过, ${fail} 失败 ===`);
 process.exit(fail === 0 ? 0 : 1);
+

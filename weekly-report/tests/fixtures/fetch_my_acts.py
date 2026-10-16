@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-"""抓取 243 条需求的动态（activities），作为周报比对数据。
-列表接口不返回 users 角色字段，故只取 current_user —— 与 fetch_detail_acts.py 口径一致。
-"""
-import json, os, urllib.request, time
+"""抓取「我参与的」全部需求的动态（含已完成），重建周报比对基准"""
+import json, os, urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 tok = json.load(open(os.path.expanduser("~/.qzhuli-cli/qflow-credentials.json"),
@@ -15,11 +14,11 @@ def api(path):
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
-items = json.load(open(os.path.join(HERE, "all_requirements.json"), encoding="utf-8"))
-out = []
-for i, it in enumerate(items):
+items = json.load(open(os.path.join(HERE, "my_requirements.json"), encoding="utf-8"))
+print(f"待抓取 {len(items)} 条")
+
+def fetch(it):
     rec = dict(it)
-    rec["users"] = []  # 列表接口不返回角色信息，与参考脚本口径一致
     try:
         a = api(f"/api/v1/requirements/{it['requirement_id']}/activities")
         rec["activities"] = [{
@@ -29,12 +28,19 @@ for i, it in enumerate(items):
             "old": (x.get("activity") or {}).get("old_stage"),
             "new": (x.get("activity") or {}).get("new_stage"),
         } for x in a.get("data", {}).get("items", [])]
-    except Exception as e:
+    except Exception:
         rec["activities"] = []
-    out.append(rec)
-    if (i + 1) % 50 == 0:
-        print(f"  {i+1}/{len(items)}", flush=True)
+    return rec
 
-path = os.path.join(HERE, "requirements_with_acts.json")
+out, done = [], 0
+with ThreadPoolExecutor(max_workers=8) as ex:
+    futs = [ex.submit(fetch, it) for it in items]
+    for f in as_completed(futs):
+        out.append(f.result())
+        done += 1
+        if done % 20 == 0:
+            print(f"  {done}/{len(items)}")
+
+path = os.path.join(HERE, "my_requirements_with_acts.json")
 json.dump(out, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(f"已保存 {len(out)} 条 -> {path}")

@@ -43,6 +43,25 @@ const fname = reportFileName(person, window);
 console.log(`      文件名: ${fname}`);
 console.log(`      长度: ${md.length} 字符 / ${md.split('\n').length} 行`);
 
+// 回归断言：已完成的需求必须计入（验收完成同样代表工作量）
+const completedWithAct = ok.filter(
+  (r) => r.progress_stage === '已完成' &&
+    (r.activities || []).some((a) => {
+      if (a.user !== person || !a.at) return false;
+      const t = new Date(a.at);
+      return t >= window.start && t < window.end;
+    })
+);
+console.log(`      其中「已完成」需求 ${completedWithAct.length} 条`);
+for (const r of completedWithAct) {
+  const present = md.includes(`NO.${r.requirement_num} `);
+  console.log(`        ${present ? '✓' : '✗'} NO.${r.requirement_num} ${r.title.slice(0, 40)}`);
+  if (!present) {
+    console.log(`        !! 已完成需求未出现在周报中`);
+    process.exitCode = 1;
+  }
+}
+
 const out = path.join(HERE, 'fixtures', 'e2e_output.md');
 fs.writeFileSync(out, md, 'utf8');
 console.log(`      已写入: ${out}`);

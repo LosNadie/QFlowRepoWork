@@ -9,8 +9,8 @@ import { buildReport, actionLabel, stuckPerson } from '../src/report.js';
 import { weekWindow } from '../src/week.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const reqs = JSON.parse(fs.readFileSync(path.join(HERE, 'fixtures/requirements_with_acts.json'), 'utf8'));
-const banmap = JSON.parse(fs.readFileSync(path.join(HERE, 'fixtures/expected_ban.json'), 'utf8'));
+const reqs = JSON.parse(fs.readFileSync(path.join(HERE, 'fixtures/my_requirements_with_acts.json'), 'utf8'));
+const banmap = JSON.parse(fs.readFileSync(path.join(HERE, 'fixtures/expected_ban_mine.json'), 'utf8'));
 const expectedRaw = fs.readFileSync(path.join(HERE, 'fixtures/expected_report_0.md'), 'utf8');
 // Python 在 Windows 文本模式下写盘会把 \n 转为 \r\n；归一化后比对内容
 const expected = expectedRaw.replace(/\r\n/g, '\n');
@@ -151,3 +151,4 @@ console.log('\n=== 7) 需求标题前缀被剥离 ===');
 
 console.log(`\n=== 结果: ${pass} 通过, ${fail} 失败 ===`);
 process.exit(fail === 0 ? 0 : 1);
+

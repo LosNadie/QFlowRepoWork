@@ -206,11 +206,15 @@ async function doFetch() {
 
   try {
     const reqs = await fetchParticipated(state.qflow.accessToken, {
-      onProgress: ({ loaded, total }) => {
-        setStatus(el.fetchStatus, `需求列表 ${loaded}/${total}…`);
+      onProgress: ({ stage, stagesDone, stagesTotal, error }) => {
+        if (error) {
+          setStatus(el.fetchStatus, `阶段「${stage}」拉取失败（已跳过）…`);
+        } else {
+          setStatus(el.fetchStatus, `正在拉取需求（${stagesDone}/${stagesTotal} 阶段）…`);
+        }
       },
     });
-    log(`participated 需求 ${reqs.length} 条`);
+    log(`拉取需求 ${reqs.length} 条（覆盖全部阶段，含已完成）`);
 
     setStatus(el.fetchStatus, `正在拉取 ${reqs.length} 条需求的动态…`);
     const { ok, failed } = await fetchAllActivities(state.qflow.accessToken, reqs, {
@@ -220,37 +224,33 @@ async function doFetch() {
 
     for (const r of ok) r.ban = classify(r.project, r.title, r.requirement_num);
 
-    // 保留全部 participated 需求：
+    // 判断某需求在窗口内是否有"本人"动作
+    const hasMyActionInWin = (r) => (r.activities || []).some((a) => {
+      if (a.user !== state.person || !a.at) return false;
+      const t = new Date(a.at);
+      return !Number.isNaN(t.getTime()) &&
+        t.getTime() >= state.window.start.getTime() &&
+        t.getTime() < state.window.end.getTime();
+    });
+
+    // 保留「当前负责人是我」或「窗口内有我动作」的需求：
     //   「本周情况」由 buildReport 按窗口过滤；
     //   「当前积压」需要全集（当前负责人是我、但本周无动作的需求也要算）。
-    // 仅筛掉「窗口内无我动作、且当前负责人也不是我」的无关项，减少噪音。
-    const relevant = ok.filter((r) =>
-      r.current_user === state.person ||
-      (r.activities || []).some((a) => {
-        if (a.user !== state.person || !a.at) return false;
-        const t = new Date(a.at);
-        return !Number.isNaN(t.getTime()) &&
-          t.getTime() >= state.window.start.getTime() &&
-          t.getTime() < state.window.end.getTime();
-      })
-    );
+    const relevant = ok.filter((r) => r.current_user === state.person || hasMyActionInWin(r));
 
     state.requirements = relevant;
     state.selected = new Set(relevant.map((r) => r.requirement_id));
 
-    const winCount = relevant.filter((r) =>
-      (r.activities || []).some((a) => {
-        if (a.user !== state.person || !a.at) return false;
-        const t = new Date(a.at);
-        return !Number.isNaN(t.getTime()) &&
-          t.getTime() >= state.window.start.getTime() &&
-          t.getTime() < state.window.end.getTime();
-      })
+    const winCount = relevant.filter(hasMyActionInWin).length;
+    const completedCount = relevant.filter(
+      (r) => r.progress_stage === '已完成' && hasMyActionInWin(r)
     ).length;
 
-    log(`取回 ${relevant.length} 条相关需求，其中 ${winCount} 条本周有我的动作`);
+    log(`取回 ${relevant.length} 条相关需求，其中 ${winCount} 条本周有我的动作（含已完成 ${completedCount} 条）`);
     setStatus(el.fetchStatus,
-      `本周有 ${winCount} 条需求有进展${failed.length ? `（${failed.length} 条动态获取失败）` : ''}`, 'ok');
+      `本周有 ${winCount} 条需求有进展` +
+      (completedCount ? `（其中已完成 ${completedCount} 条）` : '') +
+      (failed.length ? `（${failed.length} 条动态获取失败）` : ''), 'ok');
     setBadge(el.fetchBadge, `${winCount} 条`, winCount ? 'ok' : 'warn');
 
     renderReqList();

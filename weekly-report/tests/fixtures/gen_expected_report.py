@@ -92,9 +92,9 @@ def render_by_ban(rows, cols):
                 lines.append(f"| NO.{num} | {title} | {cell} |")
     return lines
 
-# ---- 数据：用真实抓取的需求 + 动态 ----
-reqs = json.load(open(os.path.join(HERE, "requirements_with_acts.json"), encoding="utf-8"))
-banmap = json.load(open(os.path.join(HERE, "expected_ban.json"), encoding="utf-8"))
+# ---- 数据：用真实抓取的需求 + 动态（覆盖全部阶段，含已完成）----
+reqs = json.load(open(os.path.join(HERE, "my_requirements_with_acts.json"), encoding="utf-8"))
+banmap = json.load(open(os.path.join(HERE, "expected_ban_mine.json"), encoding="utf-8"))
 for r in reqs:
     r["ban"] = banmap.get(r["requirement_id"], "通用/未分类")
 
@@ -145,3 +145,4 @@ open(out, "w", encoding="utf-8").write(text)
 print(f"已生成期望周报 -> {out}")
 print(f"窗口: {dt_head(start)} 14:00 ~ {dt_head(end)} 14:00")
 print(f"本周 {len(rows)} 条 / 积压 {len(bl_rows)} 条")
+
