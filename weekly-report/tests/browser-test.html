@@ -4,17 +4,19 @@
 <meta charset="UTF-8">
 <title>界面集成测试</title>
 <link rel="stylesheet" href="../style.css">
-<style>body{padding:20px;background:#fff} #out{font:12px ui-monospace,monospace;white-space:pre-wrap}</style>
+<style>
+  body{padding:20px;background:#fff;display:block;overflow:auto}
+  #out{font:12px ui-monospace,monospace;white-space:pre-wrap;margin:0 0 14px}
+  h1{font-size:16px;margin:0 0 10px}
+</style>
 </head>
 <body>
-<h1 style="font-size:16px">界面集成测试（自动执行）</h1>
-<div id="out">运行中…</div>
+<h1>工作台集成测试（自动执行）</h1>
+<pre id="out">运行中…</pre>
 
 <script type="module">
 import { weekWindow, reportFileName } from '../src/week.js';
-import { classify } from '../src/classify.js';
 import { buildReport } from '../src/report.js';
-import { isSupported } from '../src/picker.js';
 import qrcode from '../vendor/qrcode.esm.js';
 import md5 from '../vendor/md5.esm.js';
 
@@ -26,78 +28,89 @@ const check = (cond, label) => {
   else { fail++; lines.push('  FAIL ' + label); }
 };
 
-lines.push('=== 浏览器环境模块加载 ===');
-check(typeof weekWindow === 'function', 'week.js 加载');
-check(typeof classify === 'function', 'classify.js 加载');
-check(typeof buildReport === 'function', 'report.js 加载');
-check(typeof isSupported === 'function', 'picker.js 加载');
-check(typeof qrcode === 'function', 'qrcode vendor 加载');
-check(typeof md5 === 'function', 'md5 vendor 加载');
+lines.push('=== 模块加载 ===');
+check(typeof weekWindow === 'function', 'week.js');
+check(typeof buildReport === 'function', 'report.js');
+check(typeof qrcode === 'function', 'qrcode vendor');
+check(typeof md5 === 'function', 'md5 vendor');
+
+const NOW = new Date(Date.UTC(2026, 9, 16, 6, 0, 0));
+const w = weekWindow(NOW);
+check(w.startWall.getUTCDate() === 9 && w.endWall.getUTCDate() === 16, '窗口 10-09 ~ 10-16');
+check(reportFileName('黄捷', w) === '黄捷-10月9日-10月16日周报.md', '文件名');
+
+// 用 fixture 模拟取数结果（浏览器不便直连 API）
+const reqs = await (await fetch('../tests/fixtures/my_requirements_with_acts.json')).json();
+const banmap = await (await fetch('../tests/fixtures/expected_ban_mine.json')).json();
+for (const r of reqs) r.ban = banmap[r.requirement_id] || '通用/未分类';
+check(reqs.length === 87, `fixture ${reqs.length} 条`);
+
+const P = '黄捷';
+const hasAct = (r) => (r.activities || []).some((a) => {
+  if (a.user !== P || !a.at) return false;
+  const t = new Date(a.at);
+  return t >= w.start && t < w.end;
+});
+const inWin = reqs.filter(hasAct);
+const done = inWin.filter((r) => r.progress_stage === '已完成').length;
+const backlog = reqs.filter((r) =>
+  !['待领取', '已完成', '已关闭'].includes(r.progress_stage) && r.current_user === P
+).length;
 
 lines.push('');
-lines.push('=== 浏览器内 MD5（与已知值比对）===');
-check(md5('abc') === '900150983cd24fb0d6963f7d28e17f72', 'md5("abc")');
-check(md5('') === 'd41d8cd98f00b204e9800998ecf8427e', 'md5("")');
-check(md5('中文测试') === '089b4943ea034acfa445d050c7913e55', 'md5(中文测试)');
-check(md5('中文测试-周报') === '6696e8aefaf25b21c433a806f3a65e7f', 'md5(中文测试-周报)');
+lines.push('=== 指标条数值 ===');
+check(inWin.length === 16, `本周有进展 ${inWin.length} 条`);
+check(done === 8, `其中已完成 ${done} 条`);
+check(backlog === 5, `当前积压 ${backlog} 条`);
+lines.push(`    → 指标条: ${inWin.length} / ${done} / ${backlog} / ${reqs.length}条`);
 
 lines.push('');
-lines.push('=== 二维码渲染（真实 canvas）===');
-try {
-  const qr = qrcode(0, 'M');
-  qr.addData(JSON.stringify({ scene_id: 'test-scene', api_client_type: 3 }));
-  qr.make();
-  const count = qr.getModuleCount();
-  const cell = 5, margin = 2;
-  const size = (count + margin * 2) * cell;
-  const cv = document.createElement('canvas');
-  cv.width = size; cv.height = size;
-  const ctx = cv.getContext('2d');
-  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, size, size);
-  ctx.fillStyle = '#000';
-  for (let r = 0; r < count; r++) for (let c = 0; c < count; c++) {
-    if (qr.isDark(r, c)) ctx.fillRect((c + margin) * cell, (r + margin) * cell, cell, cell);
+lines.push('=== 周报生成与基准比对 ===');
+const md = buildReport({ person: P, window: w, requirements: reqs, now: NOW });
+check(md.length > 0, `生成 ${md.length} 字符`);
+check(md.includes('本周 **16 条需求**'), '概览数字正确');
+check(md.includes('当前积压 **5 条**'), '积压数字正确');
+const exp = (await (await fetch('../tests/fixtures/expected_report_0.md')).text()).replace(/\r\n/g, '\n');
+check(md === exp, '与 Python 基准逐字节一致');
+
+lines.push('');
+lines.push('=== 工作台 DOM 元素齐全（通过 iframe 加载 index.html）===');
+{
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'width:1280px;height:800px;border:1px solid #e2e8ee;border-radius:8px';
+  iframe.src = '../index.html';
+  document.body.appendChild(iframe);
+  await new Promise((r) => { iframe.onload = r; setTimeout(r, 8000); });
+
+  const doc = iframe.contentDocument;
+  for (const id of ['metrics','m-win','m-done','m-backlog','m-source',
+                    'empty-state','req-panel','req-list','output-panel',
+                    'fname-input','dir-path','btn-select-all','btn-select-none',
+                    'btn-fetch','btn-generate','btn-save','log','clock','login-pill',
+                    'qr-canvas','btn-win-toggle','win-start-text','win-end-text']) {
+    check(!!doc.getElementById(id), `#${id}`);
   }
-  const data = ctx.getImageData(0, 0, size, size).data;
-  let dark = 0;
-  for (let i = 0; i < data.length; i += 4) if (data[i] < 128) dark++;
-  check(count > 20, `矩阵 ${count}x${count}`);
-  check(dark > 100, `黑色像素 ${dark} 个`);
-  document.body.appendChild(cv);
-  lines.push('  （二维码已渲染到页面下方）');
-} catch (e) {
-  fail++; lines.push('  FAIL 二维码渲染: ' + e.message);
+
+  // 关键：index.html 内的 app.js 应已启动（日志有内容、时钟有值）
+  const logText = doc.getElementById('log').textContent;
+  check(logText.includes('页面已就绪'), 'index.html 的 app.js 已启动（日志）');
+  const clockText = doc.getElementById('clock').textContent;
+  check(/^\d{4}-\d{2}-\d{2}/.test(clockText), `时钟已渲染: ${clockText}`);
+
+  // 面板编号应为 01/02/03
+  const nos = [...doc.querySelectorAll('.panel-no')].map((e) => e.textContent);
+  check(nos.join(',') === '01,02,03', `面板编号 ${nos.join(',')}`);
+  iframe.remove();
 }
 
 lines.push('');
-lines.push('=== 周窗口（浏览器时区环境）===');
-const w = weekWindow(new Date(Date.UTC(2026, 9, 16, 6, 0, 0)));
-check(w.startWall.getUTCDate() === 9, '起始 10-09');
-check(w.endWall.getUTCDate() === 16, '结束 10-16');
-check(reportFileName('黄捷', w) === '黄捷-10月9日-10月16日周报.md', '文件名');
-
-lines.push('');
-lines.push('=== 生成周报（合成数据）===');
-const md = buildReport({
-  person: '测试用户',
-  window: w,
-  now: new Date(Date.UTC(2026, 9, 16, 6, 0, 0)),
-  requirements: [{
-    project: 'Q助理', ban: '消息与聊天', requirement_num: 1,
-    title: '【新功能】测试需求', progress_stage: '待领取',
-    current_user: '测试用户', progress_updated_at: '2026-10-15T10:00:00+08:00',
-    activities: [{ user: '测试用户', at: '2026-10-15T10:00:00+08:00', old: '提出', new: '待审批', remark: '' }],
-  }],
-});
-check(md.includes('# 测试用户 · 周报'), '标题');
-check(md.includes('NO.1'), '需求行');
-check(md.includes('测试需求') && !md.includes('【新功能】'), '前缀剥离');
-check(md.includes('提出需求'), '动作映射');
-
-lines.push('');
-lines.push('=== 目录 API 探测 ===');
-lines.push(`  showDirectoryPicker 可用: ${isSupported()}（Chrome/Edge 应为 true）`);
-check(true, 'API 探测未抛错');
+lines.push('=== MD5 / 二维码 ===');
+check(md5('abc') === '900150983cd24fb0d6963f7d28e17f72', 'md5("abc")');
+check(md5('') === 'd41d8cd98f00b204e9800998ecf8427e', 'md5("")');
+const qr = qrcode(0, 'M');
+qr.addData(JSON.stringify({ scene_id: 't', api_client_type: 3 }));
+qr.make();
+check(qr.getModuleCount() > 20, `二维码矩阵 ${qr.getModuleCount()}x${qr.getModuleCount()}`);
 
 lines.push('');
 lines.push(`=== 结果: ${pass} 通过, ${fail} 失败 ===`);

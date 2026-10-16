@@ -1,6 +1,30 @@
 [
  {
   "project": "Q助理",
+  "requirement_id": "r-hbaig60hk8eq5limpy5zl5610ub6ru",
+  "requirement_num": 779,
+  "title": "QFlow项目小助理支持按项目设置会话闲置超时，超时后下次聊天自动开启新会话",
+  "category": "新功能",
+  "priority": "中",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-16T06:59:20.903846+00:00",
+  "current_user": "胡镇杰",
+  "users": []
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-kzaui69ubcgwd6dh77lsl26gjl48sp",
+  "requirement_num": 774,
+  "title": "聊天消息中的链接自动解析网页标题",
+  "category": "功能优化",
+  "priority": "中",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-16T06:46:54.672371+00:00",
+  "current_user": "王晔",
+  "users": []
+ },
+ {
+  "project": "Q助理",
   "requirement_id": "r-uzjmah89rvg07tdfe77fic4cmfgd46",
   "requirement_num": 778,
   "title": "Q助理CLI支持创建任务",
@@ -85,38 +109,14 @@
  },
  {
   "project": "Q助理",
-  "requirement_id": "r-hbaig60hk8eq5limpy5zl5610ub6ru",
-  "requirement_num": 779,
-  "title": "QFlow项目小助理支持按项目设置会话闲置超时，超时后下次聊天自动开启新会话",
-  "category": "新功能",
-  "priority": "中",
-  "progress_stage": "待审批",
-  "progress_updated_at": "2026-10-15T07:47:28.178173+00:00",
-  "current_user": "胡力峰",
-  "users": []
- },
- {
-  "project": "Q助理",
-  "requirement_id": "r-kzaui69ubcgwd6dh77lsl26gjl48sp",
-  "requirement_num": 774,
-  "title": "聊天消息中的链接自动解析网页标题",
-  "category": "功能优化",
-  "priority": "中",
-  "progress_stage": "待审批",
-  "progress_updated_at": "2026-10-15T06:15:56.096763+00:00",
-  "current_user": "胡力峰",
-  "users": []
- },
- {
-  "project": "Q助理",
   "requirement_id": "r-xw1sy52a4pgrmzsxg7on8gvxrh34j5",
   "requirement_num": 777,
   "title": "Qflow AI贡献值工作台新增「我的待办任务」卡片",
   "category": "新功能",
   "priority": "中",
-  "progress_stage": "待审批",
-  "progress_updated_at": "2026-10-15T04:06:04.024289+00:00",
-  "current_user": "胡力峰",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-16T06:45:45.646668+00:00",
+  "current_user": "黄捷",
   "users": []
  },
  {

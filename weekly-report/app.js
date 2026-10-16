@@ -19,25 +19,44 @@ import qrcode from './vendor/qrcode.esm.js';
 const $ = (id) => document.getElementById(id);
 
 const el = {
-  loginBadge: $('login-badge'), loginBody: $('login-body'), loginDone: $('login-done'),
+  // 顶栏
+  clock: $('clock'), loginPill: $('login-pill'), loginPillText: $('login-pill-text'),
+
+  // 登录
+  loginBody: $('login-body'), loginDone: $('login-done'),
   qrCanvas: $('qr-canvas'), qrOverlay: $('qr-overlay'), qrStatus: $('qr-status'),
   btnRefreshQr: $('btn-refresh-qr'), btnLogout: $('btn-logout'),
   userAvatar: $('user-avatar'), userName: $('user-name'), userSub: $('user-sub'),
 
-  cardFetch: $('card-fetch'), fetchBadge: $('fetch-badge'), fetchStatus: $('fetch-status'),
-  winText: $('win-text'), btnWinToggle: $('btn-win-toggle'), winEdit: $('win-edit'),
+  // 窗口
+  btnWinToggle: $('btn-win-toggle'), winEdit: $('win-edit'),
   winStart: $('win-start'), winEnd: $('win-end'),
+  winStartText: $('win-start-text'), winEndText: $('win-end-text'),
+  winStartDow: $('win-start-dow'), winEndDow: $('win-end-dow'),
   btnWinApply: $('btn-win-apply'), btnWinReset: $('btn-win-reset'),
-  btnFetch: $('btn-fetch'), reqList: $('req-list'),
+  btnFetch: $('btn-fetch'), fetchStatus: $('fetch-status'),
 
-  cardSave: $('card-save'), saveBadge: $('save-badge'), saveStatus: $('save-status'),
+  // 指标
+  metrics: $('metrics'),
+  mWin: $('m-win'), mDone: $('m-done'), mBacklog: $('m-backlog'), mSource: $('m-source'),
+
+  // 主区
+  emptyState: $('empty-state'),
+  reqPanel: $('req-panel'), reqPanelSub: $('req-panel-sub'), reqList: $('req-list'),
+  btnSelectAll: $('btn-select-all'), btnSelectNone: $('btn-select-none'),
+  outputPanel: $('output-panel'),
+
+  // 输出
   fnameInput: $('fname-input'), dirPath: $('dir-path'),
   btnPickRoot: $('btn-pick-root'), btnClearDir: $('btn-clear-dir'),
   browser: $('browser'), btnUp: $('btn-up'), crumbs: $('crumbs'),
   btnChooseHere: $('btn-choose-here'), browserList: $('browser-list'),
   btnGenerate: $('btn-generate'), btnSave: $('btn-save'), btnDownload: $('btn-download'),
-  previewWrap: $('preview-wrap'), preview: $('preview'),
-  log: $('log'),
+  saveStatus: $('save-status'),
+  previewWrap: $('preview-wrap'), preview: $('preview'), previewMeta: $('preview-meta'),
+
+  // 日志
+  log: $('log'), btnClearLog: $('btn-clear-log'),
 };
 
 // ---------- 状态 ----------
@@ -70,15 +89,26 @@ function setStatus(node, msg, kind = '') {
   node.className = 'status' + (kind ? ' ' + kind : '');
 }
 
-function setBadge(node, text, kind = '') {
-  node.textContent = text;
-  node.className = 'badge' + (kind ? ' ' + kind : '');
+/** 顶栏登录状态胶囊 */
+function setLoginPill(text, kind = '') {
+  el.loginPillText.textContent = text;
+  el.loginPill.className = 'pill' + (kind ? ' ' + kind : '');
 }
 
 function setBusy(on, label = '') {
   state.busy = on;
   document.body.style.cursor = on ? 'progress' : '';
   if (on && label) log(label);
+}
+
+/** 顶栏时钟（东八区） */
+function tickClock() {
+  const w = new Date(Date.now() + 8 * 3600 * 1000);
+  const p = (n) => String(n).padStart(2, '0');
+  const days = ['日', '一', '二', '三', '四', '五', '六'];
+  el.clock.textContent =
+    `${w.getUTCFullYear()}-${p(w.getUTCMonth() + 1)}-${p(w.getUTCDate())} ` +
+    `周${days[w.getUTCDay()]} ${p(w.getUTCHours())}:${p(w.getUTCMinutes())}`;
 }
 
 /** datetime-local 值 ↔ Date */
@@ -97,8 +127,17 @@ function fromLocalInput(value) {
 
 function renderWindowText() {
   const w = state.window;
-  el.winText.textContent =
-    `${fmtDateCn(w.startWall)} 14:00 ~ ${fmtDateCn(w.endWall)} 14:00`;
+  const WEEK_CN = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  const fmt = (wall) => {
+    const p = (n) => String(n).padStart(2, '0');
+    return `${p(wall.getUTCMonth() + 1)}月${p(wall.getUTCDate())}日`;
+  };
+  const dow = (wall) => WEEK_CN[(wall.getUTCDay() + 6) % 7];
+
+  el.winStartText.textContent = fmt(w.startWall);
+  el.winEndText.textContent = fmt(w.endWall);
+  el.winStartDow.textContent = dow(w.startWall) + ' · 14:00';
+  el.winEndDow.textContent = dow(w.endWall) + ' · 14:00';
 }
 
 // ---------- 二维码 ----------
@@ -141,7 +180,7 @@ async function startLogin() {
   loginAbort = new AbortController();
   el.qrOverlay.hidden = true;
   el.btnRefreshQr.hidden = true;
-  setBadge(el.loginBadge, '等待扫码', 'warn');
+  setLoginPill('等待扫码', 'warn');
   setStatus(el.qrStatus, '正在获取二维码…');
   setBusy(true, '开始扫码登录');
 
@@ -170,7 +209,7 @@ async function startLogin() {
     el.userName.textContent = state.person;
     el.userSub.textContent = `QFlow 令牌有效期 ${Math.round((qflow.expiresIn || 7200) / 60)} 分钟`;
     if (qflow.user?.avatar || auth.avatar) el.userAvatar.src = qflow.user?.avatar || auth.avatar;
-    setBadge(el.loginBadge, '已登录', 'ok');
+    setLoginPill(state.person, 'ok');
 
     enableStep2();
     // 默认文件名
@@ -179,7 +218,7 @@ async function startLogin() {
   } catch (err) {
     if (err.message === '已取消登录') return;
     log('登录失败：' + err.message);
-    setBadge(el.loginBadge, '登录失败', 'err');
+    setLoginPill('登录失败', 'err');
     setStatus(el.qrStatus, err.message, 'err');
     el.qrOverlay.hidden = false;
     el.qrOverlay.textContent = '二维码已失效';
@@ -190,7 +229,6 @@ async function startLogin() {
 }
 
 function enableStep2() {
-  el.cardFetch.classList.remove('disabled');
   el.btnFetch.disabled = false;
   renderWindowText();
   el.winStart.value = toLocalInput(state.window.start);
@@ -202,7 +240,6 @@ async function doFetch() {
   if (!state.qflow) return;
   setBusy(true, '开始获取本周工作内容');
   el.btnFetch.disabled = true;
-  setBadge(el.fetchBadge, '获取中', 'warn');
   setStatus(el.fetchStatus, '正在拉取需求列表…');
 
   try {
@@ -234,11 +271,15 @@ async function doFetch() {
         t.getTime() < state.window.end.getTime();
     });
 
-    // 列表只显示「本周有我的动作」的需求（16 条）。
-    // 报告生成则用全集（87 条）——「当前积压」需要从全集中筛出
-    // 「当前负责人是我、但本周无动作」的需求，只用 16 条会漏。
+    // 列表只显示「本周有我的动作」的需求。
+    // 报告生成则用全集 —— 「当前积压」需要从全集中筛出
+    // 「当前负责人是我、但本周无动作」的需求，只用列表会漏。
     const inWin = ok.filter(hasMyActionInWin);
     const completedCount = inWin.filter((r) => r.progress_stage === '已完成').length;
+    const backlogCount = ok.filter(
+      (r) => !['待领取', '已完成', '已关闭'].includes(r.progress_stage) &&
+        r.current_user === state.person
+    ).length;
 
     state.requirements = inWin;                       // 列表显示 / 用户勾选
     state.allRequirements = ok;                       // 供 buildReport 计算积压
@@ -250,14 +291,19 @@ async function doFetch() {
       `本周有 ${inWin.length} 条需求有进展` +
       (completedCount ? `（其中已完成 ${completedCount} 条）` : '') +
       (failed.length ? `（${failed.length} 条动态获取失败）` : ''), 'ok');
-    setBadge(el.fetchBadge, `${inWin.length} 条`, inWin.length ? 'ok' : 'warn');
+
+    // 指标条
+    el.metrics.hidden = false;
+    el.mWin.textContent = inWin.length;
+    el.mDone.textContent = completedCount;
+    el.mBacklog.textContent = backlogCount;
+    el.mSource.textContent = `${ok.length} 条`;
 
     renderReqList();
     enableStep3();
   } catch (err) {
     log('取数失败：' + err.message);
     setStatus(el.fetchStatus, err.message, 'err');
-    setBadge(el.fetchBadge, '失败', 'err');
     if (err.code === 'AUTH_EXPIRED') handleAuthExpired();
   } finally {
     el.btnFetch.disabled = false;
@@ -266,10 +312,16 @@ async function doFetch() {
 }
 
 function renderReqList() {
-  el.reqList.hidden = false;
+  el.reqPanel.hidden = false;
+  el.emptyState.hidden = true;
   el.reqList.innerHTML = '';
 
-  if (!state.requirements.length) {
+  const total = state.requirements.length;
+  const done = state.requirements.filter((r) => r.progress_stage === '已完成').length;
+  el.reqPanelSub.textContent =
+    `共 ${total} 条有进展` + (done ? `，其中已完成 ${done} 条` : '');
+
+  if (!total) {
     const p = document.createElement('p');
     p.className = 'hint';
     p.textContent = '本周没有你参与的动态。仍可生成周报（会显示「本周无需求进展」）。';
@@ -277,15 +329,31 @@ function renderReqList() {
     return;
   }
 
+  // 阶段 → 标签样式
+  const stageTag = (stage) => {
+    if (stage === '已完成') return 'tag tag-done';
+    if (stage === '已取消' || stage === '已关闭') return 'tag tag-cancel';
+    return 'tag tag-stage';
+  };
+
   for (const r of state.requirements) {
     const mine = (r.activities || []).filter((a) => a.user === state.person).length;
     const item = document.createElement('label');
     item.className = 'req-item';
     item.innerHTML = `
-      <input type="checkbox" ${state.selected.has(r.requirement_id) ? 'checked' : ''}>
-      <span>
-        <span class="req-title">NO.${r.requirement_num} ${escapeHtml(r.title)}</span>
-        <span class="req-meta"> · ${escapeHtml(r.project)} · ${escapeHtml(r.ban)} · ${r.progress_stage} · 我的动作 ${mine} 条</span>
+      <input type="checkbox" class="req-check" ${state.selected.has(r.requirement_id) ? 'checked' : ''}>
+      <span class="req-main">
+        <span class="req-title-row">
+          <span class="req-no">NO.${r.requirement_num}</span>
+          <span class="req-title">${escapeHtml(r.title)}</span>
+        </span>
+        <span class="req-meta">
+          <span class="${stageTag(r.progress_stage)}">${escapeHtml(r.progress_stage)}</span>
+          <span class="tag tag-ban">${escapeHtml(r.ban)}</span>
+          <span>${escapeHtml(r.project)}</span>
+          <span class="sep">·</span>
+          <span>我的动作 ${mine} 条</span>
+        </span>
       </span>`;
     const cb = item.querySelector('input');
     cb.addEventListener('change', () => {
@@ -299,7 +367,7 @@ function renderReqList() {
 }
 
 function enableStep3() {
-  el.cardSave.classList.remove('disabled');
+  el.outputPanel.hidden = false;
   el.btnGenerate.disabled = false;
   if (!state.filename) {
     state.filename = reportFileName(state.person, state.window);
@@ -347,8 +415,8 @@ function doGenerate() {
   if (!isSupported()) el.btnDownload.hidden = false;
 
   const lines = state.report.split('\n').length;
+  el.previewMeta.textContent = `${lines} 行`;
   setStatus(el.saveStatus, `已生成（${chosen.length} 条需求有进展，共 ${lines} 行）。可预览后保存。`, 'ok');
-  setBadge(el.saveBadge, '已生成', 'ok');
   log(`周报已生成：勾选 ${chosen.length} 条，报告输入 ${reportInput.length} 条 / ${lines} 行`);
 }
 
@@ -412,7 +480,11 @@ async function refreshBrowser() {
     }
     for (const { name, handle } of subs) {
       const li = document.createElement('li');
-      li.textContent = '📁 ' + name;
+      li.innerHTML =
+        `<span class="folder-icon">` +
+        `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">` +
+        `<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>` +
+        `</span>` + escapeHtml(name);
       li.addEventListener('click', async () => {
         state.curHandle = handle;
         state.pathSegments.push(name);
@@ -457,12 +529,10 @@ async function doSave() {
       const where = (state.rootHandle?.name || '') +
         (state.pathSegments.length ? '/' + state.pathSegments.join('/') : '');
       setStatus(el.saveStatus, `已保存到 ${where}/${state.filename}`, 'ok');
-      setBadge(el.saveBadge, '已保存', 'ok');
       log(`已写入：${where}/${state.filename}`);
     } else {
       downloadFile(state.filename, state.report);
       setStatus(el.saveStatus, `已下载 ${state.filename}`, 'ok');
-      setBadge(el.saveBadge, '已下载', 'ok');
       log('已触发下载');
     }
   } catch (err) {
@@ -477,9 +547,7 @@ function handleAuthExpired() {
   state.qflow = null;
   el.loginDone.hidden = true;
   el.loginBody.hidden = false;
-  setBadge(el.loginBadge, '需重新登录', 'err');
-  el.cardFetch.classList.add('disabled');
-  el.cardSave.classList.add('disabled');
+  setLoginPill('需重新登录', 'err');
   el.btnFetch.disabled = true;
   startLogin();
 }
@@ -494,18 +562,32 @@ el.btnLogout.addEventListener('click', () => {
   state.selected.clear(); state.report = '';
   el.loginDone.hidden = true;
   el.loginBody.hidden = false;
-  el.cardFetch.classList.add('disabled');
-  el.cardSave.classList.add('disabled');
   el.btnFetch.disabled = true;
-  el.reqList.hidden = true;
+  el.metrics.hidden = true;
+  el.reqPanel.hidden = true;
+  el.outputPanel.hidden = true;
+  el.emptyState.hidden = false;
   el.previewWrap.hidden = true;
   el.btnSave.disabled = true;
-  setBadge(el.loginBadge, '未登录');
-  setBadge(el.fetchBadge, '—');
-  setBadge(el.saveBadge, '—');
+  setLoginPill('未登录');
   setStatus(el.qrStatus, '');
+  setStatus(el.fetchStatus, '');
   log('已退出登录');
   startLogin();
+});
+
+el.btnClearLog.addEventListener('click', () => { el.log.textContent = ''; });
+
+el.btnSelectAll.addEventListener('click', () => {
+  for (const r of state.requirements) state.selected.add(r.requirement_id);
+  renderReqList();
+  el.btnSave.disabled = true;
+});
+
+el.btnSelectNone.addEventListener('click', () => {
+  state.selected.clear();
+  renderReqList();
+  el.btnSave.disabled = true;
 });
 
 el.btnWinToggle.addEventListener('click', () => {
@@ -572,6 +654,8 @@ el.btnChooseHere.addEventListener('click', async () => {
 
 // ---------- 启动 ----------
 renderWindowText();
+tickClock();
+setInterval(tickClock, 30000);
 log('页面已就绪');
 if (!isSupported()) {
   log('提示：当前浏览器不支持目录选择 API，将使用下载方式保存');
