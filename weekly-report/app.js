@@ -47,7 +47,8 @@ const state = {
   person: '',
   window: weekWindow(),
   windowCustom: false,
-  requirements: [],    // 含 activities 与 ban
+  requirements: [],    // 列表显示：本周有我动作的需求（含 activities 与 ban）
+  allRequirements: [], // 全集：供「当前积压」计算
   selected: new Set(), // 勾选的需求 id
   report: '',
   filename: '',
@@ -233,25 +234,23 @@ async function doFetch() {
         t.getTime() < state.window.end.getTime();
     });
 
-    // 保留「当前负责人是我」或「窗口内有我动作」的需求：
-    //   「本周情况」由 buildReport 按窗口过滤；
-    //   「当前积压」需要全集（当前负责人是我、但本周无动作的需求也要算）。
-    const relevant = ok.filter((r) => r.current_user === state.person || hasMyActionInWin(r));
+    // 列表只显示「本周有我的动作」的需求（16 条）。
+    // 报告生成则用全集（87 条）——「当前积压」需要从全集中筛出
+    // 「当前负责人是我、但本周无动作」的需求，只用 16 条会漏。
+    const inWin = ok.filter(hasMyActionInWin);
+    const completedCount = inWin.filter((r) => r.progress_stage === '已完成').length;
 
-    state.requirements = relevant;
-    state.selected = new Set(relevant.map((r) => r.requirement_id));
+    state.requirements = inWin;                       // 列表显示 / 用户勾选
+    state.allRequirements = ok;                       // 供 buildReport 计算积压
+    state.selected = new Set(inWin.map((r) => r.requirement_id));
 
-    const winCount = relevant.filter(hasMyActionInWin).length;
-    const completedCount = relevant.filter(
-      (r) => r.progress_stage === '已完成' && hasMyActionInWin(r)
-    ).length;
-
-    log(`取回 ${relevant.length} 条相关需求，其中 ${winCount} 条本周有我的动作（含已完成 ${completedCount} 条）`);
+    log(`拉取 ${ok.length} 条，其中本周有我的动作 ${inWin.length} 条` +
+        `（已完成 ${completedCount} 条），动态失败 ${failed.length} 条`);
     setStatus(el.fetchStatus,
-      `本周有 ${winCount} 条需求有进展` +
+      `本周有 ${inWin.length} 条需求有进展` +
       (completedCount ? `（其中已完成 ${completedCount} 条）` : '') +
       (failed.length ? `（${failed.length} 条动态获取失败）` : ''), 'ok');
-    setBadge(el.fetchBadge, `${winCount} 条`, winCount ? 'ok' : 'warn');
+    setBadge(el.fetchBadge, `${inWin.length} 条`, inWin.length ? 'ok' : 'warn');
 
     renderReqList();
     enableStep3();
@@ -320,11 +319,24 @@ function escapeHtml(s) {
 
 // ---------- 步骤 3：生成 ----------
 function doGenerate() {
+  // 用户勾选的需求（来自「本周情况」列表）
   const chosen = state.requirements.filter((r) => state.selected.has(r.requirement_id));
+
+  // 「当前积压」需要全集参与计算：某些需求当前负责人是我、
+  // 但本周没有我的动作（不会出现在列表里），却必须计入积压。
+  // 做法：全集减去用户显式取消的，再并入勾选中的。
+  const excluded = new Set(
+    state.requirements
+      .filter((r) => !state.selected.has(r.requirement_id))
+      .map((r) => r.requirement_id)
+  );
+  const reportInput = (state.allRequirements || state.requirements)
+    .filter((r) => !excluded.has(r.requirement_id));
+
   state.report = buildReport({
     person: state.person,
     window: state.window,
-    requirements: chosen,
+    requirements: reportInput,
   });
   state.filename = el.fnameInput.value.trim() || reportFileName(state.person, state.window);
 
@@ -335,9 +347,9 @@ function doGenerate() {
   if (!isSupported()) el.btnDownload.hidden = false;
 
   const lines = state.report.split('\n').length;
-  setStatus(el.saveStatus, `已生成（${chosen.length} 条需求，${lines} 行）。可预览后保存。`, 'ok');
+  setStatus(el.saveStatus, `已生成（${chosen.length} 条需求有进展，共 ${lines} 行）。可预览后保存。`, 'ok');
   setBadge(el.saveBadge, '已生成', 'ok');
-  log(`周报已生成：${chosen.length} 条需求 / ${lines} 行`);
+  log(`周报已生成：勾选 ${chosen.length} 条，报告输入 ${reportInput.length} 条 / ${lines} 行`);
 }
 
 // ---------- 目录选择 ----------
@@ -478,7 +490,8 @@ el.btnRefreshQr.addEventListener('click', startLogin);
 el.btnLogout.addEventListener('click', () => {
   if (loginAbort) loginAbort.abort();
   state.auth = null; state.qflow = null; state.person = '';
-  state.requirements = []; state.selected.clear(); state.report = '';
+  state.requirements = []; state.allRequirements = [];
+  state.selected.clear(); state.report = '';
   el.loginDone.hidden = true;
   el.loginBody.hidden = false;
   el.cardFetch.classList.add('disabled');
