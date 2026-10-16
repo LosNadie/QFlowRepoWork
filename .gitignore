@@ -6,3 +6,7 @@ node_modules/
 .qzhuli-cli/
 credentials.json
 qflow-credentials.json
+
+# 测试产物
+weekly-report/tests/*.png
+weekly-report/tests/fixtures/e2e_output.md

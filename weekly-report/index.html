@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周报生成器 · QFlow</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>周报生成器</h1>
+  <p class="sub">用 Q助理登录 → 获取 QFlow 本周工作 → 一键生成周报</p>
+</header>
+
+<main>
+
+  <!-- 步骤 1：登录 -->
+  <section class="card" id="card-login">
+    <div class="card-head">
+      <span class="step">1</span>
+      <h2>登录 Q助理</h2>
+      <span class="badge" id="login-badge">未登录</span>
+    </div>
+    <div class="card-body" id="login-body">
+      <p class="hint">用手机上的 Q助理 App 扫描下方二维码。</p>
+      <div class="qr-wrap">
+        <canvas id="qr-canvas"></canvas>
+        <div class="qr-overlay" id="qr-overlay" hidden></div>
+      </div>
+      <p class="status" id="qr-status">正在获取二维码…</p>
+      <div class="row">
+        <button id="btn-refresh-qr" class="btn ghost" hidden>重新获取二维码</button>
+      </div>
+    </div>
+    <div class="card-body" id="login-done" hidden>
+      <div class="user-line">
+        <img id="user-avatar" alt="">
+        <div>
+          <div class="user-name" id="user-name"></div>
+          <div class="user-sub" id="user-sub"></div>
+        </div>
+      </div>
+      <button id="btn-logout" class="btn ghost small">退出登录</button>
+    </div>
+  </section>
+
+  <!-- 步骤 2：取数 -->
+  <section class="card disabled" id="card-fetch">
+    <div class="card-head">
+      <span class="step">2</span>
+      <h2>获取本周工作内容</h2>
+      <span class="badge" id="fetch-badge">—</span>
+    </div>
+    <div class="card-body">
+      <div class="win-line">
+        <span class="label">统计窗口</span>
+        <strong id="win-text">—</strong>
+        <button id="btn-win-toggle" class="btn ghost tiny">调整</button>
+      </div>
+      <div class="win-edit" id="win-edit" hidden>
+        <label>起始 <input type="datetime-local" id="win-start"></label>
+        <label>结束 <input type="datetime-local" id="win-end"></label>
+        <button id="btn-win-apply" class="btn tiny">应用</button>
+        <button id="btn-win-reset" class="btn ghost tiny">恢复默认</button>
+        <p class="hint">默认口径：上周五 14:00 ~ 本周五 14:00（公司既有周报口径）。</p>
+      </div>
+      <div class="row">
+        <button id="btn-fetch" class="btn" disabled>获取本周工作</button>
+      </div>
+      <p class="status" id="fetch-status"></p>
+      <div class="req-list" id="req-list" hidden></div>
+    </div>
+  </section>
+
+  <!-- 步骤 3：生成与保存 -->
+  <section class="card disabled" id="card-save">
+    <div class="card-head">
+      <span class="step">3</span>
+      <h2>生成周报并保存</h2>
+      <span class="badge" id="save-badge">—</span>
+    </div>
+    <div class="card-body">
+      <div class="row between">
+        <div class="fname-line">
+          <span class="label">文件名</span>
+          <input type="text" id="fname-input" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="dir-line">
+        <span class="label">保存到</span>
+        <span class="dir-path" id="dir-path">未选择</span>
+        <button id="btn-pick-root" class="btn ghost tiny">选择目录</button>
+        <button id="btn-clear-dir" class="btn ghost tiny" hidden>清除授权</button>
+      </div>
+
+      <div class="browser" id="browser" hidden>
+        <div class="browser-head">
+          <button id="btn-up" class="btn ghost tiny" disabled>↑ 上级</button>
+          <span class="crumbs" id="crumbs"></span>
+          <button id="btn-choose-here" class="btn tiny">选用此目录</button>
+        </div>
+        <ul class="browser-list" id="browser-list"></ul>
+      </div>
+
+      <p class="status" id="save-status"></p>
+
+      <div class="row">
+        <button id="btn-generate" class="btn" disabled>生成周报</button>
+        <button id="btn-save" class="btn primary" disabled>保存到本地</button>
+        <button id="btn-download" class="btn ghost" hidden>下载文件</button>
+      </div>
+
+      <details class="preview-wrap" id="preview-wrap" hidden>
+        <summary>预览周报内容</summary>
+        <pre id="preview"></pre>
+      </details>
+    </div>
+  </section>
+
+  <div class="log-wrap">
+    <details>
+      <summary>运行日志</summary>
+      <pre id="log"></pre>
+    </details>
+  </div>
+
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

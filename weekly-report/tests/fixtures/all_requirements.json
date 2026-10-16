@@ -1,0 +1,2432 @@
+[
+ {
+  "project": "自记账",
+  "requirement_id": "r-wmc4r1gh4ntkicbtcdm65vcr4s6kac",
+  "requirement_num": 362,
+  "title": "深圳用户无票收入场景下申请增值税待办未触发（判断条件调整为无已生效增值税）",
+  "category": "BUG修复",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-16T03:59:05.974696+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-w58yrh6jeu1e00tfgjlwzz7cbnz7yx",
+  "requirement_num": 359,
+  "title": "自记账官网注册引导到APP完成",
+  "category": "功能优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-16T03:49:11.471009+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-bj9lyglcs4w2m7vq482mfqhoowo3ov",
+  "requirement_num": 361,
+  "title": "服务协议更新功能",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-16T03:18:17.299523+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-pne2tm1ohoq8yy67bxcgjvv0a5qymk",
+  "requirement_num": 788,
+  "title": "团队群离开/回归团队后群资料人数、成员列表、时光相册及退出状态异常",
+  "category": "BUG修复",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-16T02:56:05.874793+00:00",
+  "current_user": "黄捷"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-cghdgdxpfvi1byjen68ookhka9jb6k",
+  "requirement_num": 621,
+  "title": "手机端实现云端记忆功能，支持记忆浏览与编辑（电脑端完善后推进）",
+  "category": "新功能",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-16T02:55:56.764425+00:00",
+  "current_user": "李世祥"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-2gueih1m59ip98m5uiek8demxjrl16",
+  "requirement_num": 785,
+  "title": "q助理移动端新增群聊拉人（添加群成员）功能",
+  "category": "新功能",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-16T02:55:46.872915+00:00",
+  "current_user": "李世祥"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-4hp8fyyp53g8x5uuuyqlril7p8qp2o",
+  "requirement_num": 781,
+  "title": "移动端聊天会话窗口支持图片消息显示与查看",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-16T02:43:51.951751+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-lu4mrso905adl7qjo1aerlem1id5sc",
+  "requirement_num": 787,
+  "title": "手机系统分享加入Q助理入口，支持分享内容到指定会话（类似飞书）",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-16T01:58:28.629788+00:00",
+  "current_user": "李世祥"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-p4jdulm5tzgh7cp4r6kgqlclaji1ut",
+  "requirement_num": 786,
+  "title": "移动端新增普通群聊详情页（当前仅团队/班级类型有详情页）",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-16T01:43:36.341458+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-l35njlhk233z2p8omjl6n0ld2lqazz",
+  "requirement_num": 83,
+  "title": "自开票任务失败详情展示优化",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-16T01:38:09.101282+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-rcntaf4ebn57k8bt77qy9ivyap8ie5",
+  "requirement_num": 84,
+  "title": "自开票任务失败时提供重试任务按钮",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-16T01:38:03.763380+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-dbrwo4sw38e8pfq952gsmvvbb0c38m",
+  "requirement_num": 85,
+  "title": "扫脸二维码 App 端保存问题兜底（使用浏览器打开二维码图片）",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-16T01:37:56.422142+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-fag9lgl69tdmh5ml3fes9l00wnwdm3",
+  "requirement_num": 620,
+  "title": "手机端实现Q助理文档，支持协同编辑与文档同步",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-15T10:13:34.288381+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-4dwz6mplnmmg9s1smze0wmp6t4pva6",
+  "requirement_num": 782,
+  "title": "新加科学成长小助理部分功能",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-15T10:13:29.433050+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-p01r69oclxtwlux4uupa70e3niwrod",
+  "requirement_num": 358,
+  "title": "修复RPA财务报表机器申报时利润总额未自动带出问题",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-15T09:03:05.678482+00:00",
+  "current_user": "黄富强"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-m0q1vikb0b4czw11avsbbc119eky4u",
+  "requirement_num": 338,
+  "title": "经营所得收入测算情况展示",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-15T08:08:16.952775+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-qyphpwjpvzefs4gwkujuyp3ld6tngb",
+  "requirement_num": 784,
+  "title": "电脑端聊天消息思考部分黑色框限制宽度并支持框内横向滚动，避免聊天窗横向滚动条",
+  "category": "BUG修复",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-10-15T08:05:37.187411+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-hbaig60hk8eq5limpy5zl5610ub6ru",
+  "requirement_num": 779,
+  "title": "QFlow项目小助理支持按项目设置会话闲置超时，超时后下次聊天自动开启新会话",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-15T07:47:28.178173+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-6a72y6p7af1057wim0nh4do35yg8bq",
+  "requirement_num": 355,
+  "title": "去掉自然人独资/个人独资/合伙企业提交审账屏蔽企业所得税预估确定入口逻辑",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-15T06:49:50.752291+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-kzaui69ubcgwd6dh77lsl26gjl48sp",
+  "requirement_num": 774,
+  "title": "聊天消息中的链接自动解析网页标题",
+  "category": "功能优化",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-15T06:15:56.096763+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-xw1sy52a4pgrmzsxg7on8gvxrh34j5",
+  "requirement_num": 777,
+  "title": "Qflow AI贡献值工作台新增「我的待办任务」卡片",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-15T04:06:04.024289+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-742jf58vluzqvx7t1v5486g5t7gwmj",
+  "requirement_num": 765,
+  "title": "iOS端，助理资料页「所在地」「助理名字」文本被截断，需完整展示",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-15T03:19:55.493299+00:00",
+  "current_user": "巫海峰"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-0svl6a9ex6fv345p7vexwe1asi8nip",
+  "requirement_num": 4,
+  "title": "自开票App新增扫一扫入口并支持扫码登录CMS后台",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-15T03:06:02.140101+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-9z2kkpt47ah77dbf5s6sgknzc1z9b5",
+  "requirement_num": 776,
+  "title": "手机端长按消息从底部弹出操作选项卡（类似飞书），先实现重要功能",
+  "category": "新功能",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-15T03:04:00.166876+00:00",
+  "current_user": "黄捷"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-uzjmah89rvg07tdfe77fic4cmfgd46",
+  "requirement_num": 778,
+  "title": "Q助理CLI支持创建任务",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-15T02:45:33.844039+00:00",
+  "current_user": "陈东宇"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-rnw8znysm4klcc3joc4l6okl07vf1n",
+  "requirement_num": 348,
+  "title": "个税经营所得任务增加增值税申报状态前置校验",
+  "category": "功能优化",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-10-15T02:40:40.004853+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-xajw7ho5qob3ea5w8j6v4my9d8uzjk",
+  "requirement_num": 34,
+  "title": "税局登录信息填写：前置要求提醒与通知权限引导",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-15T02:32:05.243372+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-15ehk53uz2x9mjmxu1dipqxtw8kmxa",
+  "requirement_num": 340,
+  "title": "新版增值税申报表小规模纳税人增量适配并细化申报规则",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-15T02:12:39.875584+00:00",
+  "current_user": "张光新"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-gucdlg8cllqxqpx6c3dru4r3rt9nfp",
+  "requirement_num": 346,
+  "title": "修复新版增值税申报表附列资料1比对误用季度收入与月度收入问题",
+  "category": "BUG修复",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-15T02:12:30.445183+00:00",
+  "current_user": "张光新"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-sy9wm8xpdmndn4y360np38f98nncsf",
+  "requirement_num": 354,
+  "title": "自记账后台企业所得税数据预估页面本年累计收入增加季度收入明细与待确认收入",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-15T02:07:08.874214+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-udmmovt5vj2ajp1tmz3dgc2eipaeco",
+  "requirement_num": 646,
+  "title": "在网页 需求广场的 对话中的HTML 文件，点击下载文件，没有触发下载，而是直接打开这个html",
+  "category": "BUG修复",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-10-14T09:36:34.426200+00:00",
+  "current_user": "巫海峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-x3gtjtg0si9vwincwp6jmkfxzzdqwt",
+  "requirement_num": 628,
+  "title": "需求广场 评论区不兼容苹果HEIC 格式图片",
+  "category": "BUG修复",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-10-14T09:25:51.167913+00:00",
+  "current_user": "巫海峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-prxrwvnl959u9c3qp3li51uqcvmryf",
+  "requirement_num": 647,
+  "title": "在网页 提需求的时候 无法上传录屏 说是提交mp4格式，上传后又显示不兼容",
+  "category": "BUG修复",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-14T09:06:59.395444+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "夏天测试",
+  "requirement_id": "r-y7dhpb6zmjpg18ultgwgvfr47g1csv",
+  "requirement_num": 13,
+  "title": "针对DeepSeek模型微调",
+  "category": "新功能",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-14T08:46:58.634342+00:00",
+  "current_user": "胡镇杰"
+ },
+ {
+  "project": "夏天测试",
+  "requirement_id": "r-ouyh1n98l2c6givfqndf19k3p61asf",
+  "requirement_num": 17,
+  "title": "测试",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-14T08:15:31.366292+00:00",
+  "current_user": "胡镇杰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-b69wr8zomn3qx7fcdcxpz5hsfj9qlw",
+  "requirement_num": 352,
+  "title": "230任务适配-116内部错误并弹窗提示用户重试",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-14T07:18:27.346453+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-ypasl45eoeu9jbtbv2q81g47v1f0os",
+  "requirement_num": 696,
+  "title": "Q助理桌面端文件tab右键删除文件偶发删除不了（同NO.572）",
+  "category": "BUG修复",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-14T04:02:02.110651+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-xalfy59jn28chmzpad582y5aza9dqv",
+  "requirement_num": 771,
+  "title": "iOS端IM右上角菜单栏菜单选项文字显示不完整，需完整展示",
+  "category": "BUG修复",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-10-14T03:57:01.525378+00:00",
+  "current_user": "石妮"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-6dgnsn0812oppmgb92tz1sglnbvgtp",
+  "requirement_num": 268,
+  "title": "税务风险报告集成到自记账CLI",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-14T03:01:08.559080+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-v4nfb7kacsd9j3yct8est5ng2j0acc",
+  "requirement_num": 595,
+  "title": "Chatbot接入qzhuli-memory-manager的memory search替代RAG+rerank",
+  "category": "技术优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-14T02:03:13.302151+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-ly7t357k6j9c2su13bqyabx7gj5exz",
+  "requirement_num": 75,
+  "title": "App 内发票下载页面调用系统默认浏览器打开链接",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-14T01:39:07.705638+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-7p47q8rwe3vdbbmxxd26g5248osdmi",
+  "requirement_num": 82,
+  "title": "uni实现主页与开票记录页下拉刷新固定顶栏及我的页禁用下拉刷新",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-14T01:37:26.720808+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-d31nsww6l8nqowvokmrqlu19dx8ih0",
+  "requirement_num": 766,
+  "title": "Q助理App适配开放平台扫码登录：适配新增时光相册/灵感笔记授权参数并调整授权页面",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-14T00:49:21.995173+00:00",
+  "current_user": "巫海峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-5oclbm73fzgwkgtm5bzyidp7g5bqlh",
+  "requirement_num": 753,
+  "title": "开放平台支持灵感笔记、时光相册内容API增删改查",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-13T12:38:13.830901+00:00",
+  "current_user": "陈俊城"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-xzzxg5x3sjpdg3ryks6mu9x0dl5b8v",
+  "requirement_num": 81,
+  "title": "Android端发票详情页长内容盖住页面标题",
+  "category": "BUG修复",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-13T09:50:08.882254+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-8qvz3p3vk0ji495sepdj7r9983d7p0",
+  "requirement_num": 78,
+  "title": "自开票App首次添加企业增加填写引导并支持退出登录或进入体验模式",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-13T08:10:49.080250+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-jlxbjd4h8hhzpln7bt2w7bhtk0q0cg",
+  "requirement_num": 79,
+  "title": "项目搜索支持编码搜索、优化编码展示并支持编辑商品名称",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-13T08:09:59.811996+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-ms2pituipiemsq5bvb7259h5onx17v",
+  "requirement_num": 80,
+  "title": "自开票App优化点击推送消息的跳转体验",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-13T08:09:38.895832+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-nu1hm829gjkbjejz57exg6u1tp4kod",
+  "requirement_num": 761,
+  "title": "自己与自己的机器人会话支持互发图片，且对方发来的图片可在聊天记录显示",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-12T16:36:50.631412+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-pg724e2o2nw55m6zvc173ac27c3lmp",
+  "requirement_num": 81,
+  "title": "正常状态未添加服务人员自动捞取并分摊月底处理",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-12T09:03:51.477319+00:00",
+  "current_user": "叶圣涛"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-gmb1icbkgp4hwl04gznhw7f5vt4f5p",
+  "requirement_num": 745,
+  "title": "Q助理桌面端新消息时在状态栏显示未读消息标识（区分@消息）",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-12T06:50:13.627794+00:00",
+  "current_user": "黄富强"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-wr3d622aet68xpgs3artxrmjkxouph",
+  "requirement_num": 334,
+  "title": "报税期后定期查询单位欠税情况",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-12T03:39:07.782249+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-r1qlvh2ynge7256xa2qcvb72eksdnz",
+  "requirement_num": 46,
+  "title": "环球签数据连接超时问题排查与修复",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-12T01:30:15.622172+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-3gb00lqzylsmj7164bdpppu4ollc4b",
+  "requirement_num": 341,
+  "title": "自记账工单新增 Q 助理任务通知并打通飞书/Q助理完成状态同步",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-12T01:25:18.530291+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-i1pz7ssbjb2qv89n7cj5azrigmrbtj",
+  "requirement_num": 345,
+  "title": "新版改版一般纳税人附列资料表格适配",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-10T09:16:23.507917+00:00",
+  "current_user": "胡玲"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-e4yyj2q6w5pjc0g6tnc1z0hzc8a06c",
+  "requirement_num": 344,
+  "title": "法人变更后比对工资单员工是否为旧法人并提醒更换",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-10T08:57:15.586461+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-exfyt25k473e02wd7q00zibmrl6d41",
+  "requirement_num": 748,
+  "title": "iOS端会话列表滚动时群聊会话重复刷新加载头像和群信息",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-10T08:40:03.458365+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-nr5q7ks052md8aprv36uoi0ubkbir2",
+  "requirement_num": 342,
+  "title": "调整已注销用户的APP界面展示",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-10T08:23:30.161242+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-af36f4qtxht50ija7l7m083fly1fyr",
+  "requirement_num": 746,
+  "title": "群聊消息在手机端收不到push通知",
+  "category": "BUG修复",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-10T08:10:43.214743+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-olphn6d5sabekfanvyfvxqj3xph5rc",
+  "requirement_num": 642,
+  "title": "Jenkins配置灵感笔记desktop自动打包（mac版+Windows版）",
+  "category": "技术优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-10T03:39:34.481907+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-xtjal1unqr2qkijlzfist6c0tis6is",
+  "requirement_num": 515,
+  "title": "项目创建支持一键部署pi-agent并自动回填参数到项目设置",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-10T03:36:19.515485+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-ysvkwav8zc2l3238uaor2twztg5s0y",
+  "requirement_num": 335,
+  "title": "定期更新经营所得税征收方式任务优化",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-09T09:07:00.054050+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-kwt9kukz23al6xibxirdcot7dpg882",
+  "requirement_num": 336,
+  "title": "投资者减免任务成功率预警",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-09T09:06:51.066243+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-hpukvltx8x177gq7h5oskcpn27hffv",
+  "requirement_num": 306,
+  "title": "新签约用户启用服务协议V2",
+  "category": "功能优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-09T08:44:30.662173+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-frp21par6o6d9qkchzltip7jhmjr0v",
+  "requirement_num": 151,
+  "title": "机器查出普通风险纳税人后自动发送告知通知给用户",
+  "category": "功能优化",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-10-09T06:51:37.743060+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-fy913u3p1e0twurrrrpi6m0ucho0mt",
+  "requirement_num": 327,
+  "title": "开票内容无形资产且金额不超过1000不推荐无形资产用途",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-10-09T03:42:54.321471+00:00",
+  "current_user": "黄鑫"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-fs6ypid6oia1vx1ngtdm61drlox39w",
+  "requirement_num": 329,
+  "title": "新增走逃风险纳税人关联展示内容",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-08T09:54:20.999777+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-7umchnedq6yzl3ta2t72ocvwasv77u",
+  "requirement_num": 332,
+  "title": "CMS后台季度申报进度增加第3季度进度预估",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-08T09:01:13.668274+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-7rglqr9lid11w6rb74val4vncp4gww",
+  "requirement_num": 318,
+  "title": "互联网平台报送数据获取（个体户）",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-10-08T08:53:49.844931+00:00",
+  "current_user": "黄智泳"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-4obozdcqxizh07yaq7pfoponddyc8i",
+  "requirement_num": 738,
+  "title": "Q助理新增「找工作」获客场景：校招简历投递管理工具",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-10-08T08:24:38.003567+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-d348yt76ono21lhn5ezvj2lqi0rhzh",
+  "requirement_num": 682,
+  "title": "个人备注新增面向AI读取的关系详情字段，支持AI自动找人发消息",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-10-05T11:34:50.648495+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-vt45ujqpqc20zwnrgz6nbp3xafzjo5",
+  "requirement_num": 325,
+  "title": "月末销售发票负数通知增加退款、过期用户不发条件",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-30T03:27:13.769728+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-cem695edd7pqsbp8d29968zgbb52f8",
+  "requirement_num": 326,
+  "title": "调整月末零申报模式通知的发送日期以错峰",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-30T03:26:18.030861+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "发票API",
+  "requirement_id": "r-5g6ze2ogpwgi3czyw84ze946gk79uo",
+  "requirement_num": 11,
+  "title": "发票api 税局交付文件链接有效期验证",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-30T02:07:02.103581+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-q27zw5vtxo0gx7ukc5jure7i1ah04w",
+  "requirement_num": 320,
+  "title": "银行回单支持重新推送给客户重新选择用途",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-29T06:17:23.234936+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-tw1f7onld4axyil9poksdachjmta45",
+  "requirement_num": 321,
+  "title": "新增预收款待办",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-29T03:04:02.806921+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-i3mmeety3act6pqns6hx3jav1ozb5i",
+  "requirement_num": 711,
+  "title": "飞书文档导入功能优化",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-28T03:54:12.050369+00:00",
+  "current_user": "黄富强"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-l9tjzx6ba2yaacumkv25xtny7ldbyw",
+  "requirement_num": 302,
+  "title": "归还贷款回单自动录入增加短期长期借款科目余额校验",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-09-24T07:47:48.418215+00:00",
+  "current_user": "黄鑫"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-rnzd0u515ty0ob46zsxaha8eb603ti",
+  "requirement_num": 714,
+  "title": "同步程序反复扫描未改动目录导致同步变慢，需增量跳过",
+  "category": "技术优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-24T06:02:59.353277+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-41ya8fxfr0a1e9yb201xnptxrz616c",
+  "requirement_num": 183,
+  "title": "Q助理阿里渠道PUSH适配小米通知模板和新发送标准评估",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-23T08:04:32.549579+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-kruihwyvfpi8fc4g1y0n6km1zg53o1",
+  "requirement_num": 300,
+  "title": "个税扣缴端任务识别非正常状态并补充智能通知",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-23T07:42:41.975420+00:00",
+  "current_user": "于周晴"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-3l8yhahbttsnb1hbuntxhqo45rad80",
+  "requirement_num": 308,
+  "title": "旧账解析文件适配 2025 之前的企业所得税",
+  "category": "功能优化",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-09-23T06:26:07.676832+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-f50wu0j4xv7efacdo63p1azahdiko1",
+  "requirement_num": 704,
+  "title": "Q助理邮箱回调功能完善：创建用户后默认创建邮箱+回调失败预警",
+  "category": "功能优化",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-09-23T06:25:05.202496+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-ocn4er3o38bukz1ivx6x607pks1gz7",
+  "requirement_num": 710,
+  "title": "Q助理文档编辑未保存时顶部\"尚未保存\"状态提示丢失",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-23T04:58:42.712616+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-oxayq3emef08jg6us5pf85t3g967h8",
+  "requirement_num": 707,
+  "title": "已启动编辑器时双击本地md调起窗口一闪消失，文档无法打开",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-23T04:51:23.036805+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-k0sd6xl6mn00f35sfe7h997udtmuw4",
+  "requirement_num": 279,
+  "title": "407任务删除已解除企业记录",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-23T01:22:50.366632+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-mabt0i6ptlfrwojyccp2x37yp9zsnp",
+  "requirement_num": 270,
+  "title": "用户报税页面聊天备注支持置顶或调整位置",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-23T01:22:24.750779+00:00",
+  "current_user": "黄鑫"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-1wbe37iygex34y5c90s0rrzbhyg2bc",
+  "requirement_num": 286,
+  "title": "后台显示单据用途的选项信息",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-23T01:19:05.353616+00:00",
+  "current_user": "邝云鸿"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-8f2mz4xdkcy5k502mfnq1mxgppe3h3",
+  "requirement_num": 285,
+  "title": "适配新版增值税申报表下载报表页面路径变动",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-22T09:55:35.862924+00:00",
+  "current_user": "黄鑫"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-avtw6a6oaldl1acq1gf9t8icgypcqo",
+  "requirement_num": 304,
+  "title": "“已注销”企业清除个税办税员身份",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-22T09:35:29.798439+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "发票API",
+  "requirement_id": "r-7tro2uwj7hv8ooyntdac608ddyuwzb",
+  "requirement_num": 114,
+  "title": "RPA登录JSON上传机制优化为完成后即上传",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-22T01:45:43.033650+00:00",
+  "current_user": "黄钊涛"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-3w0rhkv8il33sfte0ocjznssp4tca6",
+  "requirement_num": 520,
+  "title": "基于用户NAS的文档对外分享产品，支持外网访问、目录共享与站点嵌入",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-22T01:27:44.655715+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-o13jjeugv2yuz7ffnk42zl8cyggs9q",
+  "requirement_num": 697,
+  "title": "部署ma.qzhuli.cn",
+  "category": "新功能",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-09-22T01:16:25.507290+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "地址王",
+  "requirement_id": "r-7bxit35sqwxfrzwquhdfe7yemx7u93",
+  "requirement_num": 15,
+  "title": "聊天记录→FAQ 的 AI 提示词",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-21T08:01:00.666629+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "地址王",
+  "requirement_id": "r-pf2ekbcj0pj5d6ss52np0wdtbf9n6a",
+  "requirement_num": 17,
+  "title": "根据实际回答和上下文进行数据优化的自完善 AI",
+  "category": "技术优化",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-09-21T07:58:37.991779+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "地址王",
+  "requirement_id": "r-8f9gm752q9uly749cv0s8h7gg260ju",
+  "requirement_num": 16,
+  "title": "FAQ→回答的 AI 客服",
+  "category": "技术优化",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-09-21T07:58:36.690432+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-obkuwbe30i0ywriexqs93moembpha2",
+  "requirement_num": 97,
+  "title": "限制清税自行申报后235更正任务自动发起",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-21T07:50:08.988053+00:00",
+  "current_user": "黄鑫"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-5pnl0n5g7lzcgmssupvraxf8bqv00n",
+  "requirement_num": 61,
+  "title": "自开票新版通过 uniapp 开发并发布鸿蒙系统安装包",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-21T07:12:30.256384+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "发票API",
+  "requirement_id": "r-mubm6x20ksbl18ykmg1x26z8u7ps6v",
+  "requirement_num": 112,
+  "title": "任务网络报错时自动切换代理IP重试",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-21T06:52:39.369164+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-hgyeed0ojd2oxly51ydfz140q3z4an",
+  "requirement_num": 303,
+  "title": "报税API个税扣缴端上报存量人员信息服务端对比后再导入diff 后人员信息",
+  "category": "新功能",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-09-21T06:06:14.991145+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-d6cxv9ku6p0ceq551imeojjkupfrrn",
+  "requirement_num": 59,
+  "title": "自开票App uni双端接入自记账授权登录",
+  "category": "新功能",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-21T02:04:59.408909+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-1b4bfdufkpcpumylkjejh2r0g5w31q",
+  "requirement_num": 670,
+  "title": "Q助理文档编辑NAS-share目录md保存到本地草稿目录，需回写原目录",
+  "category": "BUG修复",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-20T09:09:18.666830+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-7pudmxzdqguqu0zn4x5qoeg1tygoxa",
+  "requirement_num": 602,
+  "title": "私人助理新增AI主动工作能力：每日前瞻",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-20T08:36:53.857916+00:00",
+  "current_user": "黄捷"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-bhfjgc9avvmfzwy9303j7vw4eb8v94",
+  "requirement_num": 688,
+  "title": "q助理桌面端本地个人文档列表无法多选删除文件/目录",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-20T08:34:57.620390+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-l7shqlt7htxcxl6nljgr8db20vyl9x",
+  "requirement_num": 690,
+  "title": "文档编辑器选中文本使用折叠块时原文本被覆盖为\"隐藏内容\"",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-20T07:03:08.966569+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-nwwh56mk0eaurvvevzc43j0yfw77co",
+  "requirement_num": 54,
+  "title": "基于 webview evaljs 注入的自动开票逻辑实现与功能测试",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-19T06:19:30.875039+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-lpit7to7p6yjdmq7i2f2shakwsfj88",
+  "requirement_num": 675,
+  "title": "Q助理文档表格被设置为列表项时表格样式被破坏，需保持完整渲染",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-18T15:13:30.017677+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-ieuzbrhj3gtkqth4e3x9793bk54d0x",
+  "requirement_num": 63,
+  "title": "拿到服务端给的数据后，印花税租赁合同（按次）进行季度申报",
+  "category": "新功能",
+  "progress_stage": "待验收",
+  "progress_updated_at": "2026-09-18T09:41:33.462574+00:00",
+  "current_user": "崔露露"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-c7q1np7dcwjfottz3fyxq2vk78auwk",
+  "requirement_num": 3,
+  "title": "自开票app无法重发系统问题导致的无法开票",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-18T09:14:21.561836+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-uq5uszfqcrscw0f6o5eb5hzemh3m40",
+  "requirement_num": 664,
+  "title": "协同编辑文档本地追加改动后冲突合并，插入顺序错乱且产生重复内容",
+  "category": "BUG修复",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-18T07:30:01.664268+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-gpjea12l6sgxawvgdsb92bvu16e4zd",
+  "requirement_num": 669,
+  "title": "Q助理文档内容变更后自动保存到本地Markdown文件",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-18T02:03:40.182845+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-xanlrfp23vhzglw5cbp4gfatet4v3l",
+  "requirement_num": 40,
+  "title": "自开票 3.0 接口接入",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-18T01:33:47.282591+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-4bmc5rmokesfc12flnmcxcmhm4edcc",
+  "requirement_num": 45,
+  "title": "自开票 3.0 安卓端版本打包",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-18T01:33:08.880446+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-e1plamp7s9yzww39jmkvy78hwykizu",
+  "requirement_num": 666,
+  "title": "新版同步协同下桌面端文档拖拽及右键移动文件功能失效",
+  "category": "BUG修复",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-17T16:11:49.623506+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-t9pp8oxom1n9uxsnqadzgzo38ukf2n",
+  "requirement_num": 283,
+  "title": "获取发票若税号与名称不符的提醒用户",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-17T03:21:54.584578+00:00",
+  "current_user": "叶圣涛"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-r2lk7i71rdrnjz1u5pr7z53mx9ro9n",
+  "requirement_num": 213,
+  "title": "列入续费黑名单的用户不再发送续费相关通知",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-09-17T03:03:17.457264+00:00",
+  "current_user": "于周晴"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-9pwc71qmvp6ucxn9m5p6sy0uukekz6",
+  "requirement_num": 204,
+  "title": "Q助理文档支持飞书导入同步",
+  "category": "新功能",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-09-16T09:17:14.440685+00:00",
+  "current_user": "李世祥"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-fdxl8so15tk22kfbkiui01nwmlkcqa",
+  "requirement_num": 650,
+  "title": "Qflow评论区支持回复某条评论，默认@作者并通知",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-16T07:50:45.212198+00:00",
+  "current_user": "胡镇杰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-idn0bqpm85yi3pn6usefb6up7bh2mt",
+  "requirement_num": 508,
+  "title": "Q助理消息操作功能需求",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-16T07:25:55.112498+00:00",
+  "current_user": "黄富强"
+ },
+ {
+  "project": "发票API",
+  "requirement_id": "r-fuux9rmuzmn76gjetjmls2an2l3zww",
+  "requirement_num": 106,
+  "title": "短信通App新增使用流程引导",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-16T06:43:36.079504+00:00",
+  "current_user": "王永发"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-ik89r5g5519c8n1acwy6axon5b65gf",
+  "requirement_num": 282,
+  "title": "自记账勾选抵扣待办 - 发票清单上传后发票信息展示",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-15T10:58:51.518111+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-bwccjvltv6u9kivs4hj5fz8lrs5m0w",
+  "requirement_num": 645,
+  "title": "云端记忆知识库编辑器支持源码/所见即所得模式切换",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-15T10:50:12.898609+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-vm6zyi33wf994njeoiinh9gikxstyi",
+  "requirement_num": 641,
+  "title": "外部App支持「使用Q助理登录」：复用开放平台扫码授权与OAuth体系完成第三方应用登录",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-15T08:40:41.928143+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-hf8g9s78bihh7qtmiy0ukx6abw4cnw",
+  "requirement_num": 636,
+  "title": "QFlow需求编辑器保存后内容未即时显示，导致用户重复添加内容重复",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-15T08:36:19.937556+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-fn40zxztyfdfxahb4ytvr5ikulj1k6",
+  "requirement_num": 619,
+  "title": "安卓端设置-朋友权限新增助理声音自动回答设置项",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-14T10:20:24.555696+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-vs2ti649bbje0n5f3ostvspscrj96c",
+  "requirement_num": 624,
+  "title": "移动端支持发送文件、图片、emoji",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-14T10:17:17.932007+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-5yvgq1c0u3ijy4f3fqxcs14mprk0to",
+  "requirement_num": 630,
+  "title": "Q助理年假发放逻辑错误：发放时间提前、天数错误且重复发放",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-14T07:41:11.539481+00:00",
+  "current_user": "周艺博"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-0wvhwumyc5z2y0q374crehc79yuoxs",
+  "requirement_num": 629,
+  "title": "需求广场支持前置/后置需求的需求树逻辑，可查看各部分工作、负责人及进度卡点",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-14T07:33:18.690769+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-4ozvlzeg768zmbxqxjrg9dxamryhw5",
+  "requirement_num": 616,
+  "title": "Q助理文档正文支持qzhuli://协议链接，点击自动跳转",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-11T07:43:46.659287+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-35n9w5yx8zvdk24viz6l6uqbjx081l",
+  "requirement_num": 608,
+  "title": "聊天输入框表情面板支持自定义表情导入（静态图/GIF）",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-11T06:21:04.334775+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-t06dx3wr4dlzxwn524r7p37dk50src",
+  "requirement_num": 259,
+  "title": "增值税留抵抵欠场景自动检测并生成进项转出凭证",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-10T10:22:03.425915+00:00",
+  "current_user": "聂子琳"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-qqs9bs3pyeq2syi2rjddlfa4xcuo66",
+  "requirement_num": 48,
+  "title": "【新功能】Q助理桌面端新增\"云端记忆\"Tab，支持记忆数据的目录管理和文档增删改查",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-09T08:17:27.006579+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-3texrvdgsmahyoseqdo21ykankk8qt",
+  "requirement_num": 596,
+  "title": "协同编辑文档时两用户光标在同一位置，A输入但光标显示B的用户名",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-09T08:00:10.527770+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-i9c6m1fhr2gnmpy2tup4n7xtt3oemd",
+  "requirement_num": 593,
+  "title": "Qflow 新增相似需求检索接口，检索最相关10个避免token膨胀",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-09T03:23:52.413308+00:00",
+  "current_user": "胡镇杰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-gbq3xb4hoysu3g454midjjde55cgtc",
+  "requirement_num": 592,
+  "title": "Qflow 支持 AI 内容流式输出，避免用户长时间等待",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-09T03:21:31.664601+00:00",
+  "current_user": "胡镇杰"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-dtm70pr2vha0isjh5kdbiflc15go11",
+  "requirement_num": 36,
+  "title": "自开票App开放企享云收费开票模式",
+  "category": "新功能",
+  "progress_stage": "待审批",
+  "progress_updated_at": "2026-09-08T07:44:56.424055+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-ex4o807u6sxgpo4a5dznp6dk7d7zsi",
+  "requirement_num": 233,
+  "title": "自记账CLI以SKILL+CLI连接器形式接入workbuddy",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-08T04:02:27.668327+00:00",
+  "current_user": "陈夏丰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-kqvdrxiieblibos9oyg37gjxqmgn1d",
+  "requirement_num": 249,
+  "title": "序时账记账人制单人支持修改并固化保存",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-08T03:36:35.766308+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-bwttp74zyhj9qv3hkhxqstul3ikh3n",
+  "requirement_num": 248,
+  "title": "APP未付钱未开票报表增加搜索框",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-08T03:09:37.523826+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-f9rbhny0m6tpvhk62kmcxls4hu61a8",
+  "requirement_num": 4,
+  "title": "环球签 授权签署模式",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-08T02:25:04.309680+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-clx8tcaibpc6b30jfrxpvp3vsqdua5",
+  "requirement_num": 557,
+  "title": "Q助理电脑端企业自定义 Tab 及应用内页面打开",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-07T10:21:42.229468+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-vmbl1xz0dcsmnk5v7qo82x87sq7u6f",
+  "requirement_num": 187,
+  "title": "个税税款通知内容变动",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-07T06:43:44.773269+00:00",
+  "current_user": "叶圣涛"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-enjoo55yi8encm4mlr4ypqa5nqjw3s",
+  "requirement_num": 566,
+  "title": "Q助理抽取数字员工企业认证逻辑，建设统一认证校验能力",
+  "category": "技术优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-04T10:13:59.023098+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-x1cbj020183gvk0yxh1xo9v53ob3ss",
+  "requirement_num": 504,
+  "title": "安卓端广告拦截增加内置端侧小模型检测能力",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-04T07:35:17.772654+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-bjn291ggir3pu8omnqlje5164r8eev",
+  "requirement_num": 37,
+  "title": "环球签 新增已完成托管模板输入框正式数据表",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-04T06:24:52.761057+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-h5migbm5i92gitjbazv3dokpqege68",
+  "requirement_num": 565,
+  "title": "安卓首页右上角新增广告拦截功能，支持按用户拦截",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-04T05:42:13.776003+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-cvp00gzg10ebr3kthwdfi1a2qtw6fs",
+  "requirement_num": 563,
+  "title": "Q助理文档双击同步盘外目录md文件打开后内容空白不显示",
+  "category": "BUG修复",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-04T03:38:28.022288+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-sdf915kzbmcbballgopkcd77xd91u3",
+  "requirement_num": 232,
+  "title": "新增工商年报申报来源（排查用）",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-09-04T01:41:48.898482+00:00",
+  "current_user": "陈东宇"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-6fwwd0yh47yupkrxc5ud97lu0dwcjs",
+  "requirement_num": 555,
+  "title": "Q助理新增射手文档数字员工及内部鉴权",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-03T07:16:00.125966+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-rwzygwfpabyousi7bl1fu2epi40wy5",
+  "requirement_num": 556,
+  "title": "射手文档 HTML 转 Markdown 接入 Q助理编辑器",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-03T07:06:39.390474+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-kyiepke87m6zk6x9gos7bgwgorbg9c",
+  "requirement_num": 558,
+  "title": "Q助理 App 企业管理：一账号一身份关联多家公司",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-03T07:06:03.071848+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-0msthorj78dzqlj05o8ak3rn1z4950",
+  "requirement_num": 84,
+  "title": "【新功能】NAS同步文档与IM通知体系：自动授权+通知+桌面端自动同步拉取",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-03T06:45:28.409283+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-e08r1xeqhegs3qfujm8z2s9toh285o",
+  "requirement_num": 522,
+  "title": "需求广场新增依赖状态链展示，以当前任务为中心显示前后依赖节点并支持跳转",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-03T01:23:18.343383+00:00",
+  "current_user": "李世祥"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-mgyrsdnxa873bmv40fx0qio0stq7y2",
+  "requirement_num": 543,
+  "title": "研究飞书豆包工作伙伴的主动工作功能，借鉴到私人助理",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-02T02:59:18.593924+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-gis5j8319oud7iar9kvmq14o66ofkt",
+  "requirement_num": 30,
+  "title": "iOS端从CocoaPods迁移至Swift Package Manager",
+  "category": "技术优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-09-01T07:52:44.185271+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-clrjf75511ndmcxkjlf7rmjgn5kxdj",
+  "requirement_num": 217,
+  "title": "优化税务风险报告评估规则，参考workbuddy财税合规专家规则",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-09-01T06:45:40.884069+00:00",
+  "current_user": "马正斌"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-hcx4opwya4c87p1o8xk8khcosvopkf",
+  "requirement_num": 467,
+  "title": "需求广场提交需求时编辑器支持上传zip、html文件附件",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-09-01T02:53:38.961995+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-b6r297gtduqyjze4t3c71aomzx2gdx",
+  "requirement_num": 527,
+  "title": "将agency-agents-zh仓库中的职业角色补充到数字员工",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-31T14:26:51.691037+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-yq5ddth90iuay8ndzn4e9ol6c0in3u",
+  "requirement_num": 517,
+  "title": "Q助理官网新增\"生态圈\"独立Tab，支持第三方发布生态产品",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-31T05:31:14.562495+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-3qw7v24s3mkzjg0o34wr6qc6omfzqo",
+  "requirement_num": 506,
+  "title": "App端训练我的数字大脑页面编辑开场白/头像后点击子页面返回内容丢失",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-31T02:48:14.382699+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-kpicb5tvuh6q6kvb658spmylspf7m1",
+  "requirement_num": 278,
+  "title": "需求描述中图片上传改为上传到NAS以链接形式嵌入",
+  "category": "BUG修复",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-28T10:07:22.502570+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-vx51wsgla3o4384niam5fiysjhvxe8",
+  "requirement_num": 165,
+  "title": "社保扣缴端上报数据服务端适配",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-28T08:40:27.572725+00:00",
+  "current_user": "胡镇杰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-1nnv5wu9xtur7fy52r1rsigisq64fx",
+  "requirement_num": 450,
+  "title": "【Q助理人事】公司管理员无法在人事小助手查询公司概况仅返回本人信息",
+  "category": "BUG修复",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-08-28T02:13:46.748448+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-7pvjll8p0f467oyx1mf3oplejgporr",
+  "requirement_num": 453,
+  "title": "【Q助理人事】人事管理后台，组织架构图支持鼠标拖动调整部门位置",
+  "category": "功能优化",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-08-28T02:13:42.266939+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-r4lg8f8syx4v6988sizfxf0ik6wqn2",
+  "requirement_num": 482,
+  "title": "Q助理文档第四栏与评论优化",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-27T08:38:04.601528+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-h8fgbapsys7vbjukgp2xr49t22epbd",
+  "requirement_num": 490,
+  "title": "Hermes-agent支持简体中文后作为内核集成进Q助理桌面端，分层开发不修改内核",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-27T06:13:15.411140+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "地址王",
+  "requirement_id": "r-48p98ohx771fynlimybjwk90pchlmp",
+  "requirement_num": 13,
+  "title": "地址王 AI 客服用户及关联商家聊天数据包导出验证",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-27T03:25:32.409754+00:00",
+  "current_user": "邓玉清"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-6buw3e3juma2ca7jvzzcn5tbfr89rb",
+  "requirement_num": 476,
+  "title": "Q助理文档@协作支持组织内成员，自动授权并同步到分享tab",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-27T02:54:05.794526+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-1ldpap1w0f5ar3old3nzy6rxvv8asn",
+  "requirement_num": 374,
+  "title": "聊天详情页头部展示待确认事项横幅，类似数字员工样式",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-27T02:34:42.714177+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-tcmzczo572iynucixk27xf2u0b4pvw",
+  "requirement_num": 86,
+  "title": "【新功能】同步模块对外提供API接口，供文档获取并展示同步状态",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-27T02:11:30.349662+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-5mv0z2iee215zp6aj47p7csgeko47j",
+  "requirement_num": 95,
+  "title": "【新功能】Q助理文档基于Nextcloud实现历史版本回溯（查看+恢复）",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-27T02:05:57.011841+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-sjit8q4jk45ouuq32q42avuuhhqrda",
+  "requirement_num": 475,
+  "title": "新增内部链接协议，点击直接调起Q助理文档编辑器打开文档",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-27T01:45:01.746172+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-v823kx2ouxvywoxyagg20pvxkr49it",
+  "requirement_num": 399,
+  "title": "从飞书复制粘贴的图片链接过期后无法加载，需自动转存到七牛",
+  "category": "BUG修复",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-25T09:30:05.690460+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-n0ciodnh30hnq10r69opjxfmj4dply",
+  "requirement_num": 471,
+  "title": "手机端支持Markdown编辑数字大脑和数字员工大脑中的文章",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-25T03:38:35.369637+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-tydhj4j01vygjytmt9kpls20c42tvh",
+  "requirement_num": 154,
+  "title": "文档插入图片改为上传NAS公共目录以URL链接方式插入",
+  "category": "功能优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-24T09:05:33.745077+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-0a98vwdsnsjpehw92e3fat8sy4hsk6",
+  "requirement_num": 58,
+  "title": "转换自记账帮助中心实现方案到射手文档项目进行适配",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-24T08:44:25.934182+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-ev3ern0xhe0knjff19iz6derym19bk",
+  "requirement_num": 465,
+  "title": "【Q助理人事】人事管理后台的工资和餐补，没有根据新员工入职时间，计算当月已剩下的工作日天数",
+  "category": "BUG修复",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-08-24T07:50:43.472327+00:00",
+  "current_user": "卢争云"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-s3tibynx10p3cmc632i7dgxsjqepyx",
+  "requirement_num": 461,
+  "title": "Q助理文档转存本地文件到NAS增加进度条和进度展示",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-24T04:39:57.552608+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-7qb7ike2v6lghmrq53snela5etyuvt",
+  "requirement_num": 373,
+  "title": "需求消息列表区分领取任务与评论消息",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-21T05:42:38.009725+00:00",
+  "current_user": "李世祥"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-dgpl6el99z02df3wiofptiawlzr1h3",
+  "requirement_num": 102,
+  "title": "一般纳税人升级预警",
+  "category": "新功能",
+  "progress_stage": "完善中",
+  "progress_updated_at": "2026-08-21T05:31:45.530038+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-8quyq43ktf9p6awpca2p07cfmtikxx",
+  "requirement_num": 97,
+  "title": "【新功能】Q助理文档增加评论功能，NAS数据库存储，同步时API拉取/提交",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-19T10:26:33.248876+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-3lynxjtlezdd23wpucsvtix8f6djhq",
+  "requirement_num": 381,
+  "title": "【Q助理人事】当用户正处于休年假期间，向AI人事助理查询：今天我是工作还是休息，AI人事助理反馈的结果是正常上班。",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-19T03:43:19.615727+00:00",
+  "current_user": "周艺博"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-divpgpa3pd1wrzffc5txhtf720zdu2",
+  "requirement_num": 182,
+  "title": "三级等保全流程合规改造项目（从立项到实施）",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-18T02:54:02.254711+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-mvfxvooaa5ssj8003o2vpiscprm7vj",
+  "requirement_num": 418,
+  "title": "Q助理文档Electron端支持多人协同编辑，复用桌面端接口",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-17T10:55:21.838344+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-006nvcvojl0xjhepimxyic5e3t965u",
+  "requirement_num": 375,
+  "title": "Q助理桌面端--设置--账号安全需求",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-17T09:49:49.828348+00:00",
+  "current_user": "黄捷"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-cswmuud5uvy1ymhfnr7hkjg98ctyzd",
+  "requirement_num": 357,
+  "title": "桌面端切换深色主题后Qflow、记忆库、科学成长页面仍为浅色",
+  "category": "BUG修复",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-17T09:09:14.450092+00:00",
+  "current_user": "黄捷"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-5f7fbyhwy68ajb9bj8lanc85u3jhdo",
+  "requirement_num": 29,
+  "title": "环球签定时扫描企业状态并执行企业冻结逻辑上线",
+  "category": "技术优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-08-17T06:22:22.289104+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-ne6m9pvbrdskj2ymobdcj3kgbp6q0z",
+  "requirement_num": 393,
+  "title": "多人协同编辑文档同时输入时存在无法输入的情况",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-12T07:40:03.750594+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Sharetrace",
+  "requirement_id": "r-mzys8h3d2nwukbfkafjcq2xmdsu3x8",
+  "requirement_num": 8,
+  "title": "增加导出指定用户调证资料功能",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-12T02:21:12.254078+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "Sharetrace",
+  "requirement_id": "r-zpsd14df0y5npq0c97whz9qynoxluy",
+  "requirement_num": 7,
+  "title": "Sharetrace后台增加在线诊断功能",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-11T07:27:43.059933+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "发票API",
+  "requirement_id": "r-pkcqtqpzcgn17kf6meak4e3qfkl4ma",
+  "requirement_num": 70,
+  "title": "企享云红冲任务无hzuuid时查询红字信息列表接口兜底",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-11T04:02:57.764855+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-frtixgxcvc7r9jm5wa3h12l8oqy7dg",
+  "requirement_num": 392,
+  "title": "多人协同编辑文档时存在抢光标焦点的情况",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-11T03:40:00.915213+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-fpq0n9riqxodgo4yh62vg44x3affd7",
+  "requirement_num": 106,
+  "title": "旧账审核列表未完成原因条件不再满足时自动复原为正常未处理",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-08-10T07:18:50.266394+00:00",
+  "current_user": "于周晴"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-2m22x66x2k2qpipnteeurg8imv5vdr",
+  "requirement_num": 20,
+  "title": "环球签第四类合同模板入口测试与开放",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.411901+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-hugjrmrozhfzfjxs8aqbxhy64cgcqw",
+  "requirement_num": 21,
+  "title": "环球签账户、企业、身份三维冻结逻辑测试与上线",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.374139+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-xetm10dh1hi3nbc9mnp25bbiibkdev",
+  "requirement_num": 25,
+  "title": "环球签图片合同 API 及文件处理链路适配",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.240355+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-zeh9jfd9evlmru1ocwpzc8pusoipdo",
+  "requirement_num": 28,
+  "title": "环球签 App 新增图片合同输入与发起流程",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.185973+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-ihu1bmtmf36f8oidp3lfoclw6d2jgo",
+  "requirement_num": 26,
+  "title": "环球签网页端新增图片合同发起流程",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.178597+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-rheyco892esam7m22rsd9fxhiibgmi",
+  "requirement_num": 22,
+  "title": "环球签账户、企业、身份三维冻结规则服务端实现与校验",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.177931+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-wuust65bgv70rldnfy1j6idit9fmmj",
+  "requirement_num": 24,
+  "title": "环球签第四类合同模板入口正式开放与发布回滚",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.140574+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-j6d3nulf8xko0niy0t8h0erutgk6fn",
+  "requirement_num": 23,
+  "title": "环球签三维冻结状态在 App、网页及签署链路中的同步适配",
+  "category": "技术优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-08-07T06:46:40.137472+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-nmk4pn5iekfd6i1iel21o16w6sw8ki",
+  "requirement_num": 383,
+  "title": "Q助理App和桌面端增加推广效果埋点，覆盖8个核心事件",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-08-06T02:29:58.363897+00:00",
+  "current_user": "徐强"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-e6rhedx40c95r2zixv2atdchkbhbnf",
+  "requirement_num": 138,
+  "title": "自记账企业微信用户扫描绑定conversation_id并分类",
+  "category": "功能优化",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-31T02:57:41.675285+00:00",
+  "current_user": "邓玉清"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-wtdmz7zqybvakpar3rg9fo4x8jv97r",
+  "requirement_num": 129,
+  "title": "售前智能通知一直不回复恢复跟进后累计计数未重置直接取消跟进",
+  "category": "BUG修复",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-30T08:33:19.831791+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-totmd8d8t6jjajukexr2ns6m5tyhop",
+  "requirement_num": 128,
+  "title": "当季度月份明细与回单数量不一致时自动生成跟进清单",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-30T03:30:25.290666+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-jjegng8gb5ylj22vvhm2nkikiyu659",
+  "requirement_num": 86,
+  "title": "兜底列表原因选择新增清税状态并自动通知用户",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-29T06:55:08.536273+00:00",
+  "current_user": "陈家龙"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-5qedzzy7uh3ax5jox5qpgzq5719s9m",
+  "requirement_num": 119,
+  "title": "【新功能】公司公共目录顶部文件夹支持三级权限设置（管理/修改/查看）",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-28T07:25:49.236473+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-563qknn4k8yf8vd6zdv19207uv8qvr",
+  "requirement_num": 114,
+  "title": "【新功能】QzhuliCLI支持云端资料库LLM接口，供OpenClaw搜索资料",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-07-28T02:52:33.103711+00:00",
+  "current_user": "邓玉清"
+ },
+ {
+  "project": "自开票",
+  "requirement_id": "r-zf3h2ptus6pqc190l6lri5i4wkld33",
+  "requirement_num": 5,
+  "title": "自开票企业微信用户自动拉群和AI客服",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-27T02:16:39.555796+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-86lxfdpjparkx62ygw56rr958xinr1",
+  "requirement_num": 12,
+  "title": "优化邮件地址不可用时的处理逻辑",
+  "category": "功能优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-07-24T06:13:09.442559+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-l3wf6wg24qjl37i8acc5h7m64ijx51",
+  "requirement_num": 7,
+  "title": "官网工商年报下载消耗七牛流量过多",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-24T02:21:26.485120+00:00",
+  "current_user": "陈泉"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-y38idvxemccisj9w8cc5528qg65ces",
+  "requirement_num": 1,
+  "title": "自记账付费用户签署服务协议",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-24T02:18:32.870070+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-8m9wwdgntgmhmjve2mhxozrnrqpjmg",
+  "requirement_num": 2,
+  "title": "引导自记账付费用户成为环球签用户",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-24T02:18:27.964402+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "地址王",
+  "requirement_id": "r-ryz1hgsel09rhncpal6fonsdf89moy",
+  "requirement_num": 4,
+  "title": "地址王底层代码梳理",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-24T02:16:18.793152+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-axkaxeoaanhuvo0lm1foerhyjao1n5",
+  "requirement_num": 50,
+  "title": "对接拼多多电商平台API，实现电商商户自动化记账",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-24T02:15:27.385084+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-4562u1ddxph4u5w1fuy3h3i4fageoa",
+  "requirement_num": 51,
+  "title": "对接淘宝平台API，实现电商商户自动化记账",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-24T02:15:10.222727+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-ajfm4woqebjigr8y8950dgbnrb2nje",
+  "requirement_num": 104,
+  "title": "社保费管理客户端RPA适配单位参保信息查询获取险种和税务机关",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-24T01:57:58.090238+00:00",
+  "current_user": "陈蕊"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-2szwc78ojeiywztabsa84cjrqmal2x",
+  "requirement_num": 317,
+  "title": "Q助理App应用市场介绍调整为偏中性风格，突出数字员工而非数字永生",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-23T04:07:11.491907+00:00",
+  "current_user": "徐强"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-saa4z6xv7z19fmgtyz5trorww5zp1v",
+  "requirement_num": 315,
+  "title": "iOS版Q助理的助理资料页面跑版",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-23T04:07:04.697755+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-jw0s04v02up1jfhtui667igibv27bc",
+  "requirement_num": 313,
+  "title": "Q助理办公官网第二屏增加产品使用场景介绍视频",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-23T03:40:16.105399+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-jghc7jnvwxu5zdw9o4ksjj9l8cx2bd",
+  "requirement_num": 40,
+  "title": "企业所得税申报预估税额确认错误时自动执行亏损数据更新并重试",
+  "category": "功能优化",
+  "progress_stage": "验收中",
+  "progress_updated_at": "2026-07-22T06:24:55.157187+00:00",
+  "current_user": "刘业俐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-y1wx6jypewf4umw68xxsicp6bgqiha",
+  "requirement_num": 38,
+  "title": "【新功能】将人事系统接口集成到qzhuliCLI，支持命令行完成请假/审批/工资/补贴/排班操作",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-22T03:56:06.122293+00:00",
+  "current_user": "邓玉清"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-ic8uv3bpv861cg3xojd1wygnqjj708",
+  "requirement_num": 296,
+  "title": "飞书、钉钉、企业微信聊天记录一键迁移到Q助理",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-22T02:04:11.923501+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-82b1nmlj0ih5qk0xs6er934rpluf3e",
+  "requirement_num": 244,
+  "title": "文档新增分享功能，支持分享、链接分享管理、权限设置等",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-22T01:20:03.485270+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-vaq964fj9houdjl4rq1dme56xpwvkn",
+  "requirement_num": 288,
+  "title": "引导自记账用户一键转换到Q助理提问，摆脱企业微信群发限制",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-21T05:38:29.976257+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-qs49j1nnk8v8wqhmssv83wqb8hr1lt",
+  "requirement_num": 75,
+  "title": "季度更正任务兜底页面（php、cms）",
+  "category": "新功能",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-07-17T09:16:29.838066+00:00",
+  "current_user": "胡玲"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-ocb3041o2etxndsi01x9mus871wm88",
+  "requirement_num": 74,
+  "title": "更正任务，更正报表之后税局的申报信息页面不会及时更新",
+  "category": "BUG修复",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-07-17T09:16:12.246305+00:00",
+  "current_user": "胡玲"
+ },
+ {
+  "project": "自记账",
+  "requirement_id": "r-xzzkbcyaukzf2psy6wmdijap3xfh89",
+  "requirement_num": 37,
+  "title": "自记账 iOS 接入腾讯广告 SDK",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-10T08:09:38.161626+00:00",
+  "current_user": "罗健辉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-cl8f027x1kx1nmq6oc6t70ta7h6hch",
+  "requirement_num": 234,
+  "title": "主题变更时窗口控制条颜色未变更",
+  "category": "BUG修复",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-07-09T07:26:31.669347+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-uenl53s73ypitqjlihxwzkwx0dvg0w",
+  "requirement_num": 221,
+  "title": "桌面端向电脑机器人发送消息时机器人无法接收，消息链路异常",
+  "category": "BUG修复",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-08T07:59:47.566568+00:00",
+  "current_user": "王晔"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-e4uuikfj3nyy2zmhh2tz1f3ez9h55j",
+  "requirement_num": 3,
+  "title": "环球签 发送邮件失败时应提示用户修改邮件地址",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-01T02:43:24.599630+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-081nngf0m0999ev8rv040wj3v729eo",
+  "requirement_num": 6,
+  "title": "环球签 添加为另外两方发起合同的app上传合同入口",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-01T02:42:53.421538+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-05cuvmicxr7eok8y45cru6qxl8o23c",
+  "requirement_num": 7,
+  "title": "环球签 扫脸接入JSSDK自定义页面",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-01T02:42:43.558640+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "环球签",
+  "requirement_id": "r-gtsm6xnqm1gmg6olojicbnpuw6x8jn",
+  "requirement_num": 8,
+  "title": "企业冻结,身份冻结,账号冻结的三维冻结逻辑",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-07-01T02:38:26.101221+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-l4r0brugo9migm3rxog7fho46m0kms",
+  "requirement_num": 81,
+  "title": "班级同学录运营：整理时光相册内容放入班级同学录",
+  "category": "功能优化",
+  "progress_stage": "研发中",
+  "progress_updated_at": "2026-07-01T01:55:40.668963+00:00",
+  "current_user": "刘泊杉"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-6ourbhi8ib80mhgrr38gfccqhpkgis",
+  "requirement_num": 82,
+  "title": "【新功能】@未注册用户时自动发送短信通知（含@者、消息摘要、查看链接）",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-06-26T06:13:26.099058+00:00",
+  "current_user": "邓玉清"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-llgc5rrosys85xqde7ky042r0rcclm",
+  "requirement_num": 58,
+  "title": "Q助理AI客服接待率提升研究",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-06-22T01:24:44.251712+00:00",
+  "current_user": "徐强"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-lqdym9s1mdkdz1a7b8wfuaiblw8w4r",
+  "requirement_num": 108,
+  "title": "【功能优化】NAS服务地址支持同时配置内网地址和外网地址",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-06-18T09:20:22.513093+00:00",
+  "current_user": "韦恩颂"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-mlkpjpx64vj9t6rdco5xgaaox16j7g",
+  "requirement_num": 107,
+  "title": "【新功能】集成Markitdown，Word/Excel/PDF/PPT右键菜单转MD用Q助理文档打开",
+  "category": "新功能",
+  "progress_stage": "待领取",
+  "progress_updated_at": "2026-06-18T09:17:47.684733+00:00",
+  "current_user": "许泽锐"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-c9qypy9ie8xwteryfq82jn1s0rkn1y",
+  "requirement_num": 72,
+  "title": "【新功能】聊天智能识别日程信息，自动弹窗确认并写入手机日历",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-06-18T06:07:58.144110+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-d0r2r5i6rv3bzst8a5ld06v4ab24u5",
+  "requirement_num": 47,
+  "title": "【新功能】qzhuliCLI预装到电脑机器人，支持通过文档ID增删改查，桌面端可唤起",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-06-16T05:59:22.169736+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-udomyoevo1yt8f34o5n7ibn45cf1gr",
+  "requirement_num": 2,
+  "title": "【新功能】数字员工市场新增官方AI测评类数字员工，支持自动聊天评测并打标签",
+  "category": "新功能",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-06-15T05:57:15.356496+00:00",
+  "current_user": "胡力峰"
+ },
+ {
+  "project": "Q助理",
+  "requirement_id": "r-4d1zxx6vh6vjfgab5v825x5l9u07ob",
+  "requirement_num": 3,
+  "title": "【功能优化】引导自记账用户安装Q助理App，以企微通知被封风险为由引导用户迁移通知渠道",
+  "category": "功能优化",
+  "progress_stage": "待完善",
+  "progress_updated_at": "2026-06-15T05:43:18.608119+00:00",
+  "current_user": "胡力峰"
+ }
+]
