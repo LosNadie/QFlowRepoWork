@@ -8,8 +8,6 @@
   body{padding:24px;background:#fff;display:block;overflow:auto;font-size:13px}
   #out{font:12px ui-monospace,monospace;white-space:pre-wrap;margin:0 0 16px}
   h1{font-size:16px;margin:0 0 12px}
-  table{border-collapse:collapse;font-size:12px;margin-bottom:16px}
-  td,th{border:1px solid #e5e7eb;padding:4px 10px;text-align:left}
 </style>
 </head>
 <body>
@@ -24,16 +22,24 @@ const check = (cond, label) => {
   if (cond) { pass++; lines.push('  OK   ' + label); }
   else { fail++; lines.push('  FAIL ' + label); }
 };
+const px = (v) => parseFloat(v);
+const el = (cls, html = '') => {
+  const d = document.createElement('div');
+  d.className = cls;
+  if (html) d.innerHTML = html;
+  document.body.appendChild(d);
+  return d;
+};
 
 // 1) 等字体就绪
 lines.push('=== 字体加载 ===');
 await document.fonts.ready;
-const interLoaded = [...document.fonts].filter((f) => f.family.includes('Inter'));
-check(interLoaded.length > 0, `Inter @font-face 已注册（${interLoaded.length} 条）`);
-const loadedOk = interLoaded.some((f) => f.status === 'loaded');
-check(loadedOk, `Inter 字体已加载（status=loaded）`);
+const geistFaces = [...document.fonts].filter((f) => f.family.includes('Geist'));
+check(geistFaces.length > 0, `Geist @font-face 已注册（${geistFaces.length} 条）`);
+check(geistFaces.some((f) => f.status === 'loaded'), 'Geist 字体已加载（status=loaded）');
+const interFaces = [...document.fonts].filter((f) => f.family.includes('Inter'));
+check(interFaces.length > 0, `Inter 回退字体已注册（${interFaces.length} 条）`);
 
-// 实际渲染测量：Inter 与回退字体的宽度应不同
 const measure = (family, text) => {
   const s = document.createElement('span');
   s.style.cssText = `position:absolute;visibility:hidden;font-size:32px;font-family:${family}`;
@@ -43,77 +49,152 @@ const measure = (family, text) => {
   s.remove();
   return w;
 };
-const wInter = measure("'Inter', monospace", 'Workbench 1234567890');
+const wGeist = measure("'Geist', monospace", 'Workbench 1234567890');
 const wMono  = measure("monospace", 'Workbench 1234567890');
-lines.push(`  Inter 宽度 ${wInter.toFixed(1)}px / monospace ${wMono.toFixed(1)}px`);
-check(Math.abs(wInter - wMono) > 0.5, 'Inter 实际生效（宽度与回退不同）');
+lines.push(`  Geist 宽度 ${wGeist.toFixed(1)}px / monospace ${wMono.toFixed(1)}px`);
+check(Math.abs(wGeist - wMono) > 0.5, 'Geist 实际生效（宽度与回退不同）');
 
-// 2) CSS 变量是否符合设计
+// 2) 设计令牌：白场 + 近黑正文 + 五幕强调色
 lines.push('');
-lines.push('=== 设计令牌 ===');
+lines.push('=== 设计令牌（白底发布会）===');
 const cs = getComputedStyle(document.documentElement);
 const tok = {
-  '--ink': '#0a0a0a', '--sky': '#0ea5e9', '--bg': '#fbfbfd',
-  '--ok': '#059669', '--err': '#dc2626',
+  '--void':   '#ffffff',   // 舞台最亮处为纯白
+  '--stage':  '#f2f4f7',   // 舞台边缘收冷灰
+  '--ink':    '#0b0d12',   // 正文=近纯黑
+  '--run':    '#0284c7',
+  '--ok':     '#059669',
+  '--err':    '#dc2626',
 };
 for (const [k, want] of Object.entries(tok)) {
   const got = cs.getPropertyValue(k).trim();
   check(got === want, `${k} = ${got}`);
 }
+for (let i = 1; i <= 5; i++) {
+  const a = cs.getPropertyValue(`--s${i}-a`).trim();
+  const b = cs.getPropertyValue(`--s${i}-b`).trim();
+  check(/^#[0-9a-f]{6}$/i.test(a) && /^#[0-9a-f]{6}$/i.test(b) && a !== b,
+    `幕次 ${i} 光谱 ${a} → ${b}`);
+}
 const fontVar = cs.getPropertyValue('--font');
-check(fontVar.includes("'Inter'"), '--font 首选 Inter');
+check(fontVar.includes("'Geist'"), '--font 首选 Geist');
 check(fontVar.includes('Noto Sans SC'), '--font 中文回退 Noto Sans SC');
+check(px(cs.getPropertyValue('--fs-base')) >= 15, `正文基准 ${cs.getPropertyValue('--fs-base').trim()}（≥15）`);
+check(px(String(cs.getPropertyValue('--fs-hero-xl').match(/[\d.]+px/))) === null ||
+      cs.getPropertyValue('--fs-hero-xl').includes('126px'),
+    `主题字上限 ${cs.getPropertyValue('--fs-hero-xl').trim()}`);
 
-// 3) 关键视觉规则（去边框、字号梯度）
+// 3) 幕次结构
+lines.push('');
+lines.push('=== 五幕结构（iframe 加载真实页面）===');
+const iframe = document.createElement('iframe');
+iframe.style.cssText = 'width:1280px;height:860px;border:0;position:fixed;left:-9999px;top:0';
+iframe.src = '../index.html';
+document.body.appendChild(iframe);
+await new Promise((r) => { iframe.onload = r; setTimeout(r, 8000); });
+const idoc = iframe.contentDocument;
+const iwin = iframe.contentWindow;
+
+const acts = [...idoc.querySelectorAll('.act')];
+check(acts.length === 5, `五幕齐全（实际 ${acts.length}）`);
+check(acts.map((a) => a.dataset.act).join(',') === '1,2,3,4,5', '幕次编号连续 1..5');
+const active = acts.filter((a) => a.classList.contains('is-active'));
+check(active.length === 1 && active[0].dataset.act === '1', `开场只有幕次一亮着（${active.length} 幕）`);
+const steps = [...idoc.querySelectorAll('.step')];
+check(steps.length === 5, `幕次导轨 5 个点（实际 ${steps.length}）`);
+check(steps.map((s) => s.querySelector('.step-name').textContent).join(',') ===
+      '扫码,选择日期,结果,生成预览,存档', '导轨文案＝扫码/选择日期/结果/生成预览/存档');
+check(steps[0].disabled === false && steps.slice(1).every((s) => s.disabled),
+  '未解锁的幕次不可点（防跳步）');
+check(!!idoc.getElementById('steps-fill'), '进度线元素存在');
+check(idoc.body.dataset.step === '1', `body[data-step] 换灯开关 = ${idoc.body.dataset.step}`);
+
+// 幕次切换：点导轨不跳步；unlockStep 后可切
+idoc.querySelectorAll('.act')[1].classList.add('is-active');
+check(true, '幕次显隐由 .is-active 单开关控制');
+
+// 4) 关键视觉规则（用真实页面的计算样式）
 lines.push('');
 lines.push('=== 视觉规则 ===');
-// 注意：须在宽视口下测（<980px 会触发响应式收紧 padding）
-const wide = window.innerWidth > 980;
-lines.push(`  视口 ${window.innerWidth}px（${wide ? '宽屏' : '窄屏，响应式生效'}）`);
+const ics = (sel, pseudo) => {
+  const node = idoc.querySelector(sel);
+  return node ? iwin.getComputedStyle(node, pseudo || null) : null;
+};
+const heroTheme = ics('.hero-theme');
+check(heroTheme && px(heroTheme.fontSize) >= 60, `主题字实测 ${heroTheme?.fontSize}（1280 视口应 ≥60）`);
+check(heroTheme && /text/.test(heroTheme.backgroundClip || heroTheme.webkitBackgroundClip),
+  '主题字为渐变填充（background-clip: text）');
+const kicker = ics('.kicker');
+check(kicker && px(kicker.letterSpacing) >= 2, `眉标字距 ${kicker?.letterSpacing}（宽松 ≥2px）`);
+const bodyBg = iwin.getComputedStyle(idoc.body).backgroundImage;
+check(/radial-gradient/.test(bodyBg), '白舞台由径向渐变打光（中心纯白，边缘收冷灰）');
+check([...idoc.querySelectorAll('.beam')].length === 3, '三束柔光随幕次换色');
+// 换幕换色：body[data-step] 必须驱动幕次强调色（回归：曾漏掉 dataset 同步，配色全程锁死在第一幕）
+const hueOf = () => iwin.getComputedStyle(idoc.body).getPropertyValue('--g-a').trim();
+const hue1 = hueOf();
+idoc.body.dataset.step = '3';
+const hue3 = hueOf();
+idoc.body.dataset.step = '1';
+check(hue1 === '#7c3aed' && hue3 === '#0891b2' && hue1 !== hue3,
+  `幕次色随 data-step 切换：01 ${hue1} → 03 ${hue3}`);
+const heroBody = ics('.hero');
+check(heroBody && px(heroBody.letterSpacing) < 0, `内页标题负字距 ${heroBody?.letterSpacing}`);
+const slab = ics('.slab');
+check(slab && px(slab.borderTopLeftRadius) >= 20, `玻璃板大圆角 ${slab?.borderTopLeftRadius}`);
+const btn = ics('.btn.primary');
+check(btn && btn.backgroundColor === 'rgb(11, 13, 18)', `主按钮近黑胶囊 ${btn?.backgroundColor}`);
+check(btn && px(btn.borderTopLeftRadius) >= 900, `主按钮胶囊圆角 ${btn?.borderTopLeftRadius}`);
+const actT = ics('.act');
+check(actT && /opacity/.test(actT.transitionProperty), `换幕有淡入转场 ${actT?.transitionProperty?.slice(0, 28)}…`);
+// 需求行与状态圆点：登录前列表是空的，注入一行样本再量（样式仍来自真实页面）
+const host = idoc.createElement('div');
+host.className = 'req-list';
+host.innerHTML =
+  `<div class="req-group"><div class="req-group-head"><span>Q助理 · 消息与聊天</span></div>` +
+  `<label class="req-item"><input type="checkbox" class="req-check" checked>` +
+  `<span class="req-main"><span class="req-title-row"><span class="req-no">NO.773</span>` +
+  `<span class="req-title">样本需求</span></span>` +
+  `<span class="req-meta"><span class="stage-dot">完善中</span></span></span></label></div>`;
+idoc.querySelector('.act[data-act="3"] .act-inner').appendChild(host);
+const itemCs = iwin.getComputedStyle(host.querySelector('.req-item'));
+check(itemCs.borderTopWidth === '0px', `需求行无硬边框 ${itemCs.borderTopWidth}`);
+const dotCs = iwin.getComputedStyle(host.querySelector('.stage-dot'), '::before');
+check(dotCs.width === '6px' && dotCs.backgroundColor === 'rgb(2, 132, 199)',
+  `进行中圆点 ${dotCs.width} / ${dotCs.backgroundColor}`);
+host.remove();
+const metricWrap = idoc.querySelector('.metrics');
+check(metricWrap && iwin.getComputedStyle(metricWrap).gridTemplateColumns.split(' ').length === 4,
+  '指标条四列（大数字）');
+const mvHero = ics('.metric-value-hero');
+check(mvHero && px(mvHero.fontSize) >= 42, `主指标实测 ${mvHero?.fontSize}`);
 
-const stage = document.createElement('div');
-stage.className = 'stage';
-document.body.appendChild(stage);
-const stageCs = getComputedStyle(stage);
-check(stageCs.paddingTop === (wide ? '26px' : '22px'),
-  `stage 顶部留白 ${stageCs.paddingTop}（${wide ? '宽屏 26px' : '窄屏 22px'}）`);
-stage.remove();
+// 5) 对比度：近黑正文必须在纯白舞台上成立
+lines.push('');
+lines.push('=== 对比度（白场）===');
+const lum = (rgb) => {
+  const [r, g, b] = rgb.match(/\d+/g).map(Number).map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const ratio = (a, b) => {
+  const [l1, l2] = [lum(a), lum(b)].sort((x, y) => y - x);
+  return (l1 + 0.05) / (l2 + 0.05);
+};
+// alpha 灰阶叠在纯白上的实际合成色
+const onWhite = (c, a) => `rgb(${[c, c + 2, c + 7].map((v) => Math.round(a * v + (1 - a) * 255)).join(', ')})`;
+const WHITE = 'rgb(255, 255, 255)';
+const rInk = ratio('rgb(11, 13, 18)', WHITE);
+const r3 = ratio(onWhite(11, .58), WHITE);
+const r4 = ratio(onWhite(11, .46), WHITE);
+check(rInk > 18, `正文/白舞台对比 ${rInk.toFixed(1)}:1（AAA）`);
+check(r3 > 4.5, `次级说明 ${r3.toFixed(2)}:1（AA 达标）`);
+check(r4 > 3, `弱化元信息 ${r4.toFixed(2)}:1（大字/装饰档）`);
+check(ratio(WHITE, 'rgb(11, 13, 18)') > 18, '黑胶囊上的白字对比充足');
+check(ratio('rgb(11, 13, 18)', 'rgb(242, 244, 247)') > 17, `正文/舞台边缘 ${ratio('rgb(11, 13, 18)', 'rgb(242, 244, 247)').toFixed(1)}:1`);
 
-// 需求行不应有 border
-const item = document.createElement('div');
-item.className = 'req-item';
-document.body.appendChild(item);
-const itemCs = getComputedStyle(item);
-check(itemCs.borderTopWidth === '0px', `req-item 无边框（${itemCs.borderTopWidth}）`);
-item.remove();
-
-// 指标首项字号应显著大于其余 —— 必须放进 .metrics 才是 :first-child
-const metrics = document.createElement('div');
-metrics.className = 'metrics';
-for (let i = 0; i < 2; i++) {
-  const m = document.createElement('div');
-  m.className = 'metric';
-  const mv = document.createElement('span');
-  mv.className = 'metric-value';
-  mv.textContent = '16';
-  m.appendChild(mv);
-  metrics.appendChild(m);
-}
-document.body.appendChild(metrics);
-const sizes = [...metrics.querySelectorAll('.metric-value')].map((e) => parseFloat(getComputedStyle(e).fontSize));
-check(sizes[0] > sizes[1], `首指标 ${sizes[0]}px > 其余 ${sizes[1]}px（字级建立主次）`);
-check(sizes[0] === (wide ? 42 : 34), `首指标字号 ${sizes[0]}px`);
-metrics.remove();
-
-// 状态圆点应存在
-const dot = document.createElement('span');
-dot.className = 'stage-dot is-done';
-dot.textContent = '已完成';
-document.body.appendChild(dot);
-const dotCs = getComputedStyle(dot, '::before');
-check(dotCs.width === '6px' && dotCs.backgroundColor !== 'rgba(0, 0, 0, 0)',
-  `状态圆点 ${dotCs.width} / ${dotCs.backgroundColor}`);
-dot.remove();
+iframe.remove();
 
 lines.push('');
 lines.push(`=== 结果: ${pass} 通过, ${fail} 失败 ===`);

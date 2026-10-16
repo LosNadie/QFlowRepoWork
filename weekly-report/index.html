@@ -6,13 +6,21 @@
 <title>周报工作台 · QFlow</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-step="1">
 
-<!-- ══════════ 顶栏 ══════════ -->
-<header class="topbar">
+<!-- ══════════ 舞台灯光（随幕次换色）══════════ -->
+<div class="stagemark" aria-hidden="true">
+  <span class="beam beam-a"></span>
+  <span class="beam beam-b"></span>
+  <span class="beam beam-c"></span>
+  <span class="stage-floor"></span>
+</div>
+
+<!-- ══════════ 顶部铭牌 ══════════ -->
+<header class="masthead">
   <div class="brand">
     <span class="brand-mark">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>
       </svg>
@@ -23,31 +31,44 @@
     </span>
   </div>
 
-  <div class="topbar-right">
+  <div class="masthead-right">
     <span class="clock" id="clock">--:--</span>
     <span class="pill" id="login-pill"><i class="dot"></i><span id="login-pill-text">未登录</span></span>
+    <button class="icon-btn" id="btn-console" title="运行日志（.）" aria-label="运行日志">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+      </svg>
+    </button>
   </div>
 </header>
 
-<main class="workbench">
+<!-- ══════════ 五幕 ══════════ -->
+<main class="acts" id="acts">
 
-  <!-- ══════════ 侧栏 ══════════ -->
-  <aside class="rail">
+  <!-- ─────── 幕次一 · 扫码 ─────── -->
+  <section class="act act-scan is-active" data-act="1">
+    <div class="act-inner">
+      <p class="kicker reveal"><i class="kicker-no">01</i>扫码 · 点亮这场周报</p>
+      <h1 class="hero hero-theme reveal">周报工作台</h1>
+      <p class="lede reveal">扫码登录 Q助理，把工作交给工作台。<br class="only-wide">五步，一气呵成。</p>
 
-    <!-- 登录 -->
-    <section class="panel" id="panel-login">
-      <header class="panel-head">
-        <h2>登录 Q助理</h2>
-      </header>
-      <div class="panel-body">
+      <div class="slab slab-scan reveal">
         <div id="login-body">
-          <div class="qr-wrap">
-            <canvas id="qr-canvas"></canvas>
-            <div class="qr-overlay" id="qr-overlay" hidden></div>
+          <div class="qr-stage">
+            <div class="qr-card">
+              <canvas id="qr-canvas"></canvas>
+              <span class="qr-beam" aria-hidden="true"></span>
+              <div class="qr-overlay" id="qr-overlay" hidden></div>
+            </div>
+            <p class="qr-side">
+              <span class="qr-side-title">用手机 Q助理 App 扫一扫</span>
+              <span class="qr-side-sub">二维码 300 秒有效，登录后自动换取 QFlow 令牌</span>
+            </p>
           </div>
           <p class="status" id="qr-status">正在获取二维码…</p>
           <button id="btn-refresh-qr" class="btn ghost btn-block" hidden>重新获取二维码</button>
         </div>
+
         <div id="login-done" hidden>
           <div class="user-line">
             <img id="user-avatar" alt="">
@@ -55,32 +76,35 @@
               <div class="user-name" id="user-name"></div>
               <div class="user-sub" id="user-sub"></div>
             </div>
+            <span class="tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
           </div>
           <button id="btn-logout" class="btn ghost btn-block">退出登录</button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 统计窗口 -->
-    <section class="panel" id="panel-window">
-      <header class="panel-head">
-        <h2>统计窗口</h2>
-        <button id="btn-win-toggle" class="icon-btn" title="调整窗口">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-        </button>
-      </header>
-      <div class="panel-body">
+  <!-- ─────── 幕次二 · 选择日期 ─────── -->
+  <section class="act act-window" data-act="2">
+    <div class="act-inner">
+      <p class="kicker reveal"><i class="kicker-no">02</i>选择日期 · 统计窗口</p>
+      <h1 class="hero reveal">哪一周？</h1>
+      <p class="lede reveal">默认口径：上周五 14:00 至本周五 14:00，与公司既有周报完全一致。</p>
+
+      <div class="slab reveal">
         <div class="win-display">
           <div class="win-endpoint">
+            <span class="win-tag">起始</span>
             <b id="win-start-text">—</b>
             <em id="win-start-dow"></em>
           </div>
-          <div class="win-arrow">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <div class="win-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </div>
-          <div class="win-endpoint">
+          <div class="win-endpoint win-endpoint-end">
+            <span class="win-tag">结束</span>
             <b id="win-end-text">—</b>
             <em id="win-end-dow"></em>
           </div>
@@ -93,146 +117,209 @@
             <button id="btn-win-apply" class="btn primary tiny">应用</button>
             <button id="btn-win-reset" class="btn ghost tiny">恢复默认</button>
           </div>
-          <p class="hint">默认口径：上周五 14:00 ~ 本周五 14:00。</p>
         </div>
 
-        <button id="btn-fetch" class="btn primary btn-block" disabled>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
-          获取本周工作
-        </button>
+        <div class="cta-row">
+          <button id="btn-fetch" class="btn primary cta" disabled>
+            获取本周工作
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button id="btn-win-toggle" class="btn ghost tiny" title="自定义起止时间">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            自定义窗口
+          </button>
+        </div>
         <p class="status" id="fetch-status"></p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 运行日志 -->
-    <section class="panel" id="panel-log">
-      <header class="panel-head">
-        <h2>运行日志</h2>
-        <button id="btn-clear-log" class="icon-btn" title="清空日志">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+  <!-- ─────── 幕次三 · 结果 ─────── -->
+  <section class="act act-result" data-act="3">
+    <div class="act-inner">
+      <p class="kicker reveal"><i class="kicker-no">03</i>结果 · 本周做了什么</p>
+      <h1 class="hero reveal">事实，不需要修辞。</h1>
+      <p class="lede reveal">只列本周有你动作的需求；已完成与已取消同样计入工作量。</p>
+
+      <div class="metrics reveal" id="metrics">
+        <div class="metric">
+          <span class="metric-label">本周有进展</span>
+          <span class="metric-value metric-value-hero" id="m-win">—</span>
+          <span class="metric-sub">条需求</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">其中已完成</span>
+          <span class="metric-value" id="m-done">—</span>
+          <span class="metric-sub">条需求</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">当前积压</span>
+          <span class="metric-value" id="m-backlog">—</span>
+          <span class="metric-sub">条需求</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">数据源</span>
+          <span class="metric-value" id="m-source">—</span>
+          <span class="metric-sub">全部阶段</span>
+        </div>
+      </div>
+
+      <div class="empty" id="empty-state">
+        <h3>还没有数据</h3>
+        <p>回到幕次二，选定日期后点「获取本周工作」。</p>
+      </div>
+
+      <div class="req-panel" id="req-panel" hidden>
+        <header class="req-panel-head">
+          <div>
+            <h2>本周需求</h2>
+            <p class="req-panel-sub" id="req-panel-sub">—</p>
+          </div>
+          <div class="req-panel-actions">
+            <button id="btn-select-all" class="btn ghost tiny">全选</button>
+            <button id="btn-select-none" class="btn ghost tiny">全不选</button>
+          </div>
+        </header>
+        <div class="req-list" id="req-list"></div>
+      </div>
+
+      <div class="cta-row cta-dock reveal">
+        <button id="btn-generate" class="btn primary cta" disabled>
+          生成预览
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
-      </header>
-      <div class="panel-body">
-        <pre id="log" class="log"></pre>
-      </div>
-    </section>
-
-  </aside>
-
-  <!-- ══════════ 主区 ══════════ -->
-  <section class="stage">
-
-    <!-- 指标条 -->
-    <div class="metrics" id="metrics" hidden>
-      <div class="metric">
-        <span class="metric-label">本周有进展</span>
-        <span class="metric-value" id="m-win">—</span>
-        <span class="metric-sub">条需求</span>
-      </div>
-      <div class="metric">
-        <span class="metric-label">其中已完成</span>
-        <span class="metric-value" id="m-done">—</span>
-        <span class="metric-sub">条需求</span>
-      </div>
-      <div class="metric">
-        <span class="metric-label">当前积压</span>
-        <span class="metric-value" id="m-backlog">—</span>
-        <span class="metric-sub">条需求</span>
-      </div>
-      <div class="metric">
-        <span class="metric-label">数据源</span>
-        <span class="metric-value metric-value-sm" id="m-source">—</span>
-        <span class="metric-sub">全部阶段</span>
       </div>
     </div>
+  </section>
 
-    <!-- 空态 -->
-    <div class="empty" id="empty-state">
-      <div class="empty-icon">
-        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-          <line x1="9" y1="15" x2="15" y2="15"/>
-        </svg>
+  <!-- ─────── 幕次四 · 生成预览 ─────── -->
+  <section class="act act-preview" data-act="4">
+    <div class="act-inner act-wide">
+      <p class="kicker reveal"><i class="kicker-no">04</i>生成预览 · 逐行过目</p>
+      <h1 class="hero reveal">就这一份。</h1>
+      <p class="lede reveal">Markdown 全文，与公司周报口径一致：本周情况 → 当前积压 → 下周计划。</p>
+
+      <div class="need-data reveal">
+        <p>还没有生成内容。</p>
+        <button id="btn-back-to-3" class="btn ghost tiny">回到幕次三 · 结果</button>
       </div>
-      <h3>准备就绪</h3>
-      <p>左侧扫码登录 Q助理，然后点击「获取本周工作」。</p>
+
+      <details class="preview-wrap" id="preview-wrap" hidden open>
+        <summary>
+          <span class="preview-title">周报预览</span>
+          <span class="preview-meta" id="preview-meta"></span>
+        </summary>
+        <pre id="preview"></pre>
+      </details>
+
+      <div class="cta-row cta-dock reveal">
+        <p class="status" id="gen-status"></p>
+        <button id="btn-to-archive" class="btn primary cta">
+          下一步 · 存档
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
     </div>
+  </section>
 
-    <!-- 需求清单 -->
-    <div class="req-panel" id="req-panel" hidden>
-      <header class="req-panel-head">
-        <div>
-          <h2>本周需求</h2>
-          <p class="req-panel-sub" id="req-panel-sub">—</p>
-        </div>
-        <div class="req-panel-actions">
-          <button id="btn-select-all" class="btn ghost tiny">全选</button>
-          <button id="btn-select-none" class="btn ghost tiny">全不选</button>
-        </div>
-      </header>
-      <div class="req-list" id="req-list"></div>
-    </div>
+  <!-- ─────── 幕次五 · 存档 ─────── -->
+  <section class="act act-archive" data-act="5">
+    <div class="act-inner">
+      <p class="kicker reveal"><i class="kicker-no">05</i>存档 · 写进本地</p>
+      <h1 class="hero reveal">收进你的文件夹。</h1>
+      <p class="lede reveal">文件名可改，目录只需授权一次，之后自动复用。</p>
 
-    <!-- 输出设置 -->
-    <div class="req-panel" id="output-panel" hidden>
-      <header class="req-panel-head">
-        <div>
-          <h2>输出</h2>
-          <p class="req-panel-sub">设置文件名与保存位置</p>
-        </div>
-      </header>
+      <div class="output-panel" id="output-panel" hidden>
+        <div class="slab">
+          <label class="field"><span>文件名</span>
+            <input type="text" id="fname-input" spellcheck="false">
+          </label>
 
-      <div class="output-grid">
-        <label class="field field-grow"><span>文件名</span>
-          <input type="text" id="fname-input" spellcheck="false">
-        </label>
-        <div class="dir-box">
-          <span class="field-label">保存到</span>
-          <div class="dir-path" id="dir-path">未选择</div>
-          <div class="dir-btns">
-            <button id="btn-pick-root" class="btn ghost tiny">选择目录</button>
-            <button id="btn-clear-dir" class="btn ghost tiny" hidden>清除授权</button>
+          <div class="dir-box">
+            <span class="field-label">保存到</span>
+            <div class="dir-path" id="dir-path">未选择</div>
+            <div class="dir-btns">
+              <button id="btn-pick-root" class="btn ghost tiny">选择目录</button>
+              <button id="btn-clear-dir" class="btn ghost tiny" hidden>清除授权</button>
+            </div>
+          </div>
+
+          <p class="hint" id="dir-hint">
+            请选中一个<strong>具体的子文件夹</strong>（如 <code>D:\周报</code>）。
+            不要停在 <code>C:\</code>、<code>D:\</code> 这类磁盘根目录上确认——Chrome 会以「其中含有系统文件」为由拒绝。
+          </p>
+
+          <div class="browser" id="browser" hidden>
+            <div class="browser-head">
+              <button id="btn-up" class="btn ghost tiny">↑ 上级</button>
+              <span class="crumbs" id="crumbs"></span>
+              <button id="btn-choose-here" class="btn accent tiny">选用此目录</button>
+            </div>
+            <ul class="browser-list" id="browser-list"></ul>
+          </div>
+        </div>
+
+        <div class="cta-row cta-split">
+          <p class="status" id="save-status"></p>
+          <div class="cta-btns">
+            <button id="btn-download" class="btn ghost" hidden>下载文件</button>
+            <button id="btn-save" class="btn primary cta" disabled>
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              存档到本地
+            </button>
+          </div>
+        </div>
+
+        <div class="archive-stamp" id="archive-stamp" hidden>
+          <span class="tick tick-lg" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <div>
+            <b>已存档</b>
+            <em id="archive-stamp-text"></em>
           </div>
         </div>
       </div>
-
-      <p class="hint" id="dir-hint">
-        请选中一个<strong>具体的子文件夹</strong>（如 <code>D:\周报</code>）。
-        不要停在 <code>C:\</code>、<code>D:\</code> 这类磁盘根目录上确认——Chrome 会以「其中含有系统文件」为由拒绝。
-      </p>
-
-      <div class="browser" id="browser" hidden>
-        <div class="browser-head">
-          <button id="btn-up" class="btn ghost tiny" disabled>↑ 上级</button>
-          <span class="crumbs" id="crumbs"></span>
-          <button id="btn-choose-here" class="btn primary tiny">选用此目录</button>
-        </div>
-        <ul class="browser-list" id="browser-list"></ul>
-      </div>
-
-      <div class="stage-actions">
-        <p class="status" id="save-status"></p>
-        <div class="stage-actions-btns">
-          <button id="btn-generate" class="btn accent" disabled>
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
-            生成周报
-          </button>
-          <button id="btn-save" class="btn primary" disabled>
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            保存到本地
-          </button>
-          <button id="btn-download" class="btn ghost" hidden>下载文件</button>
-        </div>
-      </div>
-
-      <details class="preview-wrap" id="preview-wrap" hidden>
-        <summary><span class="preview-title">周报预览</span><span class="preview-meta" id="preview-meta"></span></summary>
-        <pre id="preview"></pre>
-      </details>
     </div>
-
   </section>
+
 </main>
+
+<!-- ══════════ 幕次导轨 ══════════ -->
+<nav class="steps" id="steps" aria-label="流程幕次">
+  <span class="steps-track" aria-hidden="true"><i class="steps-fill" id="steps-fill"></i></span>
+  <button class="step is-active" data-step="1" type="button">
+    <span class="step-no">01</span><span class="step-name">扫码</span>
+  </button>
+  <button class="step" data-step="2" type="button" disabled>
+    <span class="step-no">02</span><span class="step-name">选择日期</span>
+  </button>
+  <button class="step" data-step="3" type="button" disabled>
+    <span class="step-no">03</span><span class="step-name">结果</span>
+  </button>
+  <button class="step" data-step="4" type="button" disabled>
+    <span class="step-no">04</span><span class="step-name">生成预览</span>
+  </button>
+  <button class="step" data-step="5" type="button" disabled>
+    <span class="step-no">05</span><span class="step-name">存档</span>
+  </button>
+</nav>
+
+<!-- ══════════ 日志抽屉 ══════════ -->
+<aside class="console" id="console" hidden>
+  <header class="console-head">
+    <h2>运行日志</h2>
+    <button id="btn-clear-log" class="icon-btn" title="清空日志">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+    </button>
+    <button id="btn-console-close" class="icon-btn" title="关闭（Esc）">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </header>
+  <pre id="log" class="log"></pre>
+</aside>
 
 <script type="module" src="app.js"></script>
 </body>

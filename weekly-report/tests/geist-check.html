@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Geist 字体可用性验证</title>
+<style>
+  @font-face {
+    font-family: 'GeistTest';
+    src: url('../vendor/fonts/geist-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: block;
+  }
+  body { font-family: system-ui; padding: 24px; }
+  pre { font: 12px ui-monospace, monospace; white-space: pre-wrap; }
+  .s { font-size: 32px; }
+</style>
+</head>
+<body>
+<pre id="out">检测中…</pre>
+<div class="s" style="font-family:'GeistTest'">Workbench 0123456789 ABCdef</div>
+<div class="s" style="font-family:monospace">Workbench 0123456789 ABCdef</div>
+
+<script type="module">
+const out = document.getElementById('out');
+const L = [];
+let pass = 0, fail = 0;
+const check = (c, l) => { if (c) { pass++; L.push('  OK   ' + l); } else { fail++; L.push('  FAIL ' + l); } };
+
+L.push('=== Geist 加载 ===');
+try {
+  const face = new FontFace('GeistTest2', "url('../vendor/fonts/geist-latin.woff2') format('woff2')", { weight: '100 900' });
+  const loaded = await face.load();
+  document.fonts.add(loaded);
+  check(true, `FontFace.load() 成功（family=${loaded.family}）`);
+  check(loaded.status === 'loaded', `状态 ${loaded.status}`);
+} catch (e) {
+  check(false, `FontFace.load() 失败: ${e.message}`);
+}
+
+await document.fonts.ready;
+const reg = [...document.fonts].filter(f => f.family.includes('Geist'));
+check(reg.length > 0, `已注册 ${reg.length} 个 Geist 字体面`);
+
+// 实际渲染测量
+const measure = (fam, txt) => {
+  const s = document.createElement('span');
+  s.style.cssText = `position:absolute;visibility:hidden;font-size:32px;font-family:${fam}`;
+  s.textContent = txt;
+  document.body.appendChild(s);
+  const w = s.getBoundingClientRect().width;
+  s.remove();
+  return w;
+};
+const T = 'Workbench 0123456789';
+const wG = measure("'GeistTest', monospace", T);
+const wM = measure('monospace', T);
+L.push(`  Geist 宽度 ${wG.toFixed(1)}px / monospace ${wM.toFixed(1)}px`);
+check(Math.abs(wG - wM) > 0.5, 'Geist 实际生效（宽度与回退不同）');
+
+// 中文回退检查（Geist 无中文字形，应回退）
+const wC = measure("'GeistTest', system-ui", '周报工作台');
+const wC2 = measure('system-ui', '周报工作台');
+check(Math.abs(wC - wC2) < 1.5, `中文正常回退（${wC.toFixed(1)} vs ${wC2.toFixed(1)}）`);
+
+L.push('');
+L.push(`=== 结果: ${pass} 通过, ${fail} 失败 ===`);
+out.textContent = L.join('\n');
+document.title = fail === 0 ? 'GEIST OK' : 'GEIST FAIL';
+</script>
+</body>
+</html>

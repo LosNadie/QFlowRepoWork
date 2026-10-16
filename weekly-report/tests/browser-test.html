@@ -87,7 +87,9 @@ lines.push('=== 工作台 DOM 元素齐全（通过 iframe 加载 index.html）=
                     'empty-state','req-panel','req-list','output-panel',
                     'fname-input','dir-path','btn-select-all','btn-select-none',
                     'btn-fetch','btn-generate','btn-save','log','clock','login-pill',
-                    'qr-canvas','btn-win-toggle','win-start-text','win-end-text']) {
+                    'qr-canvas','btn-win-toggle','win-start-text','win-end-text',
+                    'steps','steps-fill','btn-console','console','gen-status',
+                    'btn-to-archive','btn-back-to-3','archive-stamp','btn-console-close']) {
     check(!!doc.getElementById(id), `#${id}`);
   }
 
@@ -97,11 +99,28 @@ lines.push('=== 工作台 DOM 元素齐全（通过 iframe 加载 index.html）=
   const clockText = doc.getElementById('clock').textContent;
   check(/^\d{4}-\d{2}-\d{2}/.test(clockText), `时钟已渲染: ${clockText}`);
 
-  // 新版设计：段标题为文字（无 01/02/03 编号徽章）
-  const nos = doc.querySelectorAll('.panel-no');
-  check(nos.length === 0, `已移除编号徽章（残留 ${nos.length} 个）`);
-  const heads = [...doc.querySelectorAll('.panel-head h2')].map((e) => e.textContent.trim());
-  check(heads.join(',') === '登录 Q助理,统计窗口,运行日志', `段标题 ${heads.join(' / ')}`);
+  // 发布会版：侧栏卡片已全部拆除，改由「五幕 + 幕次导轨」承载
+  check(doc.querySelectorAll('.panel-head').length === 0, '无 .panel-head（侧栏卡片标题已拆除）');
+  check(doc.querySelector('.workbench') === null, '无 .workbench（左右分栏已废除）');
+  check(doc.querySelectorAll('.rail').length === 0, '无 .rail');
+  const kickers = [...doc.querySelectorAll('.kicker')].map((e) => e.textContent.replace(/\s+/g, ' ').trim());
+  check(kickers.length === 5, `五幕眉标齐全（${kickers.length}）`);
+  check(kickers.every((k, i) => k.startsWith(String(i + 1).padStart(2, '0'))),
+    `眉标带幕次编号：${kickers.join(' | ')}`);
+  const names = [...doc.querySelectorAll('.step-name')].map((e) => e.textContent.trim());
+  check(names.join(',') === '扫码,选择日期,结果,生成预览,存档', `幕次导轨：${names.join(' → ')}`);
+  check(doc.querySelectorAll('.act[data-act].is-active').length === 1, '开场只亮一幕');
+
+  // 幕次状态机：未解锁不可跳步，解锁后可进可回
+  const flow = iframe.contentWindow.__flow;
+  flow.gotoStep(4);
+  check(doc.body.dataset.step === '1', '未登录时跳不到幕次四（防跳步）');
+  flow.unlockStep(4); flow.gotoStep(4);
+  check(doc.body.dataset.step === '4', `解锁后可进幕次四（当前 ${doc.body.dataset.step}）`);
+  check(doc.querySelectorAll('.act.is-active').length === 1, '任意时刻只亮一幕');
+  flow.gotoStep(2);
+  check(doc.body.dataset.step === '2' && doc.querySelectorAll('.step.is-done').length === 1,
+    '回看已完成幕次，导轨保留完成态（幕次一已点亮）');
 
   // 字体：Inter 应已注册
   const fonts = [...iframe.contentWindow.document.fonts];

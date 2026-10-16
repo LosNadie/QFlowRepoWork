@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>五幕视觉预览（截图用）</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;overflow:hidden}
+  iframe{border:0;width:100%;height:100%;display:block}
+</style>
+</head>
+<body>
+<iframe id="f" src="../index.html"></iframe>
+
+<script type="module">
+/**
+ * 视觉预览台：加载真实的 index.html，用 fixture 数据把五幕填到「有内容」的状态，
+ * 供无头 Chrome 逐幕截图。幕次通过 app.js 暴露的 window.__flow 驱动，
+ * 因此截图里的状态与用户真实走一遍流程时完全一致。
+ *
+ * 用法：preview-acts.html?act=3&log=1
+ */
+import qrcode from '../vendor/qrcode.esm.js';
+
+const params = new URLSearchParams(location.search);
+const ACT = Math.max(1, Math.min(5, Number(params.get('act') || 1)));
+const SHOW_LOG = params.get('log') === '1';
+
+const frame = document.getElementById('f');
+await new Promise((r) => { frame.onload = r; });
+const doc = frame.contentDocument;
+const win = frame.contentWindow;
+
+const $ = (id) => doc.getElementById(id);
+
+// ── 数据：真实 fixture ──
+const reqs = await (await fetch('../tests/fixtures/my_requirements_with_acts.json')).json();
+const banmap = await (await fetch('../tests/fixtures/expected_ban_mine.json')).json();
+const report = (await (await fetch('../tests/fixtures/expected_report_0.md')).text()).replace(/\r\n/g, '\n');
+
+const NOW = new Date(Date.UTC(2026, 9, 16, 6, 0, 0));
+const P = '黄捷';
+const w = { start: new Date(Date.UTC(2026, 9, 9, 6)), end: new Date(Date.UTC(2026, 9, 16, 6)) };
+for (const r of reqs) r.ban = banmap[r.requirement_id] || '通用/未分类';
+const hasAct = (r) => (r.activities || []).some((a) => {
+  if (a.user !== P || !a.at) return false;
+  const t = new Date(a.at);
+  return t >= w.start && t < w.end;
+});
+const inWin = reqs.filter(hasAct);
+const doneCnt = inWin.filter((r) => r.progress_stage === '已完成').length;
+const backlog = reqs.filter((r) =>
+  !['待领取', '已完成', '已关闭'].includes(r.progress_stage) && r.current_user === P).length;
+
+// ── 二维码（自绘，绕开网络登录）──
+function drawQr() {
+  const qr = qrcode(0, 'M');
+  qr.addData(JSON.stringify({ scene_id: 'preview-demo', api_client_type: 3 }));
+  qr.make();
+  const count = qr.getModuleCount();
+  const margin = 2, target = 208;
+  const cell = Math.max(2, Math.floor(target / (count + margin * 2)));
+  const size = (count + margin * 2) * cell;
+  const c = $('qr-canvas');
+  c.width = size; c.height = size;
+  c.style.width = size + 'px'; c.style.height = size + 'px';
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#000';
+  for (let r = 0; r < count; r++)
+    for (let q = 0; q < count; q++)
+      if (qr.isDark(r, q)) ctx.fillRect((q + margin) * cell, (r + margin) * cell, cell, cell);
+  $('qr-overlay').hidden = true;
+  $('qr-status').textContent = '请用 Q助理 App 扫码（286 秒内有效）';
+  $('qr-status').className = 'status';
+}
+
+// ── 需求清单（与 app.js 同构）──
+function renderList() {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (ch) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const list = $('req-list');
+  list.innerHTML = '';
+  $('req-panel').hidden = false;
+  $('empty-state').hidden = true;
+  $('req-panel-sub').textContent = `共 ${inWin.length} 条有进展，其中已完成 ${doneCnt} 条`;
+  const groups = new Map();
+  for (const r of inWin) {
+    const key = `${r.project} · ${r.ban}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(r);
+  }
+  const stageCls = (s) => s === '已完成' ? 'stage-dot is-done'
+    : (s === '已取消' || s === '已关闭') ? 'stage-dot is-cancel' : 'stage-dot';
+  for (const [key, items] of groups) {
+    items.sort((a, b) => a.requirement_num - b.requirement_num);
+    const g = doc.createElement('div');
+    g.className = 'req-group';
+    const h = doc.createElement('div');
+    h.className = 'req-group-head';
+    h.innerHTML = `<span>${esc(key)}</span><span class="req-group-count">${items.length}</span>`;
+    g.appendChild(h);
+    for (const r of items) {
+      const mine = (r.activities || []).filter((a) => a.user === P).length;
+      const it = doc.createElement('label');
+      it.className = 'req-item';
+      it.innerHTML =
+        `<input type="checkbox" class="req-check" checked>` +
+        `<span class="req-main"><span class="req-title-row">` +
+        `<span class="req-no">NO.${r.requirement_num}</span>` +
+        `<span class="req-title">${esc(r.title)}</span></span>` +
+        `<span class="req-meta"><span class="${stageCls(r.progress_stage)}">${esc(r.progress_stage)}</span>` +
+        `<span class="sep">·</span><span>我的动作 ${mine} 条</span></span></span>`;
+      g.appendChild(it);
+    }
+    list.appendChild(g);
+  }
+}
+
+// ── 填充到「登录后」的真实状态 ──
+$('login-body').hidden = true;
+$('login-done').hidden = false;
+$('user-name').textContent = P;
+$('user-sub').textContent = 'QFlow 令牌有效期 120 分钟';
+$('user-avatar').src = 'data:image/svg+xml;utf8,' +
+  encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='46' height='46'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#60a5fa'/><stop offset='1' stop-color='#c084fc'/></linearGradient></defs><rect width='46' height='46' fill='url(#g)'/></svg>`);
+$('login-pill').className = 'pill ok';
+$('login-pill-text').textContent = P;
+$('clock').textContent = '2026-10-16 周五 15:58';
+$('btn-fetch').disabled = false;
+$('win-start-text').textContent = '10月09日';
+$('win-end-text').textContent = '10月16日';
+$('win-start-dow').textContent = '周五 · 14:00';
+$('win-end-dow').textContent = '周五 · 14:00';
+$('fetch-status').textContent = `本周有 ${inWin.length} 条需求有进展（其中已完成 ${doneCnt} 条）`;
+$('fetch-status').className = 'status ok';
+$('fname-input').value = '黄捷-10月9日-10月16日周报.md';
+$('dir-path').textContent = '周报/2026/Q4';
+
+$('metrics').hidden = false;
+$('m-win').textContent = inWin.length;
+$('m-done').textContent = doneCnt;
+$('m-backlog').textContent = backlog;
+$('m-source').textContent = reqs.length;
+
+$('output-panel').hidden = false;
+$('btn-generate').disabled = false;
+$('btn-save').disabled = false;
+renderList();
+
+if (ACT >= 4) {
+  $('preview-wrap').hidden = false;
+  $('preview-wrap').open = true;
+  $('preview').textContent = report;
+  $('preview-meta').textContent = `${report.split('\n').length} 行`;
+  $('gen-status').textContent = `已生成：${inWin.length} 条需求有进展，共 ${report.split('\n').length} 行。`;
+  $('gen-status').className = 'status ok';
+  doc.querySelector('.need-data')?.remove();
+}
+if (ACT >= 5) {
+  $('save-status').textContent = '将保存到 周报/2026/Q4/';
+  $('save-status').className = 'status ok';
+}
+if (ACT === 5 && params.get('saved') === '1') {
+  $('archive-stamp').hidden = false;
+  $('archive-stamp-text').textContent = '周报/2026/Q4/黄捷-10月9日-10月16日周报.md';
+}
+if (ACT === 1) {
+  $('login-body').hidden = false;
+  $('login-done').hidden = true;
+  $('login-pill').className = 'pill warn';
+  $('login-pill-text').textContent = '等待扫码';
+  drawQr();
+}
+if (SHOW_LOG) {
+  $('log').textContent = [
+    '[15:56:02] 页面已就绪',
+    '[15:56:03] 二维码已生成',
+    '[15:56:21] 登录成功：黄捷',
+    '[15:56:24] 开始获取本周工作内容',
+    `[15:56:31] 拉取需求 ${reqs.length} 条（覆盖全部阶段，含已完成）`,
+    `[15:56:39] 动态拉取完成，失败 0 条`,
+    `[15:56:39] 拉取 ${reqs.length} 条，其中本周有我的动作 ${inWin.length} 条（已完成 ${doneCnt} 条）`,
+    '[15:57:02] 已应用自定义时间窗口',
+    '[15:57:40] 选用目录：周报/2026/Q4',
+  ].join('\n') + '\n';
+  win.__flow.toggleConsole(true);
+}
+
+// 走真实状态机：解锁到第 5 幕后跳到目标幕
+win.__flow.unlockStep(5);
+win.__flow.gotoStep(ACT);
+
+// still=1：冻结动效，截「动画结束后」的确定态（供逐幕排版核对）
+if (params.get('still') === '1') {
+  const s = doc.createElement('style');
+  s.textContent = '*,*::before,*::after{animation:none!important;transition:none!important}' +
+    '.reveal{opacity:1!important;transform:none!important}';
+  doc.head.appendChild(s);
+}
+
+document.title = 'READY act=' + ACT;
+</script>
+</body>
+</html>

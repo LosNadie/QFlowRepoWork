@@ -1,7 +1,9 @@
 /**
- * 周报生成器 · 界面编排。
+ * 周报工作台 · 界面编排。
  *
- * 流程：扫码登录 → 取本周工作 → 生成周报 → 写入所选目录
+ * 发布会式五幕：
+ *   01 扫码 → 02 选择日期 → 03 结果 → 04 生成预览 → 05 存档
+ * 幕次由 goStep()/unlockStep() 推进；每幕换一次舞台灯光。
  */
 import { loginWithQr } from './src/auth.js';
 import { fetchParticipated, fetchAllActivities } from './src/qflow.js';
@@ -19,7 +21,7 @@ import qrcode from './vendor/qrcode.esm.js';
 const $ = (id) => document.getElementById(id);
 
 const el = {
-  // 顶栏
+  // 铭牌
   clock: $('clock'), loginPill: $('login-pill'), loginPillText: $('login-pill-text'),
 
   // 登录
@@ -57,7 +59,21 @@ const el = {
 
   // 日志
   log: $('log'), btnClearLog: $('btn-clear-log'),
+  consoleDrawer: $('console'), btnConsole: $('btn-console'),
+  btnConsoleClose: $('btn-console-close'),
+
+  // 幕次导轨
+  stepsFill: $('steps-fill'),
+
+  // 幕间衔接
+  btnBackTo3: $('btn-back-to-3'), btnToArchive: $('btn-to-archive'),
+  genStatus: $('gen-status'),
+  archiveStamp: $('archive-stamp'), archiveStampText: $('archive-stamp-text'),
 };
+
+const actEls = [...document.querySelectorAll('.act')];
+const stepEls = [...document.querySelectorAll('.step')];
+const ACT_TOTAL = actEls.length;
 
 // ---------- 状态 ----------
 const state = {
@@ -75,7 +91,49 @@ const state = {
   pathSegments: [],    // 相对根目录的路径
   curHandle: null,
   busy: false,
+  // 幕次：01 扫码 02 选择日期 03 结果 04 生成预览 05 存档
+  step: 1,
+  unlocked: 1,         // 已解锁到的最远幕
+  visited: new Set([1]),
+  archived: false,
 };
+
+// ---------- 幕次状态机 ----------
+function renderSteps() {
+  // 换幕即换灯：CSS 靠 body[data-step] 切换幕次色与灯光位置
+  document.body.dataset.step = String(state.step);
+  for (const act of actEls) {
+    act.classList.toggle('is-active', Number(act.dataset.act) === state.step);
+  }
+  for (const btn of stepEls) {
+    const n = Number(btn.dataset.step);
+    const isDone = n < state.step || (state.visited.has(n) && n < state.unlocked);
+    btn.classList.toggle('is-active', n === state.step);
+    btn.classList.toggle('is-done', isDone && n !== state.step);
+    btn.disabled = n > state.unlocked;
+  }
+  // 进度线：当前幕在最左幕时为 0，逐幕推进
+  const pct = ACT_TOTAL > 1 ? ((state.step - 1) / (ACT_TOTAL - 1)) * 100 : 0;
+  el.stepsFill.style.width = pct.toFixed(2) + '%';
+}
+
+/** 切到第 n 幕（超过已解锁范围则忽略） */
+function gotoStep(n) {
+  if (n < 1 || n > ACT_TOTAL) return;
+  if (n > state.unlocked) return;
+  state.step = n;
+  state.visited.add(n);
+  renderSteps();
+  const act = actEls.find((a) => Number(a.dataset.act) === n);
+  if (act) act.scrollTop = 0;
+  window.scrollTo({ top: 0 });
+}
+
+/** 解锁到第 n 幕并停留展示（不强制跳转） */
+function unlockStep(n) {
+  state.unlocked = Math.max(state.unlocked, n);
+  renderSteps();
+}
 
 // ---------- 工具 ----------
 function log(msg) {
@@ -99,6 +157,24 @@ function setBusy(on, label = '') {
   state.busy = on;
   document.body.style.cursor = on ? 'progress' : '';
   if (on && label) log(label);
+}
+
+/** 大数字滚动到位 */
+function countUp(node, to) {
+  const target = Number(to) || 0;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    node.textContent = String(target);
+    return;
+  }
+  const dur = 880;
+  const t0 = performance.now();
+  const tick = (t) => {
+    const p = Math.min(1, (t - t0) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    node.textContent = String(Math.round(target * eased));
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
 
 /** 顶栏时钟（东八区） */
@@ -148,7 +224,7 @@ function renderQr(payload) {
   const count = qr.getModuleCount();
 
   // 按容器可用尺寸计算格子大小，避免裁切
-  const target = 190;               // 容器内可用边长（留边距）
+  const target = 208;               // 容器内可用边长（留边距）
   const margin = 2;                 // 静区（模块数）
   const cell = Math.max(2, Math.floor(target / (count + margin * 2)));
   const size = (count + margin * 2) * cell;
@@ -212,6 +288,8 @@ async function startLogin() {
     setLoginPill(state.person, 'ok');
 
     enableStep2();
+    // 幕次一完成 → 解锁并亮幕次二（留一拍，让"已登录"被看见）
+    advanceAfterLogin();
     // 默认文件名
     state.filename = reportFileName(state.person, state.window);
     el.fnameInput.value = state.filename;
@@ -292,15 +370,17 @@ async function doFetch() {
       (completedCount ? `（其中已完成 ${completedCount} 条）` : '') +
       (failed.length ? `（${failed.length} 条动态获取失败）` : ''), 'ok');
 
-    // 指标条
+    // 指标条：数字从 0 滚到位（发布会的大数字）
     el.metrics.hidden = false;
-    el.mWin.textContent = inWin.length;
-    el.mDone.textContent = completedCount;
-    el.mBacklog.textContent = backlogCount;
-    el.mSource.textContent = `${ok.length} 条`;
+    countUp(el.mWin, inWin.length);
+    countUp(el.mDone, completedCount);
+    countUp(el.mBacklog, backlogCount);
+    countUp(el.mSource, ok.length);
 
     renderReqList();
     enableStep3();
+    unlockStep(3);
+    gotoStep(3);
   } catch (err) {
     log('取数失败：' + err.message);
     setStatus(el.fetchStatus, err.message, 'err');
@@ -398,7 +478,9 @@ function enableStep3() {
     el.fnameInput.value = state.filename;
   }
   if (!isSupported()) {
-    setStatus(el.saveStatus, '当前浏览器不支持目录选择（需 Chrome / Edge），将使用下载方式保存。', 'err');
+    const warn = '当前浏览器不支持目录选择（需 Chrome / Edge），将使用下载方式保存。';
+    setStatus(el.saveStatus, warn, 'err');
+    setStatus(el.genStatus, warn, 'err');
     el.btnDownload.hidden = false;
     el.btnPickRoot.hidden = true;
   }
@@ -433,15 +515,24 @@ function doGenerate() {
   state.filename = el.fnameInput.value.trim() || reportFileName(state.person, state.window);
 
   el.previewWrap.hidden = false;
+  el.previewWrap.open = true;
   el.preview.textContent = state.report;
   el.btnSave.disabled = false;
+  el.archiveStamp.hidden = true;
+  state.archived = false;
   // 不支持目录 API 时，下载按钮必须可见
   if (!isSupported()) el.btnDownload.hidden = false;
 
   const lines = state.report.split('\n').length;
   el.previewMeta.textContent = `${lines} 行`;
-  setStatus(el.saveStatus, `已生成（${chosen.length} 条需求有进展，共 ${lines} 行）。可预览后保存。`, 'ok');
+  const msg = `已生成：${chosen.length} 条需求有进展，共 ${lines} 行。`;
+  setStatus(el.genStatus, msg, 'ok');
+  setStatus(el.saveStatus, `${msg}预览确认后存档。`, 'ok');
   log(`周报已生成：勾选 ${chosen.length} 条，报告输入 ${reportInput.length} 条 / ${lines} 行`);
+
+  // 幕次四、五同时解锁，直接亮幕次四
+  unlockStep(5);
+  gotoStep(4);
 }
 
 // ---------- 目录选择 ----------
@@ -553,10 +644,12 @@ async function doSave() {
       const where = (state.rootHandle?.name || '') +
         (state.pathSegments.length ? '/' + state.pathSegments.join('/') : '');
       setStatus(el.saveStatus, `已保存到 ${where}/${state.filename}`, 'ok');
+      markArchived(`${where}/${state.filename}`);
       log(`已写入：${where}/${state.filename}`);
     } else {
       downloadFile(state.filename, state.report);
       setStatus(el.saveStatus, `已下载 ${state.filename}`, 'ok');
+      markArchived(`已下载到浏览器下载目录：${state.filename}`);
       log('已触发下载');
     }
   } catch (err) {
@@ -567,13 +660,39 @@ async function doSave() {
   }
 }
 
+/** 幕次五：存档成功的落款 */
+function markArchived(where) {
+  state.archived = true;
+  el.archiveStamp.hidden = false;
+  el.archiveStampText.textContent = where;
+  renderSteps();
+}
+
+/** 幕次一完成 → 解锁并亮幕次二（留一拍，让"已登录"被看见） */
+function advanceAfterLogin() {
+  unlockStep(2);
+  const beat = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 900;
+  setTimeout(() => { if (state.qflow) gotoStep(2); }, beat);
+}
+
 function handleAuthExpired() {
   state.qflow = null;
   el.loginDone.hidden = true;
   el.loginBody.hidden = false;
   setLoginPill('需重新登录', 'err');
   el.btnFetch.disabled = true;
+  resetSteps();
   startLogin();
+}
+
+/** 幕次回到开场（退出登录 / 令牌过期） */
+function resetSteps() {
+  state.step = 1;
+  state.unlocked = 1;
+  state.visited = new Set([1]);
+  state.archived = false;
+  el.archiveStamp.hidden = true;
+  renderSteps();
 }
 
 // ---------- 事件绑定 ----------
@@ -593,9 +712,13 @@ el.btnLogout.addEventListener('click', () => {
   el.emptyState.hidden = false;
   el.previewWrap.hidden = true;
   el.btnSave.disabled = true;
+  el.btnGenerate.disabled = true;
+  for (const n of [el.mWin, el.mDone, el.mBacklog, el.mSource]) n.textContent = '—';
+  setStatus(el.genStatus, '');
   setLoginPill('未登录');
   setStatus(el.qrStatus, '');
   setStatus(el.fetchStatus, '');
+  resetSteps();
   log('已退出登录');
   startLogin();
 });
@@ -676,8 +799,38 @@ el.btnChooseHere.addEventListener('click', async () => {
   log(`选用目录：${where}`);
 });
 
+// ---------- 幕次导轨 / 日志抽屉 / 键盘 ----------
+function toggleConsole(force) {
+  const show = force ?? el.consoleDrawer.hidden;
+  el.consoleDrawer.hidden = !show;
+  if (show) el.log.scrollTop = el.log.scrollHeight;
+}
+
+for (const btn of stepEls) {
+  btn.addEventListener('click', () => gotoStep(Number(btn.dataset.step)));
+}
+el.btnConsole.addEventListener('click', () => toggleConsole());
+el.btnConsoleClose.addEventListener('click', () => toggleConsole(false));
+el.btnBackTo3.addEventListener('click', () => gotoStep(3));
+el.btnToArchive.addEventListener('click', () => gotoStep(5));
+
+/** 键盘：← → 换幕，. 开关日志，Esc 关日志 */
+document.addEventListener('keydown', (e) => {
+  const tag = e.target?.tagName;
+  if (e.key === 'Escape') { toggleConsole(false); return; }
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); gotoStep(state.step + 1); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); gotoStep(state.step - 1); }
+  else if (e.key === '.') { e.preventDefault(); toggleConsole(); }
+});
+
 // ---------- 启动 ----------
+// 供测试/调试驱动幕次（正常交互不依赖）
+window.__flow = { state, gotoStep, unlockStep, renderSteps, toggleConsole };
+
 renderWindowText();
+renderSteps();
 tickClock();
 setInterval(tickClock, 30000);
 log('页面已就绪');
